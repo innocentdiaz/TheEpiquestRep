@@ -947,11 +947,12 @@ function start() {
 	$('#controls').show();
 	$('#commies').show();
 	$(".button").hide();
+    
+	document.getElementById('display').innerHTML = "What is your name?";
 	current = function () {
-		document.getElementById('display').innerHTML = "What is your name?";
 		if (name == "0") {
 			console.clear();
-			if (question) {
+            
 				name = document.getElementById('inputBox').value;
 				document.getElementById('display').innerHTML = "Let us begin, " + name + "!";
 				setTimeout(function () {
@@ -963,11 +964,16 @@ function start() {
 					} else if (question.toUpperCase() == "BEACH") {
 						beachchoose();
 					}
+                    else{
+                        document.getElementById("Unknown location - you wander off and end up at the beach")
+                        setTimeout(function(){
+                            beachchoose();
+                        },1500)
+                    }
 				}
-			}
+			
 		}
 	}
-	current()
 }
 
 function win() {
@@ -988,16 +994,14 @@ function win() {
 }
 
 function reset() {
-	var name = "0";
-	var lvl = 1;
-	var xp = 0;
-	var inventory = [];
-	var money = 0;
-	var safe = 0;
-	var rod = 0;
-	var armor = 0;
-	var weapon = 0;
-	var key = 1;
+    question = confirm("Reset game?")
+    if(question == false){
+
+    }
+    else if(question == true){
+        location.reload()
+    }
+
 }
 var check = function () {
 	if (xp >= 10) {
@@ -1035,44 +1039,10 @@ function daymode() {
 	document.getElementById('body').style.backgroundColor = "white";
 	document.getElementByTagName('button').style.backgroundColor = "green";
 }
-//console.log cheats
-function nameset(me) {
-	name = me;
-}
 
-function addmoney(amount) {
-	money += amount
-}
-
-function addxp(amount) {
-	xp += amount
-}
-
-function addlvl(amount) {
-	lvl += amount
-}
-
-function addarmor(amount) {
-	armor += amount
-}
-
-function addweapon(amount) {
-	weapon += amount
-}
-
-function rodremove(amount) {
-	rod -= amount
-}
-
-function keyset(amount) {
-	key = amount
-}
 
 function showme() {
 	document.getElementById('display').innerHTML = 'NAME: ' + name + '\b MONEY, SAFE AND ROD: ' + money + ' ' + safe + ' ' + rod + '\b LVL AND XP: ' + lvl + ' ' + xp + '\b ARMOR AND WEAPON: ' + armor + ' ' + weapon;
-	setTimeout(function () {
-		current()
-	}, 2500);
 }
 
 function dothis(dot) {
@@ -1103,13 +1073,17 @@ function push(item) {
 	inventory.push(item)
 }
 var submit = function () {
-	question = document.getElementById('inputBox').value;
-	current()
+	var keyCode = event.which || event.keyCode;
+    if(keyCode == 13){
+        current()
+    }
 }
 $('body').ready(function () {
 	$('#controls').hide()
 	$('#commies').hide()
 	question = document.getElementById('inputBox').value;
+
+
 })
 </script>
 <link href="https://f
@@ -1119,7 +1093,7 @@ onts.googleapis.com/css?family=Teko" rel="stylesheet">
 <br>
 <div id='controls'>
 <h2 id='display'></h2>
-<input id='inputBox' type='text' placeholder="type here..."><button onclick='submit()'>OK</button><bR>
+<input id='inputBox' type='text' placeholder="type here..." onkeypress="submit()">
 <button id='commies' onclick='showme()'>See stats</button>
 <Br>
 </div>
