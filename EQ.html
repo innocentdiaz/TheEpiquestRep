@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html id="body" lang="en">
 <head>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" 
       type="image/png" 
       href="EQF.png">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <title>EPIQUEST</title>
 <script>
+
+
 var question;
 var fishing;
 var current;
@@ -26,259 +30,63 @@ var rod = 0;
 var armor = 0;
 var weapon = 0;
 var key = 1;
+//array of available fish
+var fishes = ["Guppy", "SnakeFish", "DragonFish", "Boot", "Tuna", "GoldFish"];
+
+var displayToPlayer = function(message){//function to display a message
+    $("#inputBox").html = message;
+};
 //the beach level is in here
 var beachchoose = function () {
+    
+	document.getElementById('display').innerHTML = "We are at the beach. Fish, swim, or leave?";
 		current = function () {
-			document.getElementById('display').innerHTML = "We are at the beach. Fish, swim, or leave?";
+            question = $("#inputBox").val()//this will make the input input.value
 			//if you choose to fish
 			if (question.toUpperCase() == "FISH") {
 				if (rod <= 15) {
 					document.getElementById('display').innerHTML = "You go to fish!";
 					//function to fish .. in case you want to fish directly
 					var fishing = function () {
-						//chooses a random fish
-						if ((Math.random() * 100 + 0) <= 5) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " was attacked by a Guppy! You lost 5 money try again?";
-								money -= 5;
-								checkm();
-								rod += 1;
-								console.log("Money : " + money + ". Your rod recieved 1 dmg: rod " + rod)
-								//if you want to fish again it will call fishing()
-								if (question.toUpperCase() == "YES") { //it will check if your rod is still ok
 									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke! Leave to the town to fix it";
-										setTimeout(function () {
-											beachchoose()
-										}, 1000);
-									}
-								} else if (question.toUpperCase() == "NO") { //if you didnt choose to fish again
-									beachchoose()
-								} //current when random
-							} //repeats this over and over again for each fish you can get
-						} else if ((Math.random() * 100) + 1 <= 10) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught.. kairy? Kairy fixed your fishing rod and dived back into the water! try again?";
-								rod = 0;
-								console.log("Rod dmg is " + rod);
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke! Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} //end of current random2
-						} else if ((Math.random() * 100 + 1) <= 20) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught.... A boot - And It escaped. try again?", "yes no";
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} //end of current random2.5
-						} else if ((Math.random() * 100 + 1) <= 25) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a Guppy! It's going in your inventory.. try again?", "yes no";
-								inventory.push("Guppy");
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} ///current random 3
-						} else if ((Math.random() * 100 + 1) <= 30) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a fruit-fish! Tasty... try again?", "yes no";
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} //current ranom 4
-						} else if ((Math.random() * 100 + 1) <= 40) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a Glob! It's going in your inventory.. try again?", "yes no";
-								inventory.push("Glob");
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == "NO") {
-									beachchoose()
-								}
-							} //current random 5
-						} else if ((Math.random() * 100 + 1) <= 50) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a Guaba-fish! Ew - it smells like your under-arms... It's going in your inventory! try again?", "yes no";
-								inventory.push("Guaba");
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == "NO") {
-									beachchoose()
-								}
-							} //current random 6
-						} else if ((Math.random() * 100 + 1) <= 60) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught an alien-fish! Don't Panic! It goes into your inventory.. try again?", "yes no";
-								inventory.push("Alien Fish");
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == "NO") {
-									beachchoose()
-								}
-							} //random current
-							current()
-						} else if ((Math.random() * 100 + 1) <= 75) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a Money-fish! Money +10! try again?", "yes no";
-								rod += 1;
-								money += 10;
-								console.log("Your rod recieved 1 dmg: rod " + rod + ". Your money is " + money + "!")
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() = "NO") {
-									beachchoose()
-								}
-							} //random current
-							current()
-						} else if ((Math.random() * 100 + 1) <= 80) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a Rare-fish! It flew away.. try again?", "yes no";
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod)
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} //random current
-							current()
-						} else if ((Math.random() * 100 + 1) <= 85) {
-							current = function () {
-								document.getElementById('display').innerHTML = name + " caught a dragon-fish! You gained xp! It goes into your inventory.. try again?", "yes no";
-								xp += 1;
-								inventory.push("Dragon-fish");
-								rod += 1;
-								console.log("Your rod recieved 1 dmg: rod " + rod);
-								check();
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == 'NO') {
-									beachchoose()
-								}
-							} //random current
-							current()
-						} else {
-							current = function () {
-								document.getElementById('display').innerHTML = "You've caught nothin' try again?";
-								if (question.toUpperCase() == "YES") {
-									if (rod <= 15) {
-										fishing()
-									} else {
-										document.getElementById('display').innerHTML = "Your rod broke!Leave to the town to fix it!";
-										setTimeout(function () {
-											beachchoose()
-										}, 1500);
-									}
-								} else if (question.toUpperCase() == "NO") {
-									beachchoose()
-								}
-							} //current random
-							current()
-						}
-					}
-					setTimeout(function () {
-						fishing()
-					}, 1500);
-					console.log('fishing()')
+						MathRandom = Math.floor(Math.random() * fishes.length + 1);
+                                        if(MathRandom > fishes.length){
+                                            displayToPlayer("You were attacked by a sea glob! You lost 10 money and now have +3 rod damage. Try again?")
+                                            rod += 3;
+                                            money -= 10;
+                                            check();
+                                            checkm();
+                                            current = function(){
+                                                question = $("#inputBox").val()
+                                                if(question.toUpperCase() == "YES"){
+                                                    fishing()
+                                                }
+                                                else if(question.toUpperCase() == "NO"){
+                                                    beachchoose()
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            displayToPlayer(name + " caught a " + fishes[MathRandom] + "! It's going in your inventory. Try again?");
+                                            inventory.push(fishes[MathRandom])
+                                            current = function(){
+                                                question = $("#inputBox").val()
+                                                if(question.toUpperCase() == "YES"){
+                                                    fishing()
+                                                }
+                                                else if(question.toUpperCase() == "NO"){
+                                                    beachchoose()
+                                                }
+                                            }
+                                        }
 				} else {
 					document.getElementById('display').innerHTML = "Your rod has " + rod + " damage! Go fix it at the town!";
 					setTimeout(function () {
 						beachchoose()
 					}, 1500);
 				}
+                    }
+                }
 			} else if (question.toUpperCase() == "SWIM") {
 				function swimming() {
 					if ((Math.random() * 100) + 1 <= 2) {
@@ -959,6 +767,7 @@ function start() {
 					document.getElementById('display').innerHTML = 'Where do you want to go?';
 				}, 1500);
 				current = function () {
+                    question = $("#inputBox").val()
 					if (question.toUpperCase() == "TOWN") {
 						townchoose();
 					} else if (question.toUpperCase() == "BEACH") {
@@ -1076,12 +885,12 @@ var submit = function () {
 	var keyCode = event.which || event.keyCode;
     if(keyCode == 13){
         current()
+        $("#inputBox").val("")
     }
 }
 $('body').ready(function () {
 	$('#controls').hide()
 	$('#commies').hide()
-	question = document.getElementById('inputBox').value;
 
 
 })
