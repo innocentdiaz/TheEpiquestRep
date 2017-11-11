@@ -840,13 +840,13 @@ function startmusic(selected) {
 }
 
 function nightmode() {
-	document.getElementById('body').style.backgroundColor = "black";
-	document.getElementById('button').style.backgroundColor = "grey";
+	$("body").css("background-color", "black")
+	$("button").css("background-color", "grey")
 }
 
 function daymode() {
-	document.getElementById('body').style.backgroundColor = "white";
-	document.getElementByTagName('button').style.backgroundColor = "green";
+	$("body").css("background-color", "white")
+	$("button").css("background-color", "green")
 }
 
 
