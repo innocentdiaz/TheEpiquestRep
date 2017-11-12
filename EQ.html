@@ -11,16 +11,14 @@
 <title>EPIQUEST</title>
 <script>
 
-
+//defines the input and current function globally
 var question;
-var fishing;
 var current;
-//defines audios b0ss
+//defines audios
 var mario = new Audio("dire.mp3");
 
-//defines default name of the player as "0"
-var name = "0";
 //..info of player
+var name;
 var lvl = 1;
 var xp = 0;
 var inventory = [];
@@ -32,7 +30,15 @@ var weapon = 0;
 var key = 1;
 //array of available fish
 var fishes = ["Guppy", "SnakeFish", "DragonFish", "Boot", "Tuna", "GoldFish", "Guaba", "Man-eating snail", "Goblin shark"];
-
+//array of outcome of swimming. has description, money and/or items
+var swimmingOutcomes = [["Dived and came out with sand..", 0],
+["Dived in and found a sack of coins!", 30],
+["Dived in and found a gold ring! It's going in your inventory",0,"Gold ring"],
+["Dived in and found a boot, It's useless", 0],
+["Dived in and found a small sack of coins!", 10],
+["Dived in and came out with nothing", 0],
+["Dived in and came out with a large sack of coins!", 45]
+];
 var displayToPlayer = function(message){//function to display a message
     $("#display").html(message)
 };
@@ -41,7 +47,7 @@ var beachchoose = function () {
     
 	displayToPlayer("We are at the beach. Fish, swim, or leave?")
 		current = function () {
-            question = $("#inputBox").val()//this will make the input input.value
+            //this will make the input input.value
 			//if you choose to fish
 			if (question.toUpperCase() == "FISH") {
 				if (rod <= 15) {
@@ -50,14 +56,14 @@ var beachchoose = function () {
 					var fishing = function () {
 									if (rod <= 15) {
 						MathRandom = Math.floor(Math.random() * fishes.length + 1);
-                                        if(MathRandom > fishes.length){
+                                        if(MathRandom >= fishes.length){
                                             displayToPlayer("You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?")
                                             rod += 3;
                                             money -= 10;
                                             check();
                                             checkm();
                                             current = function(){
-                                                question = $("#inputBox").val()
+                                                
                                                 if(question.toUpperCase() == "YES"){
                                                     fishing()
                                                 }
@@ -70,7 +76,7 @@ var beachchoose = function () {
                                             displayToPlayer(name + " caught a " + fishes[MathRandom] + "! It's going in your inventory. Try again?");
                                             inventory.push(fishes[MathRandom])
                                             current = function(){
-                                                question = $("#inputBox").val()
+                                                
                                                 if(question.toUpperCase() == "YES"){
                                                     fishing()
                                                 }
@@ -95,145 +101,49 @@ var beachchoose = function () {
 					beachchoose()
 				}
 			} else if (question.toUpperCase() == "SWIM") {
-				function swimming() {
-					if ((Math.random() * 100) + 1 <= 2) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in are stung by a deadly jellyfish! You go back to town and are treated You lose all your money and rod.";
-							money = 0;
-							rod = 0;
-							console.log("You have " + money + " money and " + rod + "rod.");
-							setTimeout(function () {
-								townchoose()
-							}, 2000);;
-						} //end current
-						current()
-					} else if ((Math.random() * 100) + 1 <= 3) {
-						current = function () {
-							document.getElementById('display').innerHTML = name + " dives in and comes out with a golden ring! Try again?";
-							money += 35;
-							console.log("You have " + money + " money!")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //current end
-						current()
-					} else if ((Math.random() * 100) + 1 <= 20) {
-						current = function () {
-							document.getElementById('display').innerHTML = name + " dives in and comes out with a moldy sock! Try again?", "Yes no";
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //endcu
-						current()
-					} else if ((Math.random() * 100) + 1 <= 22) {
-						current = function () {
-							document.getElementById('display').innerHTML = name + " dives in and is attacked by a boot-fish Your rod is badly damaged and you lost 10 money! Try again?";
-							money -= 10;
-							checkm();
-							rod += 5;
-							console.log("You have " + money + " money and " + rod + " rod dmg!")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //encu
-						current()
-					} else if ((Math.random() * 100) + 1 <= 24) {
-						current = function () {
-							document.getElementById('display').innerHTML = name + " dives in and comes out with a sack of coins! Try again?";
-							money += 10;
-							console.log("You have " + money + " money!")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 40) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and come out with a barnacle! Try again?";
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 42) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and come out with a new fishing rod!! Try again?";
-							rod = 0;
-							console.log("You have " + rod + " rod dmg")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 60) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and come out with a bunch of sand. Try again?";
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 67) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and lose all of your money!! Try again?";
-							money = 0;
-							console.log("You have " + money + " money!")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 80) {
-						current = function () {
-							document.getElementById('display').innerHTML = name + " dives in and comes out with a nothing. Try again?";
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else if ((Math.random() * 100) + 1 <= 85) {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and come out with a new part for your fishing rod! Try again?";
-							rod -= 2;
-							console.log("You have " + rod + " rod dmg!")
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
-						} //ec
-						current()
-					} else {
-						current = function () {
-							document.getElementById('display').innerHTML = "You dive in and come out with rocks! Try again?";
-							if (question.toUpperCase() == "YES") {
-								swimming();
-							} else if (question.toUpperCase() == "NO") {
-								beachchoose();
-							}
+				//SWIMMING WILL WORK LIKE THIS
+				//Array of swimmingPosibilites will be made
+				//Array of arrays
+				//Each array array will contain the posibility and how much money you will gain/lose
+				//example
+				/*
+				swimmingPossibilities = [["Found gold while diving", 15],["Attacked by shark, lost 2 gold", -2]]
+				*/
+				//The swimming function will choose a random outcome
+				displayToPlayer("You go swimming..")
+				var swimming = function(){
+					MathRandom = Math.floor(Math.random() * swimmingOutcomes.length + 1)
+					console.log("Random number: " + MathRandom)
+					if(MathRandom >= swimmingOutcomes.length){
+						displayToPlayer(name + " was stung by a deadly jelly fish! You lost half of your money at the town hospital")
+						money /= 2;
+						setTimeout(function(){
+							townchoose()
+						},3000)
+					}else{
+						displayToPlayer(swimmingOutcomes[MathRandom][0])
+						money += swimmingOutcomes[MathRandom][1]
+						checkm()
+						if(swimmingOutcomes[MathRandom][2]){//this outcome also adds to your inventory
+							setTimeout(function(){
+								inventory.push(swimmingOutcomes[MathRandom][2])
+								displayToPlayer("Added " + swimmingOutcomes[MathRandom][2] + " to inventory")
+							},1500)
 						}
-					} //ec
-					current()
+						setTimeout(function(){
+							displayToPlayer("Dive in again?")
+							current = function(){
+                                                if(question.toUpperCase() == "YES"){
+                                                    swimming()
+                                                }
+                                                else if(question.toUpperCase() == "NO"){
+                                                    beachchoose()
+                                                }
+							}
+						},3200)
+					}
 				}
-				swimming();
+				setTimeout(swimming(),1500)//swimming will be called when the player does "SWIM"
 			} else if (question.toUpperCase() == "LEAVE") {
 				displayToPlayer("going to town");
 				setTimeout(function () {
@@ -297,6 +207,7 @@ var townchoose = function () {
 			document.getElementById('display').innerHTML = "=TOWN= Work, fix, sell, safe, beach"
 		}
 		current = function () {
+
 			if (question.toUpperCase() == "WORK") {
 				choosework();
 			} else if (question.toUpperCase() == "FIX") {
@@ -768,13 +679,13 @@ function start() {
 	displayToPlayer("What is your name?");
 	current = function () {
             
-				name = $('#inputBox').val();
+				name = question;
 				displayToPlayer("Let us begin, " + name + "!");
 				setTimeout(function () {
 					displayToPlayer('Where do you want to go?');
 				}, 1500);
 				current = function () {
-                    question = $("#inputBox").val()
+                    
 					if (question.toUpperCase() == "TOWN") {
 						townchoose();
 					} else if (question.toUpperCase() == "BEACH") {
@@ -860,7 +771,7 @@ function daymode() {
 
 
 function showme() {
-	document.getElementById('display').innerHTML = 'NAME: ' + name + '\b MONEY, SAFE AND ROD: ' + money + ' ' + safe + ' ' + rod + '\b LVL AND XP: ' + lvl + ' ' + xp + '\b ARMOR AND WEAPON: ' + armor + ' ' + weapon;
+	alert('NAME: ' + name + '.\b MONEY, SAFE AND ROD: ' + money + ', ' + safe + ', ' + rod + '.\b LVL AND XP: ' + lvl + ', ' + xp + '. ARMOR AND WEAPON: ' + armor + ' ' + weapon);
 }
 
 function dothis(dot) {
@@ -893,8 +804,11 @@ function push(item) {
 var submit = function () {
 	var keyCode = event.which || event.keyCode;
     if(keyCode == 13){
+		question = $("#inputBox").val()
+		$("#inputBox").val("")
         current()
-        $("#inputBox").val("")
+		console.log('question = ' + question)
+        
     }
 }
 $('body').ready(function () {
@@ -917,9 +831,9 @@ onts.googleapis.com/css?family=Teko" rel="stylesheet">
 </div>
 <button id="button" class='button' onclick="start()">Start Game</button>
 <br>
-<button id="button" onclick="startmusic('mario')">Play lobby music</button>
-<button id="button" onclick="nightmode()">Enable night theme</button>
-<button id="button" onclick="daymode()">Enable day theme</button>
+<button id="button" onclick="startmusic('mario')">Music</button>
+<button class="themeClass" onclick="nightmode()">Enable night theme</button>
+<button class="themeClass" onclick="daymode()">Enable day theme</button>
 <br>
 <br>
 <h1 id="maph">Map</h1>
@@ -931,10 +845,24 @@ onts.googleapis.com/css?family=Teko" rel="stylesheet">
 <style>
 * {
 	box-sizing: border-box;
-	font-family: 'Teko', sans-serif;
 }
 body{
 	font-size: 140%;
+}
+button:hover{
+	box-shadow:1 1 1 black;
+}
+.themeClass{
+	width:25%;
+	margin: auto;
+	display: block;
+	text-align: center;
+	border-radius: 0;
+	background-color: lime;
+	color: white;
+}
+.themeClass:hover{
+	background-color: red;
 }
 #controls{
 	text-align: center;
