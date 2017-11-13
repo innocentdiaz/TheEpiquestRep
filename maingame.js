@@ -1,3 +1,9 @@
+$('body').ready(function () {
+	$('#controls').hide()
+	$('#commies').hide()
+
+
+});
 //defines the input and current function globally
 var question;
 var current;
@@ -14,7 +20,7 @@ var user = {//this is the player
 	armor: 0,
 	weapon: 0,
 	key: 1
-}
+};
 //..info of player
 var name = user.name;
 var lvl = user.lvl;
@@ -75,26 +81,28 @@ function start() {
 
 function win() {
 	document.getElementById('mainh').innerHTML = (name);
-	armor += 123;
-	weapon += 98;
-	lvl += 500;
-	xp += 100000;
+	armor = 123;
+	weapon = 98;
+	lvl = 50;
+	xp = 0;
 	money += 500;
-	rod = -10000000;
-	console.log('Your name: ' + name + '\bYour money: ' + money + '\b Your Safe: ' + safe + '\b Your rod dmg: ' + rod + '\b Your xp: ' + xp + '\b Your lvl: ' + lvl);
-	question = prompt("You are the strongest hero go back to town?").toUpperCase();
+	rod = -100;
+	alert('Your name: ' + name + '\bYour money: ' + money + '\b Your Safe: ' + safe + '\b Your rod dmg: ' + rod + '\b Your xp: ' + xp + '\b Your lvl: ' + lvl);
+	displayToPlayer("You are the strongest hero go back to town?")
+	current = function(){
 	if (question == "YES") {
 		townchoose()
 	} else {
-		confirm('Thank you for playing, ' + name + '!')
+		displayToPlayer('Thank you for playing, ' + name + '!')
 	}
+}//current
 }
 
 
 var check = function () {
 	if (xp >= 10) {
 		lvl += 1;
-		confirm("You have leveled up to leveled up to level " + lvl + "!");
+		confirm("You have leveled up to level " + lvl + "!");
 		xp -= 10;
 		if (lvl == 2) {
 			confirm('You can now go to the forest')
@@ -102,21 +110,8 @@ var check = function () {
 			confirm('You can now venture into the cave... At your own risk...');
 		}
 	}
-}
-var checkm = function () {
-	if (money <= 0) {
+
+	if(money < 0){
 		money = 0
 	}
 }
-
-
-
-
-
-
-$('body').ready(function () {
-	$('#controls').hide()
-	$('#commies').hide()
-
-
-})

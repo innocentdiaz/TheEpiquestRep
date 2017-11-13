@@ -16,7 +16,7 @@ var beachchoose = function () {
                                             rod += 3;
                                             money -= 10;
                                             check();
-                                            checkm();
+                                            check();
                                             current = function(){
 
                                                 if(question.toUpperCase() == "YES"){
@@ -76,7 +76,7 @@ var beachchoose = function () {
 					} else {
 						displayToPlayer(swimmingOutcomes[MathRandom][0] + ". Dive in again?")
 						money += swimmingOutcomes[MathRandom][1]
-						checkm()
+						check()
 						if(swimmingOutcomes[MathRandom][2]){//this outcome also adds to your inventory
 							setTimeout(function(){
 								inventory.push(swimmingOutcomes[MathRandom][2])

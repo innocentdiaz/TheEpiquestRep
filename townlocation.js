@@ -131,7 +131,7 @@ var townchoose = function () {
 				} else if ((Math.random() * 10) + 1 >= 8) {
 					document.getElementById('display').innerHTML = "While looking for a job you get robbed. You lose 10 money!";
 					money -= 10;
-					checkm();
+					check();
 					console.log('Money: ' + money);
 					setTimeout(function () {
 						townchoose();

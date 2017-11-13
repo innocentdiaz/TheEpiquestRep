@@ -35,7 +35,7 @@ var cavechoose = function () {
 						} else {
 							confirm('You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear');
 							money -= 30;
-							checkm()
+							check()
 							console.log(money);
 							townchoose();
 						}

@@ -38,7 +38,7 @@ var forestchoose = function () {
 							displayToPlayer("Your armor goes up by 1 point! You lose 20 . Armor, weapon or leave?");
 							armor += 1;
 							money -= 20;
-							checkm()
+							check()
 							console.log("Money: " + money + ". Armor: " + armor);
 							current = function () {
 								floop()
@@ -54,7 +54,7 @@ var forestchoose = function () {
 							displayToPlayer("Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?");
 							weapon += 1;
 							money -= 15;
-							checkm()
+							check()
 							console.log("Money: " + money + ". Weapon: " + weapon);
 							current = function () {
 								floop()
@@ -93,7 +93,7 @@ var forestchoose = function () {
 						} else {
 							confirm("You were PWNED by the mutant and sent to the hospital! Get better equipment!");
 							money -= 10;
-							checkm();
+							check();
 							console.log("Money: " + money);
 							townchoose();
 						}
@@ -109,7 +109,7 @@ var forestchoose = function () {
 							confirm('SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!');
 							xp -= 1;
 							money -= 5;
-							checkm();
+							check();
 							console.log('Money: ' + money + " " + xp + "xp");
 							townchoose()
 						}
@@ -124,7 +124,7 @@ var forestchoose = function () {
 						} else {
 							confirm('The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!');
 							money -= 5;
-							checkm();
+							check();
 							console.log("Money: " + money)
 							townchoose()
 						}
@@ -138,7 +138,7 @@ var forestchoose = function () {
 						} else {
 							confirm('Daaaang that imp frigged you UP! Go back home!  -3money - Get better equipment!');
 							money -= 3;
-							checkm()
+							check()
 							townchoose()
 						}
 					} else if ((Math.random() * 100 + 1) <= 70) {
@@ -147,7 +147,7 @@ var forestchoose = function () {
 							confirm('You FLOOPED those goblins UP +15money +2xp');
 							money += 15;
 							xp += 2;
-							checkm();
+							check();
 							check();
 							forestchoose()
 						} else {
@@ -155,7 +155,7 @@ var forestchoose = function () {
 							townchoose();
 						};
 						money -= 3;
-						checkm();
+						check();
 						townchoose()
 					} else if ((Math.random() * 100 + 1) <= 100) {
 						confirm('You fought a boot and won.. +5money');
@@ -287,7 +287,7 @@ var forestchoose = function () {
 				} else {
 					question = prompt("You've been raided by imps! -50 money. Try again?").toUpperCase();
 					money -= 50;
-					checkm();
+					check();
 					console.log('Money: ' + money);
 					if (question == "YES") {
 						huntchoose()
