@@ -1,15 +1,13 @@
 $('body').ready(function () {
 	$('#controls').hide()
 	$('#commies').hide()
-
-
 });
 //defines the input and current function globally
 var question;
 var current;
 //defines audios
 var mario = new Audio("dire.mp3");
-var user = {//this is the player
+var user = { //this is the player
 	name: "",
 	lvl: 1,
 	xp: 0,
@@ -31,55 +29,48 @@ var safe = user.safe;
 var rod = user.rod;
 var armor = user.armor;
 var weapon = user.weapon;
-var key = user.key;//while key == 1 you cannot fight the boss
+var key = user.key; //while key == 1 you cannot fight the boss
 //array of available fish
 var fishes = ["Guppy", "SnakeFish", "DragonFish", "Boot", "Tuna", "GoldFish", "Guaba", "Man-eating snail", "Goblin shark"];
 //array of outcome of swimming. has description, money and/or items
-var swimmingOutcomes = [["Dived and came out with sand..", 0],
-["Dived in and found a sack of coins!", 30],
-["Dived in and found a gold ring! It's going in your inventory",0,"Gold ring"],
-["Dived in and found a boot, It's useless", 0],
-["Dived in and found a small sack of coins!", 10],
-["Dived in and came out with nothing", 0],
-["Dived in and came out with a large sack of coins!", 45],
-["Dived in and came out with a book.", 0,"Book"]
+var swimmingOutcomes = [
+	["Dived and came out with sand..", 0],
+	["Dived in and found a sack of coins!", 30],
+	["Dived in and found a gold ring! It's going in your inventory", 0, "Gold ring"],
+	["Dived in and found a boot, It's useless", 0],
+	["Dived in and found a small sack of coins!", 10],
+	["Dived in and came out with nothing", 0],
+	["Dived in and came out with a large sack of coins!", 45],
+	["Dived in and came out with a book.", 0, "Book"]
 ];
 
 function start() {
 	$('#controls').show();
 	$('#commies').show();
 	$(".button").hide();
-
 	displayToPlayer("What is your name?");
 	current = function () {
-
-				name = question;
-				displayToPlayer("Let us begin, " + name + "!");
+		name = question;
+		displayToPlayer("Let us begin, " + name + "!");
+		setTimeout(function () {
+			displayToPlayer('Where do you want to go?');
+		}, 1500);
+		current = function () {
+			if (question.toUpperCase() == "TOWN") {
+				townchoose();
+			} else if (question.toUpperCase() == "BEACH") {
+				beachchoose();
+			} else {
+				displayToPlayer("Unknown location - you wander off and end up at the beach")
 				setTimeout(function () {
-					displayToPlayer('Where do you want to go?');
-				}, 1500);
-				current = function () {
-
-					if (question.toUpperCase() == "TOWN") {
-						townchoose();
-					} else if (question.toUpperCase() == "BEACH") {
-						beachchoose();
-					}
-                    else{
-                        displayToPlayer("Unknown location - you wander off and end up at the beach")
-                        setTimeout(function(){
-                            beachchoose();
-                        },1500)
-                    }
-				}
-
-
+					beachchoose();
+				}, 1500)
+			}
+		}
 	}
-}
+};
 
-
-
-function win() {
+function win() {//this is the winning function
 	document.getElementById('mainh').innerHTML = (name);
 	armor = 123;
 	weapon = 98;
@@ -89,17 +80,15 @@ function win() {
 	rod = -100;
 	alert('Your name: ' + name + '\bYour money: ' + money + '\b Your Safe: ' + safe + '\b Your rod dmg: ' + rod + '\b Your xp: ' + xp + '\b Your lvl: ' + lvl);
 	displayToPlayer("You are the strongest hero go back to town?")
-	current = function(){
-	if (question == "YES") {
-		townchoose()
-	} else {
-		displayToPlayer('Thank you for playing, ' + name + '!')
-	}
-}//current
-}
-
-
-var check = function () {
+	current = function () {
+		if (question == "YES") {
+			townchoose()
+		} else {
+			displayToPlayer('Thank you for playing, ' + name + '!')
+		}
+	} //current
+};
+var check = function () {//this checks if xp is over 10 or money is less than 0
 	if (xp >= 10) {
 		lvl += 1;
 		confirm("You have leveled up to level " + lvl + "!");
@@ -110,8 +99,7 @@ var check = function () {
 			confirm('You can now venture into the cave... At your own risk...');
 		}
 	}
-
-	if(money < 0){
+	if (money < 0) {
 		money = 0
 	}
-}
+};

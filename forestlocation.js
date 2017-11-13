@@ -1,5 +1,4 @@
 var forestchoose = function () {
-
 		displayToPlayer("There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?");
 		current = function () {
 			if (question.toUpperCase() == "ARENA") {

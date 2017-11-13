@@ -1,12 +1,11 @@
-var submit = function () {//WHEN YOU CLICK ENTER
+var submit = function () { //WHEN YOU CLICK ENTER
 	var keyCode = event.which || event.keyCode;
-    if(keyCode == 13){
+	if (keyCode == 13) {
 		question = $("#inputBox").val()
 		$("#inputBox").val("")
-        current()
+		current()
 		console.log('question = ' + question)
-        
-    }
+	}
 };
 
 function push(item) {
@@ -27,14 +26,10 @@ function playtheme(selected) {
 };
 
 function reset() {
-    question = confirm("Reset game?")
-    if(question == false){
-
-    }
-    else if(question == true){
-        location.reload()
-    }
-
+	question = confirm("Reset game?")
+	if (question == false) {} else if (question == true) {
+		location.reload()
+	}
 }
 
 function nightmode() {
@@ -48,7 +43,6 @@ function daymode() {
 	$("button").css("background-color", "green")
 	$("#display").css("border-color", "black")
 };
-
-var displayToPlayer = function(message){//function to display a message
-    $("#display").html(message)
+var displayToPlayer = function (message) { //function to display a message
+	$("#display").html(message)
 };
