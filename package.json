@@ -1,0 +1,25 @@
+{
+  "name": "epiquest",
+  "version": "1.0.0",
+  "description": "=====EPIQUEST=====",
+  "main": "beachlocation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnCdf/TheEpiquestRep.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JohnCdf/TheEpiquestRep/issues"
+  },
+  "homepage": "https://github.com/JohnCdf/TheEpiquestRep#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-coffeescript": "0.0.15",
+    "gulp-less": "^3.3.2",
+    "gulp-pug": "^3.3.0"
+  }
+}
