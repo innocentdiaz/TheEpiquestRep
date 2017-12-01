@@ -1,0 +1,46 @@
+doctype html
+-
+  const styles = [
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+    'https://fonts.googleapis.com/css?family=Teko',
+    'eq.css'
+  ]
+  const scripts = [
+    'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+    'functions.js',
+    'maingame.js',
+    'beachlocation.js',
+    'townlocation.js',
+    'forestlocation.js',
+    'cavelocation.js'
+  ]
+html#body(lang='en')
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(charset='utf-8')
+    link(rel='icon' type='image/png' href='../static/EQF.png')
+    each style in styles
+      link(rel='stylesheet' href=style)
+    each script in scripts
+      script(src=script)
+    title EPIQUEST
+  body
+    h1#mainh EPIQUEST
+    br
+    #controls
+      h2#display
+      input#inputBox(type='text' placeholder='type here...' onkeypress='submit()')
+      button#commies(onclick='showme()') See stats
+      br
+    button(id='button' class='button' onclick='start()') Start Game
+    br
+    button(id='button' onclick='playtheme("mario")') Music
+    button(class='themeClass' onclick='nightmode()') Enable night theme
+    button(class='themeClass' onclick='daymode()') Enable day theme
+    br
+    br
+    h1(id='maph') Map
+    img(src='../static/map.png')
+    br
+    br
