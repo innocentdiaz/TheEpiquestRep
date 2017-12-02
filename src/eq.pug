@@ -1,16 +1,17 @@
 doctype html
 -
-  const styles = [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-    'https://fonts.googleapis.com/css?family=Teko',
-    'eq.css'
+  const styles = [//stylesheets
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',//bootstrap
+    'https://fonts.googleapis.com/css?family=Teko',//jquery
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",//font awesome incons
+    'eq.css'//style
   ]
-  const scripts = [
-    'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
-    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
-    'functions.js',
-    'maingame.js',
-    'locations.js'
+  const scripts = [//scripts
+    'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',//jquery
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',//bootstrrap
+    'functions.js',//global functions for the game
+    'maingame.js',//main game functions
+    'locations.js'//locations of the game
   ]
 html#body(lang='en')
   head
@@ -30,14 +31,19 @@ html#body(lang='en')
       input#inputBox(type='text' placeholder='type here...' onkeypress='submit()')
       button#commies(onclick='showme()') See stats
       br
-    button(id='button' class='button' onclick='start()') Start Game
+    button( class='button btn btn-block btn-primary' onclick='start()') Start Game
     br
-    button(id='button' onclick='playtheme("mario")') Music
-    button(class='themeClass' onclick='nightmode()') Enable night theme
-    button(class='themeClass' onclick='daymode()') Enable day theme
+    button(class='btn btn-block btn-secondary' onclick='playtheme("mario")') Music
+    button(class='btn btn-block btn-default' onclick='nightmode()') Enable night theme
+    button(class='btn btn-block btn-default' onclick='daymode()') Enable day theme
     br
     br
     h1(id='maph') Map
     img(src='../static/map.png')
     br
     br
+    div#links(class="container")
+      h1 Check out the repository!
+      p We need more people like you !
+      br
+      a(class='fa fa-github' href='https://github.com/JohnCdf/TheEpiquestRep/' target='blank_')
