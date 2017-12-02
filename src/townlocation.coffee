@@ -6,69 +6,7 @@ townchoose = ->
     when lvl >= 3 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
     when lvl == 2 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
     else displayToPlayer '=TOWN= Work, fix, sell, safe, beach =TOWN='
-  current = ->
-    switch question.toUpperCase()
-      when 'WORK' then choosework()
-      when 'FIX'
-        displayToPlayer "Fixing your rod will cost you #{rod} money. Are you sure?"
-        current = ->
-          switch question.toUpperCase()
-            when 'YES'
-              if money >= rod
-                money -= rod
-                rod = 0
-                displayToPlayer "You have #{money} money and #{rod} dmg!"
-                setTimeout (-> townchoose()), 2000
-              else
-                displayToPlayer 'Not enough money'
-                setTimeout (-> townchoose()), 2000
-            when 'NO' then townchoose()
-      when inventory.length >= 1 and 'SELL'
-        displayToPlayer "your items are: #{inventory.join(', ')}. Sell?"
-        current = ->
-          switch
-            when 'YES'
-              money += inventory.length * 2.5
-              inventory.length = 0
-              displayToPlayer "You have sold all your items. Your money is #{money}."
-              setTimeout (-> townchoose()), 2000
-            when 'NO'
-              setTimeout (-> townchoose()), 2000
-      when inventory.length < 1 and 'SELL'
-        displayToPlayer 'You have no items in your inventory..'
-        setTimeout (-> townchoose()), 1800
-      when 'STATS' then showme()
-      when 'BEACH' then beachchoose()
-      when  lvl >= 2 and 'FOREST'
-        displayToPlayer 'We are on our way to the enchanted forest.......'
-        setTimeout (-> forestchoose()), 1500
-      when lvl >= 3 and 'CAVE'
-        displayToPlayer 'We are on our way to the cave.......'
-        setTimeout (-> cavechoose()), 1500
-      when 'SAFE'
-        displayToPlayer 'Store your money or recover it?'
-        current = ->
-          switch question.toUpperCase()
-            when 'STORE'
-              if money >= 1
-                safe += money
-                money = 0
-                displayToPlayer 'You stored all your money in the safe'
-                setTimeout (-> townchoose()), 1500
-              else
-                displayToPlayer 'You have no money!'
-                setTimeout (-> townchoose()), 1500
-            when 'RECOVER'
-              if safe >= 1
-                money += safe
-                safe = 0
-                displayToPlayer 'You recovered all your money from the safe'
-                setTimeout (-> townchoose()), 1500
-              else
-                displayToPlayer 'There is nothing in the safe!'
-                setTimeout (-> townchoose()), 1500
-      else
-        displayToPlayer 'Thats not an option'
+  current = currents.town
 choosework = ->
   random = Math.random() * 10 + 1
   switch

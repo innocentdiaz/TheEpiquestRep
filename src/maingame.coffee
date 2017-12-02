@@ -44,18 +44,7 @@ start = ->
   $ '.button'
     .hide()
   displayToPlayer('What is your name?')
-  current = ->
-    name = question
-    displayToPlayer("Let us begin, #{name}!")
-    setTimeout (-> displayToPlayer 'Where do you want to go?'), 1500
-    current = ->
-      switch question.toUpperCase()
-        when 'TOWN' then townchoose()
-        when 'BEACH' then beachchoose()
-        else
-          displayToPlayer 'Unknown location - you wander off and end up at the beach'
-          setTimeout (-> beachchoose()), 1500
-
+  current = currents.name
 win = ->
   $ '#mainh'
    .html name
@@ -67,9 +56,7 @@ win = ->
   rod = -100
   showme()
   displayToPlayer('You are the strongest hero go back to town?')
-  current = ->
-    if question.toUpperCase() is 'YES' then townchoose()
-    else displayToPlayer "Thank you for playing, #{name}!"
+  current = currents.win
 check = ->
   if xp >= 10
     lvl += 1
