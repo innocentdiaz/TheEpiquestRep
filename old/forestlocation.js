@@ -7,9 +7,9 @@ var forestchoose = function () {
 					arenachoose()
 				}, 2200);
 			} else if (question.toUpperCase() == "SHOP" || question.toUpperCase() == "FLOOP") {
-				document.getElementById('display').innerHTML = "You are greeted by a cartoonish goblin named floop-flop";
+				document.getElementById('display').innerHTML = "You are greeted by a cartoonish goblin user.named floop-flop";
 				setTimeout(function () {
-					document.getElementById('display').innerHTML = "floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs";
+					document.getElementById('display').innerHTML = "floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST user.WEAPONS AND user.ARMOR YEs";
 				}, 2000);
 				setTimeout(function () {
 					floop();
@@ -31,35 +31,35 @@ var forestchoose = function () {
 
 			function floop() {
 				current = function () {
-					document.getElementById('display').innerHTML = "Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.";
-					if (question.toUpperCase() == "ARMOR") {
-						if (money >= 20) {
-							displayToPlayer("Your armor goes up by 1 point! You lose 20 . Armor, weapon or leave?");
-							armor += 1;
-							money -= 20;
+					document.getElementById('display').innerHTML = "Upgrade user.Armor for 20 user.money, Upgrade user.Weapon for 15, or leave.";
+					if (question.toUpperCase() == "user.ARMOR") {
+						if (user.money >= 20) {
+							displayToPlayer("Your user.armor goes up by 1 point! You lose 20 . user.Armor, user.weapon or leave?");
+							user.armor += 1;
+							user.money -= 20;
 							check()
-							console.log("Money: " + money + ". Armor: " + armor);
+							console.log("user.Money: " + user.money + ". user.Armor: " + user.armor);
 							current = function () {
 								floop()
 							}
-						} else if (money <= 20) {
-							displayToPlayer('Not enough money! Armor, weapon or leave?');
+						} else if (user.money <= 20) {
+							displayToPlayer('Not enough user.money! user.Armor, user.weapon or leave?');
 							current = function () {
 								floop()
 							}
 						}
-					} else if (question.toUpperCase() == "WEAPON") {
-						if (money >= 15) {
-							displayToPlayer("Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?");
-							weapon += 1;
-							money -= 15;
+					} else if (question.toUpperCase() == "user.WEAPON") {
+						if (user.money >= 15) {
+							displayToPlayer("Your user.weapon goes up by 1 point! You lose 15 user.money. user.Armor, user.weapon or leave?");
+							user.weapon += 1;
+							user.money -= 15;
 							check()
-							console.log("Money: " + money + ". Weapon: " + weapon);
+							console.log("user.Money: " + user.money + ". user.Weapon: " + user.weapon);
 							current = function () {
 								floop()
 							}
 						} else {
-							displayToPlayer('Not enough money! Armor, weapon or leave?');
+							displayToPlayer('Not enough user.money! user.Armor, user.weapon or leave?');
 							current = function () {
 								floop()
 							}
@@ -77,75 +77,75 @@ var forestchoose = function () {
 				if (question.toUpperCase() == "YES") {
 					if ((Math.random() * 100 + 1) <= 5) {
 						confirm('THE MUTANT has entered the match!');
-						if (armor >= 13 && weapon >= 11) {
-							confirm('You SLAYED THE MUTANT! +15xp, +50money');
-							if (key == 1) {
+						if (user.armor >= 13 && user.weapon >= 11) {
+							confirm('You SLAYED THE MUTANT! +15user.xp, +50user.money');
+							if (user.key == 1) {
 								confirm('The cave trembles and echoes are heard...');
-								key = 0;
+								user.key = 0;
 							};
-							xp += 15;
-							money += 50;
-							key = 0;
-							console.log('money: ' + money + '+15xp')
+							user.xp += 15;
+							user.money += 50;
+							user.key = 0;
+							console.log('user.money: ' + user.money + '+15user.xp')
 							check();
 							forestchoose()
 						} else {
 							confirm("You were PWNED by the mutant and sent to the hospital! Get better equipment!");
-							money -= 10;
+							user.money -= 10;
 							check();
-							console.log("Money: " + money);
+							console.log("user.Money: " + user.money);
 							townchoose();
 						}
 					} else if ((Math.random() * 100 + 1) <= 20) {
 						confirm('SKELETRON has entered the match!');
-						if (armor >= 10 && weapon >= 7) {
-							confirm('You PWNED SKELETRON and from his aqcuired +20money and +5xp');
-							xp += 5;
-							money += 20;
+						if (user.armor >= 10 && user.weapon >= 7) {
+							confirm('You PWNED SKELETRON and from his aqcuired +20user.money and +5user.xp');
+							user.xp += 5;
+							user.money += 20;
 							check();
 							forestchoose()
 						} else {
 							confirm('SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!');
-							xp -= 1;
-							money -= 5;
+							user.xp -= 1;
+							user.money -= 5;
 							check();
-							console.log('Money: ' + money + " " + xp + "xp");
+							console.log('user.Money: ' + user.money + " " + user.xp + "user.xp");
 							townchoose()
 						}
 					} else if ((Math.random() * 100 + 1) <= 40) {
 						confirm('INFECTED GLOB has entered the match!');
-						if (armor >= 6 && weapon >= 7) {
-							confirm('You killed the INFECTED GLOB! Gained +10money and +4xp');
-							money += 10;
-							xp += 4;
+						if (user.armor >= 6 && user.weapon >= 7) {
+							confirm('You killed the INFECTED GLOB! Gained +10user.money and +4user.xp');
+							user.money += 10;
+							user.xp += 4;
 							check();
 							forestchoose()
 						} else {
-							confirm('The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!');
-							money -= 5;
+							confirm('The Glob jaZZED you UP BACK to the hospital! -5user.money - Get better equipment!');
+							user.money -= 5;
 							check();
-							console.log("Money: " + money)
+							console.log("user.Money: " + user.money)
 							townchoose()
 						}
 					} else if ((Math.random() * 100 + 1) <= 60) {
 						confirm('An imp joined the fight');
-						if (armor >= 4 && weapon >= 4) {
-							confirm('You SMACKED the imp! +15 money +2xp');
-							money += 15;
-							xp += 2;
+						if (user.armor >= 4 && user.weapon >= 4) {
+							confirm('You SMACKED the imp! +15 user.money +2user.xp');
+							user.money += 15;
+							user.xp += 2;
 							forestchoose()
 						} else {
-							confirm('Daaaang that imp frigged you UP! Go back home!  -3money - Get better equipment!');
-							money -= 3;
+							confirm('Daaaang that imp frigged you UP! Go back home!  -3user.money - Get better equipment!');
+							user.money -= 3;
 							check()
 							townchoose()
 						}
 					} else if ((Math.random() * 100 + 1) <= 70) {
 						confirm('Goblins joined the battle-!');
-						if (armor >= 2 && weapon >= 2) {
-							confirm('You FLOOPED those goblins UP +15money +2xp');
-							money += 15;
-							xp += 2;
+						if (user.armor >= 2 && user.weapon >= 2) {
+							confirm('You FLOOPED those goblins UP +15user.money +2user.xp');
+							user.money += 15;
+							user.xp += 2;
 							check();
 							check();
 							forestchoose()
@@ -153,12 +153,12 @@ var forestchoose = function () {
 							confirm('Snap! Those goblins diddled you! Go back home! Get better equipment!');
 							townchoose();
 						};
-						money -= 3;
+						user.money -= 3;
 						check();
 						townchoose()
 					} else if ((Math.random() * 100 + 1) <= 100) {
-						confirm('You fought a boot and won.. +5money');
-						money += 5;
+						confirm('You fought a boot and won.. +5user.money');
+						user.money += 5;
 						forestchoose()
 					}
 				} else if (question.toUpperCase() == "NO") {
@@ -171,8 +171,8 @@ var forestchoose = function () {
 
 			function huntchoose() {
 				if ((Math.random() * 100) + 1 <= 10) {
-					question = prompt('You hunted a unichord! It\'s going in your inventory.. Hunt again?').toUpperCase();
-					inventory.push('Unichord');
+					question = prompt('You hunted a unichord! It\'s going in your user.inventory.. Hunt again?').toUpperCase();
+					user.inventory.push('Unichord');
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -188,8 +188,8 @@ var forestchoose = function () {
 					}
 				} else if ((Math.random() * 100) + 1 <= 20) {
 					question = prompt('You hunted a goblin! He pays you to let him go. Hunt again?').toUpperCase();
-					money += 10;
-					console.log('Money: ' + money);
+					user.money += 10;
+					console.log('user.Money: ' + user.money);
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -200,9 +200,9 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 30) {
-					question = prompt("You hunted a shell-snake! It\'s going in your inventory.. Hunt again?").toUpperCase();
-					inventory.push('shell-snake');
-					money += 3;
+					question = prompt("You hunted a shell-snake! It\'s going in your user.inventory.. Hunt again?").toUpperCase();
+					user.inventory.push('shell-snake');
+					user.money += 3;
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -213,8 +213,8 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 40) {
-					question = prompt(name + ' hunted a grizzlor bear! It\'s going into your inventory! Hunt again?').toUpperCase();
-					inventory.push('Grizzlor mama');
+					question = prompt(user.name + ' hunted a grizzlor bear! It\'s going into your user.inventory! Hunt again?').toUpperCase();
+					user.inventory.push('Grizzlor mama');
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -225,8 +225,8 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 42) {
-					question = prompt('You hunted a.. Kairy?! Kairy shines up your armor and runs back into the bushes. +1armor - Hunt again?').toUpperCase();
-					armor += 1;
+					question = prompt('You hunted a.. Kairy?! Kairy shines up your user.armor and runs back into the bushes. +1user.armor - Hunt again?').toUpperCase();
+					user.armor += 1;
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -237,7 +237,7 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 50) {
-					question = prompt(name + ' hunted a... boot? You throw it away. Hunt again?').toUpperCase();
+					question = prompt(user.name + ' hunted a... boot? You throw it away. Hunt again?').toUpperCase();
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -248,8 +248,8 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 55) {
-					question = prompt('You hunted a flying-butt! It\'s going in your inventory.. Hunt again?').toUpperCase();
-					inventory.push('flying ass');
+					question = prompt('You hunted a flying-butt! It\'s going in your user.inventory.. Hunt again?').toUpperCase();
+					user.inventory.push('flying ass');
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -260,8 +260,8 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 65) {
-					question = prompt(name + ' hunted an ordinary rabbit. It\'s going in your inventory.. Hunt again?').toUpperCase();
-					inventory.push('wabbit');
+					question = prompt(user.name + ' hunted an ordinary rabbit. It\'s going in your user.inventory.. Hunt again?').toUpperCase();
+					user.inventory.push('wabbit');
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -272,8 +272,8 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else if ((Math.random() * 100) + 1 <= 75) {
-					question = prompt('You hunted a pegavis! It\'s going in your inventory.. Hunt again?').toUpperCase();
-					inventory.push('Pegavis');
+					question = prompt('You hunted a pegavis! It\'s going in your user.inventory.. Hunt again?').toUpperCase();
+					user.inventory.push('Pegavis');
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {
@@ -284,10 +284,10 @@ var forestchoose = function () {
 						forestchoose()
 					}
 				} else {
-					question = prompt("You've been raided by imps! -50 money. Try again?").toUpperCase();
-					money -= 50;
+					question = prompt("You've been raided by imps! -50 user.money. Try again?").toUpperCase();
+					user.money -= 50;
 					check();
-					console.log('Money: ' + money);
+					console.log('user.Money: ' + user.money);
 					if (question == "YES") {
 						huntchoose()
 					} else if (question == "NO") {

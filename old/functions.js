@@ -1,6 +1,6 @@
 var submit = function () { //WHEN YOU CLICK ENTER
-	var keyCode = event.which || event.keyCode;
-	if (keyCode == 13) {
+	var user.keyCode = event.which || event.user.keyCode;
+	if (user.keyCode == 13) {
 		question = $("#inputBox").val()
 		$("#inputBox").val("")
 		current()
@@ -9,11 +9,11 @@ var submit = function () { //WHEN YOU CLICK ENTER
 };
 
 function push(item) {
-	inventory.push(item)
+	user.inventory.push(item)
 };
 
 function showme() {
-	alert('NAME: ' + name + '.\b MONEY, SAFE AND ROD: ' + money + ', ' + safe + ', ' + rod + '.\b LVL AND XP: ' + lvl + ', ' + xp + '. ARMOR AND WEAPON: ' + armor + ' ' + weapon);
+	alert('user.NAME: ' + user.name + '.\b user.MONEY, user.SAFE AND user.ROD: ' + user.money + ', ' + user.safe + ', ' + user.rod + '.\b user.LVL AND user.XP: ' + user.lvl + ', ' + user.xp + '. user.ARMOR AND user.WEAPON: ' + user.armor + ' ' + user.weapon);
 };
 
 function playtheme(selected) {
