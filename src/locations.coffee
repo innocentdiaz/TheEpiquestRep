@@ -273,3 +273,198 @@ currents =
       check()
       console.log money
       setTimeout townchoose, 1500
+forestchoose = ->
+  displayToPlayer 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
+  current = currents.forest
+floop = ->
+  current = currents.floop
+arenachoose = ->
+  displayToPlayer 'You arrive at the \'Dome of Death\'. Fight?'
+  current = currents.arena
+hunts = [
+  {
+    num: 10
+    msg: 'You hunted a unichord! It\'s going in your inventory.. Hunt again?'
+    props:
+      inventory: 'Unichord'
+  },
+  {
+    num: 20
+    msg: 'You hunted a goblin! He pays you to let him go. Hunt again?'
+    props:
+      money: 10
+  },
+  {
+    num: 30
+    msg: 'You hunted a shell-snake! It\'s going in your inventory.. Hunt again?'
+    props:
+      inventory: 'shell-snake'
+  },
+  {
+    num: 40
+    msg: 'You hunted a grizzlor bear! It\'s going into your inventory! Hunt again?'
+    props:
+      inventory: 'Grizzlor mama'
+  },
+  {
+    num: 42
+    msg: 'You hunted a.. Kairy?! Kairy shines up your armor and runs back into the bushes. +1armor - Hunt again?'
+    props:
+      armor: 1
+  },
+  {
+    num: 50
+    msg: 'You hunted a... boot? You throw it away. Hunt again?'
+  },
+  {
+    num: 55,
+    msg: 'You hunted a flying-butt! It\'s going in your inventory.. Hunt again?'
+    props:
+      inventory: 'flying ass'
+  },
+  {
+    num: 65
+    msg: 'You hunted an ordinary rabbit. It\'s going in your inventory.. Hunt again?'
+    props:
+      inventory: 'wabbit'
+  },
+  {
+    num: 75
+    msg: 'You hunted a pegavis! It\'s going in your inventory.. Hunt again?'
+    props:
+      inventory: 'Pegavis'
+  },
+  {
+    num: 76
+    msg: 'You hunted a bug... but it is not a bug, it is feature. Hunt again?'
+    props:
+      inventory: 'feature'
+  },
+  {
+    num: 100,
+    msg: 'You\'ve been raided by imps! -50 money. Try again?'
+    props:
+      money: -50
+  }
+]
+huntchoose = ->
+  random = Math.random() * hunts[-1..][0].num
+  for hunt in hunts
+    if random <= hunt.num
+      cur = hunt
+      break
+  question = prompt cur.msg
+    .toUpperCase()
+  if 'props' of cur
+    props = cur.props
+    money += props.money if 'money' of props
+    check()
+    armor += props.armor if 'armor' of props
+    inventory.push props.inventory if 'inventory' of props
+  switch question
+    when 'YES' then huntchoose()
+    when 'NO'
+      displayToPlayer 'Heading back...'
+      setTimeout (-> forestchoose()), 1600
+    else
+      displayToPlayer 'Not an option'
+      setTimeout (-> forestchoose()), 1600
+cavechoose = ->
+    if key is 0
+      if Math.random() * 100 + 1 <= 20
+        displayToPlayer 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
+        if armor >= 16 and weapon >= 12
+          setTimeout (->
+            displayToPlayer 'You kill the spider-skeleton. Let\'s enter.'
+            cavechoose()
+          ), 1500
+        else
+          setTimeout (->
+            displayToPlayer 'You were too weak to fight the spider-skeleton-dungeon-keeper. Get better equipment'
+            townchoose()
+          ), 1500
+      else
+        displayToPlayer 'we have entered the cave.'
+        setTimeout (->
+          displayToPlayer 'it\'s dark, you cant see anything'
+          setTimeout (->
+            displayToPlayer 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
+            current = currents.cave
+          ), 1500
+        ), 1500
+    else
+      confirm 'there is nothing here for you'
+      townchoose()
+beachchoose = ->
+  displayToPlayer 'We are at the beach. Fish, swim, or leave?'
+  current = currents.beach
+fishing = ->
+    if rod <= 15
+      random = Math.floor(Math.random() * fishes.length + 1)
+      if random >= fishes.length
+        displayToPlayer 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
+        rod += 3
+        money -= 10
+        check()
+        current = currents.fishing
+      else
+        displayToPlayer "#{name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
+        inventory.push(fishes[random])
+        current = currents.fishing
+    else
+      displayToPlayer "Your rod has #{rod} damage! Go fix it at the town!"
+      setTimeout (-> beachchoose()), 1500
+swimming = ->
+  random = Math.floor Math.random() * swimmingOutcomes.length + 1
+  if random >= swimmingOutcomes.length
+    displayToPlayer "#{name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
+    money /= 2
+    setTimeout (-> townchoose()), 3000
+  else
+    displayToPlayer "#{swimmingOutcomes[random][0]}. Dive in again?"
+    money += swimmingOutcomes[random][1]
+    check()
+    if swimmingOutcomes[random][2]
+      setTimeout (->
+        inventory.push(swimmingOutcomes[random][2])
+        displayToPlayer "Added #{swimmingOutcomes[random][2]} to inventory"
+      ), 1500
+    setTimeout (->
+      current = currents.swimming
+    ), 3200
+townchoose = ->
+  switch
+    when lvl >= 3 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
+    when lvl == 2 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
+    else displayToPlayer '=TOWN= Work, fix, sell, safe, beach =TOWN='
+  current = currents.town
+choosework = ->
+  random = Math.random() * 10 + 1
+  switch
+    when random <= 2
+      displayToPlayer "You go to the library and help out with storing while you've gained experience from reading. Also you get paid"
+      money += 25
+      xp += 1
+      console.log "You have #{xp}xp! Money: #{money}"
+      check()
+      setTimeout (-> townchoose()), 2500
+    when random >= 8
+      displayToPlayer 'While looking for a job you get robbed. You lose 10 money!'
+      money -= 10
+      check()
+      console.log "Money: #{money}"
+      setTimeout (-> townchoose()), 2500
+    when random <= 4
+      displayToPlayer 'You work at the pub and get paid 15 money!'
+      money += 15
+      console.log "Money:  #{money}"
+      setTimeout (-> townchoose()), 2500
+    when random <= 7
+      displayToPlayer 'You go to the local car wash and gain some experience!'
+      xp += 1
+      console.log "You have #{xp}xp!"
+      check()
+      setTimeout (-> townchoose()), 2500
+    else
+      displayToPlayer 'No one wants to hire you! Tough luck.'
+      setTimeout (-> townchoose()), 2500
