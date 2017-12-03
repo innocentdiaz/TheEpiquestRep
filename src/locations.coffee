@@ -8,7 +8,7 @@ current = ->
 currents =
   name: ->
     user.name = question
-    displayToPlayer "Let us begin, #{user.name}!"
+    displayToPlayer "Let us begin, #{ user.name}!"
     townchoose()
   town: ->
     switch question.toUpperCase()
