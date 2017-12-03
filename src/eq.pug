@@ -9,13 +9,13 @@ doctype html
   const scripts = [//scripts
     'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',//jquery
     'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',//bootstrrap
-    'functions.js',//global functions for the game
     'maingame.js',//main game functions
+    'functions.js',//global functions for the game
     'locations.js'//locations of the game
   ]
 html#body(lang='en')
   head
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(user.name='viewport' content='width=device-width, initial-scale=1.0')
     meta(charset='utf-8')
     link(rel='icon' type='image/png' href='../static/EQF.png')
     each style in styles
@@ -28,6 +28,7 @@ html#body(lang='en')
     br
     #controls
       h2#display
+      h3#stats
       input#inputBox(type='text' placeholder='type here...' onkeypress='submit()')
       button#commies(onclick='showme()') See stats
       br

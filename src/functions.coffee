@@ -1,5 +1,5 @@
 question = ''
-inventory = []
+# user.inventory = []
 submit = ->
   keyCode = event.which || event.keyCode
   if keyCode is 13
@@ -7,8 +7,11 @@ submit = ->
     $('#inputBox').val ''
     current()
     console.log "question = #{question}"
-push = (item) -> inventory.push(item)
-showme = -> alert "NAME: #{name}\nMONEY, SAFE AND ROD: #{money}, #{safe}, #{rod}\nLVL AND XP: #{lvl}, #{xp}\nARMOR AND WEAPON: #{armor}, #{weapon}"
+push = (item) -> user.inventory.push item
+showme = -> alert "NAME: #{user.name}\nMONEY, SAFE AND ROD: #{user.money}, #{user.safe}, #{user.rod}\nLVL AND XP: #{user.lvl}, #{user.xp}\nARMOR AND WEAPON: #{user.armor}, #{user.weapon}"
+updatestats = ->
+  $ '#stats'
+    .html "Name: #{user.name} Money: #{user.money} Safe: #{user.safe} Rod: #{user.rod} Level: #{user.lvl} XP: #{user.xp} Armor: #{user.armor} Weapon: #{user.weapon}"
 playtheme = (selected) ->
   switch (selected)
     when 'mario'

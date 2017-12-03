@@ -1,5 +1,5 @@
 {
-  "name": "epiquest",
+  "user.name": "epiquest",
   "version": "1.0.0",
   "description": "=====EPIQUEST=====",
   "main": "beachlocation.js",
