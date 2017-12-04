@@ -1,11 +1,11 @@
 question = ''
-current = ->
+window.current =
 # money = 0
 # safe = 0
 # rod = 0
 # key = 0
 # name = ''
-currents =
+window.currents =->
   name: ->
     user.name = question
     displayToPlayer "Let us begin, #{ user.name}!"

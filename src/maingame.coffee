@@ -1,10 +1,22 @@
-$ ->
+$ ->#when the button is clicked, start game. See line 5
+  $('#startGameBtn').click ->
+    start()
+
+start = ->
   $ '#controls,#commies'
+    .show()
+  $ '#display'
+    .show()
+  $ '.button'
     .hide()
+  displayToPlayer 'What is your name?'
+  current = currents.name
+
+console.log(start)
 question = ''
-current = ->
+window.current = ->
 mario = new Audio '../static/dire.mp3'
-u =
+window.user = ->
   name: ''
   lvl: 1
   xp: 0
@@ -15,7 +27,7 @@ u =
   armor: 0
   weapon: 0
   key: 1
-user = new Proxy u, {
+user = new Proxy user, {
   set: (t, p, v) ->
     t[p] = v
     updatestats()
@@ -33,13 +45,7 @@ swimmingOutcomes = [
   ['Dived in and came out with a book.', 0, 'Book']
 ]
 
-start = ->
-  $ '#controls,#commies'
-    .show()
-  $ '.button'
-    .hide()
-  displayToPlayer 'What is your name?'
-  current = currents.name
+
 win = ->
   $ '#mainh'
    .html user.name

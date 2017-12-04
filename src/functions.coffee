@@ -1,12 +1,7 @@
+window.displayToPlayer = (message) -> $('#display').html message
 question = ''
 # user.inventory = []
-submit = ->
-  keyCode = event.which || event.keyCode
-  if keyCode is 13
-    question = $('#inputBox').val()
-    $('#inputBox').val ''
-    current()
-    console.log "question = #{question}"
+
 push = (item) -> user.inventory.push item
 showme = -> alert "NAME: #{user.name}\nMONEY, SAFE AND ROD: #{user.money}, #{user.safe}, #{user.rod}\nLVL AND XP: #{user.lvl}, #{user.xp}\nARMOR AND WEAPON: #{user.armor}, #{user.weapon}"
 updatestats = ->
@@ -35,4 +30,5 @@ daymode = ->
   $ '#display'
     .css 'border-color', 'black'
 
-displayToPlayer = (message) -> $('#display').html message
+
+
