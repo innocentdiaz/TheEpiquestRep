@@ -14,7 +14,7 @@ LANGUAGES/REQUIERMENTS:
 *LESS
 
 CURRENT-GOALS:
-*git checkout abcd townchoose.coffee
+*fix new Proxy, returns undefined.
 *Fix :current(): function bug
 *Bind status-variables to bar on HTML, making it visible always
 *Add music 
