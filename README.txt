@@ -4,9 +4,7 @@ This is a web based game I made in a week some months ago, and now I want to fix
 
 
 LANGUAGES/REQUIERMENTS:
-**GULP ~ Gulp is a compiler
-($npm install gulp-cli -g)
-($path/to/gulp -v)
+*Compiler: Preferably GULP or Prepos
 
 *HTML/CSS
 *JS
