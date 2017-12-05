@@ -12,7 +12,7 @@ doctype html
     'maingame.js',//main game functions
     'functions.js',//global functions for the game
     'locations.js',//locations of the game
-    'globalfunctions.js'//global functions that coffeescript cant handle
+    // 'globalfunctions.js'//global functions that coffeescript cant handle
   ]
 html#body(lang='en')
   head
@@ -30,10 +30,12 @@ html#body(lang='en')
     #controls
       h2#display Display
       h3#stats
-      input#inputBox(type='text' placeholder='type here...' onkeypress='submit(event)')
-      button#commies(onclick='showme()') See stats
+      form
+        input#inputBox(type='text' placeholder='type here...')
+        button#submit ABC
+        //- button#commies(onclick='showme()') See stats
       br
-    button( class='button btn btn-block btn-primary' id="startGameBtn") Start Game
+    button(class='button btn btn-block btn-primary' id="startGameBtn") Start Game
     br
     button(class='btn btn-block btn-default' onclick='playtheme("mario")') Music
     button(class='btn btn-block btn-default' onclick='nightmode()') Enable night theme

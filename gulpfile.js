@@ -3,6 +3,11 @@ const pug = require('gulp-pug')
 const less = require('gulp-less')
 const coffee = require('gulp-coffeescript')
 
+gulp.task('watch', () => {
+  gulp.watch('src/*.coffee', ['js'])
+  gulp.watch('src/*.pug', ['html'])
+  gulp.watch('src/*.less', ['css'])
+})
 gulp.task('default', ['html', 'css', 'js'])
 gulp.task('html', () =>
   gulp

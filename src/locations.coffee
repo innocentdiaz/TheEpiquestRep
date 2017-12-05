@@ -1,14 +1,15 @@
 question = ''
-window.current =
+current = ->
+# window.current =
 # money = 0
 # safe = 0
 # rod = 0
 # key = 0
 # name = ''
-window.currents =->
+window.currents =
   name: ->
-    user.name = question
-    displayToPlayer "Let us begin, #{ user.name}!"
+    window.user.name = window.question
+    displayToPlayer "Let us begin, #{user.name}!"
     townchoose()
   town: ->
     switch question.toUpperCase()

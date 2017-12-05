@@ -1,22 +1,29 @@
-$ ->#when the button is clicked, start game. See line 5
-  $('#startGameBtn').click ->
-    start()
+# window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
+$ -> # when the button is clicked, start game. See line 5
+  $ '#startGameBtn'
+    .click start
+  $ '#submit'
+    .click ->
+      question = window.question = $('#inputBox').val()
+      $('#inputBox').val('')
+      window.current(question)
+    .parent()
+    .submit (e) -> false
+
 
 start = ->
-  $ '#controls,#commies'
-    .show()
-  $ '#display'
+  $ '#controls,#commies,#display'
     .show()
   $ '.button'
     .hide()
   displayToPlayer 'What is your name?'
-  current = currents.name
+  window.current = currents.name
 
-console.log(start)
+# console.log(start)
 question = ''
 window.current = ->
 mario = new Audio '../static/dire.mp3'
-window.user = ->
+u =
   name: ''
   lvl: 1
   xp: 0
@@ -27,7 +34,7 @@ window.user = ->
   armor: 0
   weapon: 0
   key: 1
-user = new Proxy user, {
+window.user = new Proxy u, {
   set: (t, p, v) ->
     t[p] = v
     updatestats()
