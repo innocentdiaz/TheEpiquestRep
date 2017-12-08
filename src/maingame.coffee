@@ -1,14 +1,22 @@
 # window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
 $ -> # when the button is clicked, start game. See line 5
-  $ '#startGameBtn'
-    .click start
   $ '#submit'
     .click ->
       question = window.question = $('#inputBox').val()
       $('#inputBox').val('')
       window.current(question)
     .parent()
-    .submit (e) -> false
+    .submit -> false
+  $ '.sound'
+    .click ->
+      el = $ this
+      if el.hasClass 'off'
+        mario.play()
+      else
+        mario.pause()
+      el.toggleClass 'off'
+
+  start()
 
 
 start = ->
@@ -23,6 +31,7 @@ start = ->
 question = ''
 window.current = ->
 mario = new Audio '../static/dire.mp3'
+mario.looped = true
 u =
   name: ''
   lvl: 1
@@ -63,7 +72,7 @@ win = ->
   user.money += 500
   user.rod = -100
   showme()
-  displayToPlayer('You are the strongest hero go back to town?')
+  displayToPlayer 'You are the strongest hero go back to town?'
   current = currents.win
 check = ->
   if user.xp >= 10

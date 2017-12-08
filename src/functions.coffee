@@ -5,8 +5,16 @@ question = ''
 push = (item) -> user.inventory.push item
 showme = -> alert "NAME: #{user.name}\nMONEY, SAFE AND ROD: #{user.money}, #{user.safe}, #{user.rod}\nLVL AND XP: #{user.lvl}, #{user.xp}\nARMOR AND WEAPON: #{user.armor}, #{user.weapon}"
 updatestats = ->
-  $ '#stats'
-    .html "Name: #{user.name} Money: #{user.money} Safe: #{user.safe} Rod: #{user.rod} Level: #{user.lvl} XP: #{user.xp} Armor: #{user.armor} Weapon: #{user.weapon}"
+  # $ '#stats'
+    # .html "Name: #{user.name} Money: #{user.money} Safe: #{user.safe} Rod: #{user.rod} Level: #{user.lvl} XP: #{user.xp} Armor: #{user.armor} Weapon: #{user.weapon}"
+  $('#name').text user.name
+  $('#money').text user.money
+  $('#safe').text user.safe
+  $('#rod').text user.rod
+  $('#level').text user.lvl
+  $('#xp').text user.xp
+  $('#armor').text user.armor
+  $('#weapon').text user.weapon
 playtheme = (selected) ->
   switch (selected)
     when 'mario'
@@ -29,6 +37,3 @@ daymode = ->
     .css 'background-color', 'green'
   $ '#display'
     .css 'border-color', 'black'
-
-
-
