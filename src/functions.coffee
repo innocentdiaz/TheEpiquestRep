@@ -15,6 +15,7 @@ updatestats = ->
   $('#xp').text user.xp
   $('#armor').text user.armor
   $('#weapon').text user.weapon
+  localStorage.player = JSON.stringify(user)
 playtheme = (selected) ->
   switch (selected)
     when 'mario'

@@ -19,19 +19,6 @@ $ -> # when the button is clicked, start game. See line 5
   start()
 
 
-start = ->
-  $ '#controls,#commies,#display'
-    .show()
-  $ '.button'
-    .hide()
-  displayToPlayer 'What is your name?'
-  window.current = currents.name
-
-# console.log(start)
-question = ''
-window.current = ->
-mario = new Audio '../static/dire.mp3'
-mario.looped = true
 u =
   name: ''
   lvl: 1
@@ -43,11 +30,32 @@ u =
   armor: 0
   weapon: 0
   key: 1
-window.user = new Proxy u, {
-  set: (t, p, v) ->
-    t[p] = v
+window.user = null
+start = ->
+  $ '#controls,#commies,#display'
+    .show()
+  $ '.button'
+    .hide()
+  if 'player' of localStorage
+    u = JSON.parse(localStorage.player)
+    createUser()
+    townchoose()
     updatestats()
-}
+  else
+    createUser()
+    displayToPlayer 'What is your name?'
+    window.current = currents.name
+createUser = ->
+  window.user = new Proxy u, {
+    set: (t, p, v) ->
+      t[p] = v
+      updatestats()
+  }
+# console.log(start)
+question = ''
+window.current = ->
+mario = new Audio '../static/dire.mp3'
+mario.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 # array of outcome of swimming. has description, money and/or items
 swimmingOutcomes = [
