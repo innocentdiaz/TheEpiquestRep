@@ -2,8 +2,14 @@
 	box-sizing: border-box;
 }
 body {
+	font-family: 'Kalam', cursive;
+	color: #795419;
 	font-size: 140%;
-	padding:0;
+	padding: 0;
+	background: url(../static/back.jpg);
+	background-size: cover;
+	min-height: 100vh;
+	background-position: center;
 }
 button:hover {
 	box-shadow:2px,2px black;
@@ -21,7 +27,7 @@ button:hover {
   }
 }
 #controls, #commies {
-	display: none;
+	// display: none;
 	text-align: center;
 }
 #display {
@@ -30,15 +36,17 @@ button:hover {
 	margin:auto;
 }
 #mainh {
-	font-family: 'Teko', sans-serif, Arial;
-	color:red;
+	// font-family: 'Teko', sans-serif, Arial;
+	font-family: 'Kalam', cursive;
+	color: #795419;
 	margin: auto;
 	text-align: center;
 	display: block;
-	border-width: 7px 0 7px 0;
-	border-color: red;
-	border-style: solid;
-	width:45%;
+	margin-top: 10px;
+	// border-width: 7px 0 7px 0;
+	// border-color: red;
+	// border-style: solid;
+	width: 45%;
 }
 #maph {
 	margin: auto;
@@ -100,10 +108,99 @@ img {
 	color: white;
 	border-radius: 50%;
 }
-#links a:hover{
+#links a:hover {
 	opacity: .7;
 }
 #links h1 {
 	margin: auto;
 	font-weight: bold;
+}
+.github-corner:hover .octo-arm {
+	animation: octocat-wave 560ms ease-in-out;
+}
+@keyframes octocat-wave {
+	0%, 100% {
+		transform: rotate(0);
+	}
+	20%, 60% {
+		transform: rotate(-25deg);
+	}
+	40%, 80% {
+		transform: rotate(10deg)
+	}
+}
+@media (max-width: 500px) {
+	.github-corner:hover .octo-arm {
+		animation:none
+	}
+	.github-corner .octo-arm {
+		animation:octocat-wave 560ms ease-in-out
+	}
+}
+#stats > span {
+	display: inline-block;
+	height: 45px;
+	font-size: 25px;
+	vertical-align: bottom;
+	margin: 0 10px;
+}
+.bar > * {
+	display: inline-block;
+}
+.sound {
+	background: url(../static/sound-on.png);
+	background-size: contain;
+	width: 45px;
+	height: 45px;
+	&.off {
+		background: url(../static/sound-off.png);
+		background-size: contain;
+	}
+}
+.mode {
+	background: url(../static/sun-cloud.png);
+	background-size: contain;
+	width: 45px;
+	height: 45px;
+	&.night {
+		background: url(../static/moon.png);
+		background-size: contain;
+	}
+}
+.icon {
+	width: 45px;
+	height: 45px;
+	display: inline-block;
+	&.name {
+		background: url(../static/plain-dagger.png);
+		background-size: contain;
+	}
+	&.money {
+		background: url(../static/cash.png);
+		background-size: contain;
+	}
+	&.safe {
+		background: url(../static/piggy-bank.png);
+		background-size: contain;
+	}
+	&.rod {
+		background: url(../static/fishing-pole.png);
+		background-size: contain;
+	}
+	&.level {
+		background: url(../static/medal.png);
+		background-size: contain;
+	}
+	&.xp {
+		background: url(../static/upgrade.png);
+		background-size: contain;
+	}
+	&.armor {
+		background: url(../static/lamellar.png);
+		background-size: contain;
+	}
+	&.weapon {
+		background: url(../static/pointy-sword.png);
+		background-size: contain;
+	}
 }

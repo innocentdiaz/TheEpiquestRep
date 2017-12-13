@@ -1,1 +1,0 @@
-(function(){var n,e,t;$(function(){return $("#controls,#commies").hide()}),n=function(){},new Audio("../static/dire.mp3"),e={name:"",lvl:1,xp:0,inventory:[],money:0,safe:0,rod:0,armor:0,weapon:0,key:1},t=new Proxy(e,{set:function(n,e,t){return n[e]=t,updatestats()}})}).call(this);

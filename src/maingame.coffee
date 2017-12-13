@@ -1,22 +1,25 @@
-$ ->#when the button is clicked, start game. See line 5
-  $('#startGameBtn').click ->
-    start()
+# window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
+$ -> # when the button is clicked, start game. See line 5
+  $ '#submit'
+    .click ->
+      question = window.question = $('#inputBox').val()
+      $('#inputBox').val('')
+      window.current(question)
+    .parent()
+    .submit -> false
+  $ '.sound'
+    .click ->
+      el = $ this
+      if el.hasClass 'off'
+        mario.play()
+      else
+        mario.pause()
+      el.toggleClass 'off'
 
-start = ->
-  $ '#controls,#commies'
-    .show()
-  $ '#display'
-    .show()
-  $ '.button'
-    .hide()
-  displayToPlayer 'What is your name?'
-  current = currents.name
+  start()
 
-console.log(start)
-question = ''
-window.current = ->
-mario = new Audio '../static/dire.mp3'
-window.user = ->
+
+u =
   name: ''
   lvl: 1
   xp: 0
@@ -27,11 +30,32 @@ window.user = ->
   armor: 0
   weapon: 0
   key: 1
-user = new Proxy user, {
-  set: (t, p, v) ->
-    t[p] = v
+window.user = null
+start = ->
+  $ '#controls,#commies,#display'
+    .show()
+  $ '.button'
+    .hide()
+  if 'player' of localStorage
+    u = JSON.parse(localStorage.player)
+    createUser()
+    townchoose()
     updatestats()
-}
+  else
+    createUser()
+    displayToPlayer 'What is your name?'
+    window.current = currents.name
+createUser = ->
+  window.user = new Proxy u, {
+    set: (t, p, v) ->
+      t[p] = v
+      updatestats()
+  }
+# console.log(start)
+question = ''
+window.current = ->
+mario = new Audio '../static/dire.mp3'
+mario.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 # array of outcome of swimming. has description, money and/or items
 swimmingOutcomes = [
@@ -56,7 +80,7 @@ win = ->
   user.money += 500
   user.rod = -100
   showme()
-  displayToPlayer('You are the strongest hero go back to town?')
+  displayToPlayer 'You are the strongest hero go back to town?'
   current = currents.win
 check = ->
   if user.xp >= 10
