@@ -94,35 +94,51 @@ window.currents =
         if user.money >= 1
           user.safe += user.money
           user.money = 0
-          displayToPlayer 'You stored all your money in the safe'
-          setTimeout (-> townchoose()), 1500
+          game
+            .action display 'You stored all your money in the safe'
+            .action delay 1500
+            .action townchoose
         else
-          displayToPlayer 'You have no money!'
-          setTimeout (-> townchoose()), 1500
+          game
+            .action display 'You have no money!'
+            .action delay 1500
+            .action townchoose
       when 'RECOVER'
         if user.safe >= 1
           user.money += user.safe
           user.safe = 0
-          displayToPlayer 'You recovered all your money from the safe'
-          setTimeout (-> townchoose()), 1500
+          game
+            .action display 'You recovered all your money from the safe'
+            .action delay 1500
+            .action townchoose
         else
-          displayToPlayer 'There is nothing in the safe!'
-          setTimeout (-> townchoose()), 1500
+          game
+            .action display 'There is nothing in the safe!'
+            .action delay 1500
+            .action townchoose
   beach: ->
     switch question.toUpperCase()
       when 'FISH'
         if user.rod <= 15
-          displayToPlayer('You go to fish!')
-          setTimeout (-> fishing()), 1500
+          game
+            .action display 'You go to fish!'
+            .action delay 1500
+            .action fishing
         else
-          displayToPlayer "#{user.rod}dmg"
-          beachchoose()
+          game
+            .action display "#{user.rod}dmg"
+            .action delay 1500
+            .action beachchoose
       when 'SWIM'
-        displayToPlayer('You go swimming..')
-        setTimeout swimming(), 1500
+        game
+          .action display 'You go swimming'
+          .action delay 1500
+          .action swimming
       when 'LEAVE'
-        displayToPlayer 'going to town'
-        setTimeout (-> townchoose()), 1600
+        game
+          .action display 'Going to town'
+          .action delay 1500
+          .action townchoose
   fishing: ->
     switch question.toUpperCase()
       when 'YES' then fishing()
@@ -133,53 +149,65 @@ window.currents =
       when 'NO' then beachchoose()
   win: ->
     if question.toUpperCase() is 'YES' then townchoose()
-    else displayToPlayer "Thank you for playing, #{user.name}!"
+    else game.action display "Thank you for playing, #{user.name}!"
   forest: ->
     switch question.toUpperCase()
       when 'ARENA'
-        displayToPlayer 'You head to the arena....'
-        setTimeout (-> arenachoose()), 2200
+        game
+          .action display 'You head to the arena....'
+          .action delay 1500
+          .action arenachoose
       when 'SHOP'
-        displayToPlayer 'You are greeted by a cartoonish goblin named floop-flop'
-        setTimeout (-> displayToPlayer 'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'), 2000
-        setTimeout (->
-          floop()
-          setTimeout (-> current()), 10
-        ), 3200
+        game
+          .action display 'You are greeted by a cartoonish goblin named floop-flop'
+          .action delay 1500
+          .action display  'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'
+          .action delay 1500
+          .action display 'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
+          .action delay 1500
+          .action cur 'floop'
       when 'HUNT'
-        displayToPlayer 'You head to the hunting grounds...'
-        setTimeout (-> huntchoose()), 1500
+        game
+          .action display 'You head to the hunting grounds...'
+          .action delay 1500
+          .action huntchoose
       when 'LEAVE'
-        displayToPlayer 'You head to the town'
-        setTimeout (-> townchoose()), 1600
+        game
+          .action display 'You head to the town'
+          .action delay 1500
   floop: ->
-    displayToPlayer 'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
     switch question.toUpperCase()
       when 'ARMOR'
         if user.money >= 20
-          displayToPlayer 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
           user.armor += 1
           user.money -= 20
           check()
-          console.log "Money: #{user.money}. Armor: #{user.armor}"
-          current = currents.floop
+          game
+            .action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
+            .action delay 1500
+            .action cur 'floop'
         else
-          displayToPlayer 'Not enough money! Armor, weapon or leave?'
-          current = currents.floop
+          game
+            .action display 'Not enough money! Armor, weapon or leave?'
+            .action delay 1500
+            .action cur 'floop'
       when 'WEAPON'
         if user.money >= 15
-          displayToPlayer 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
           user.weapon += 1
           user.money -= 15
           check()
-          console.log "Money: #{user.money}. Weapon: #{user.weapon}"
-          current = currents.floop
+          game
+            .action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
+            .action delay 1500
+            .action cur 'floop'
         else
           displayToPlayer 'Not enough money! Armor, weapon or leave?'
           current = currents.floop
       when 'LEAVE'
-        displayToPlayer 'Floop: floop ya\' lateR PARTNR\''
-        setTimeout (-> forestchoose()), 2000
+        game
+          .action display 'Floop: floop ya\' lateR PARTNR\''
+          .action delay 1500
+          .action forestchoose
   arena: ->
     switch question.toUpperCase()
       when 'YES'
