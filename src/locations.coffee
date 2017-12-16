@@ -6,57 +6,88 @@ current = ->
 # rod = 0
 # key = 0
 # name = ''
+display = (msg) ->
+  (n) ->
+    displayToPlayer msg
+    n()
+cur = (c) ->
+  (n) ->
+    current = currents[c]
+    n()
 window.currents =
   name: ->
     window.user.name = window.question
-    displayToPlayer "Let us begin, #{user.name}!"
-    townchoose()
+    game
+      .action display "Let us begin, #{user.name}!"
+      .action delay 1500
+      .action townchoose
   town: ->
     switch question.toUpperCase()
       when 'WORK' then choosework()
       when 'FIX'
-        displayToPlayer "Fixing your rod will cost you #{user.rod} money. Are you sure?"
-        current = currents.fix
+        game
+          .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
+          .action delay 1500
+          .action cur 'fix'
       when user.inventory.length >= 1 and 'SELL'
-        displayToPlayer "your items are: #{user.inventory.join(', ')}. Sell?"
-        current = currents.sell
+        game
+          .action display "Your items are: #{user.inventory.join(', ')}. Sell?"
+          .action cur 'sell'
       when user.inventory.length < 1 and 'SELL'
-        displayToPlayer 'You have no items in your inventory..'
-        setTimeout (-> townchoose()), 1800
+        game
+          .action display 'You have no items in your inventory..'
+          .action delay 1500
+          .action townchoose
       when 'STATS' then showme()
       when 'BEACH' then beachchoose()
       when  user.lvl >= 2 and 'FOREST'
-        displayToPlayer 'We are on our way to the enchanted forest.......'
-        setTimeout (-> forestchoose()), 1500
+        game
+          .action display 'We are on our way to the enchanted forest.......'
+          .action delay 1500
+          .action forestchoose
       when user.lvl >= 3 and 'CAVE'
-        displayToPlayer 'We are on our way to the cave.......'
-        setTimeout (-> cavechoose()), 1500
+        game
+          .action display 'We are on our way to the cave.......'
+          .action delay 1500
+          .action cavechoose
       when 'SAFE'
-        displayToPlayer 'Store your money or recover it?'
-        current = currents.safe
+        game
+          .action display 'Store your money or recover it?'
+          .action delay 1500
+          .action cur 'safe'
       else
-        displayToPlayer 'Thats not an option'
+        game
+          .action display 'Thats not an option'
+          .action delay 1500
   fix: ->
     switch question.toUpperCase()
       when 'YES'
         if user.money >= user.rod
           user.money -= user.rod
           user.rod = 0
-          displayToPlayer "You have #{user.money} money and #{user.rod} dmg!"
-          setTimeout (-> townchoose()), 2000
+          game
+            .action display "You have #{user.money} money and #{user.rod} dmg!"
+            .action delay 1500
+            .action townchoose
         else
-          displayToPlayer 'Not enough money'
-          setTimeout (-> townchoose()), 2000
+          game
+            .action display 'Not enough money'
+            .action delay 1500
+            .action townchoose
       when 'NO' then townchoose()
   sell: ->
     switch
       when 'YES'
         user.money += user.inventory.length * 2.5
         user.inventory.length = 0
-        displayToPlayer "You have sold all your items. Your money is #{user.money}."
-        setTimeout (-> townchoose()), 2000
+        game
+          .action display "You have sold all your items. Your money is #{user.money}."
+          .action delay 1500
+          .action townchoose
       when 'NO'
-        setTimeout (-> townchoose()), 2000
+        game
+          .action delay 1500
+          .action townchoose
   safe: ->
     switch question.toUpperCase()
       when 'STORE'
@@ -275,14 +306,16 @@ window.currents =
       check()
       console.log user.money
       setTimeout townchoose, 1500
-forestchoose = ->
+forestchoose = (n) ->
   displayToPlayer 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
   current = currents.forest
+  if n then n()
 floop = ->
   current = currents.floop
-arenachoose = ->
+arenachoose = (n) ->
   displayToPlayer 'You arrive at the \'Dome of Death\'. Fight?'
   current = currents.arena
+  if n then n()
 hunts = [
   {
     num: 10
@@ -349,7 +382,7 @@ hunts = [
       money: -50
   }
 ]
-huntchoose = ->
+huntchoose = (n) ->
   random = Math.random() * hunts[-1..][0].num
   for hunt in hunts
     if random <= hunt.num
@@ -371,7 +404,8 @@ huntchoose = ->
     else
       displayToPlayer 'Not an option'
       setTimeout (-> forestchoose()), 1600
-cavechoose = ->
+  if n then n()
+cavechoose = (n) ->
     if key is 0
       if Math.random() * 100 + 1 <= 20
         displayToPlayer 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
@@ -397,10 +431,12 @@ cavechoose = ->
     else
       confirm 'there is nothing here for you'
       townchoose()
-beachchoose = ->
+    if n then n()
+beachchoose = (n) ->
   displayToPlayer 'We are at the beach. Fish, swim, or leave?'
   current = currents.beach
-fishing = ->
+  if n then n()
+fishing = (n) ->
     if user.rod <= 15
       random = Math.floor(Math.random() * fishes.length + 1)
       if random >= fishes.length
@@ -416,7 +452,8 @@ fishing = ->
     else
       displayToPlayer "Your rod has #{user.rod} damage! Go fix it at the town!"
       setTimeout (-> beachchoose()), 1500
-swimming = ->
+    if n then n()
+swimming = (n) ->
   random = Math.floor Math.random() * swimmingOutcomes.length + 1
   if random >= swimmingOutcomes.length
     displayToPlayer "#{user.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
@@ -434,13 +471,15 @@ swimming = ->
     setTimeout (->
       current = currents.swimming
     ), 3200
-townchoose = ->
+    if n then n()
+townchoose = (n) ->
   switch
     when user.lvl >= 3 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
     when user.lvl == 2 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
     else displayToPlayer '=TOWN= Work, fix, sell, safe, beach =TOWN='
   current = currents.town
-choosework = ->
+  if n then n()
+choosework = (n) ->
   random = Math.random() * 10 + 1
   switch
     when random <= 2
@@ -470,3 +509,4 @@ choosework = ->
     else
       displayToPlayer 'No one wants to hire you! Tough luck.'
       setTimeout (-> townchoose()), 2500
+  if n then n()
