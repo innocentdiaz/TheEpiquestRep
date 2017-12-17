@@ -519,8 +519,10 @@ cavechoose = (n) ->
         .action townchoose
     if n then n()
 beachchoose = (n) ->
-  displayToPlayer 'We are at the beach. Fish, swim, or leave?'
-  current = currents.beach
+  game
+    .action display 'We are at the beach. Fish, swim, or leave?'
+    .action delay 1500
+    .action cur 'beach'
   if n then n()
 fishing = (n) ->
     if user.rod <= 15
