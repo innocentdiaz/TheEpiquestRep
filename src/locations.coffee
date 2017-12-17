@@ -85,9 +85,7 @@ window.currents =
           .action delay 1500
           .action townchoose
       when 'NO'
-        game
-          .action delay 1500
-          .action townchoose
+        game.action townchoose
   safe: ->
     switch question.toUpperCase()
       when 'STORE'
