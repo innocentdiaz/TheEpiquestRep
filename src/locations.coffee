@@ -173,6 +173,7 @@ window.currents =
         game
           .action display 'You head to the town'
           .action delay 1500
+          .action townchoose
   floop: ->
     switch question.toUpperCase()
       when 'ARMOR'
@@ -486,7 +487,7 @@ huntchoose = (n) ->
     user.inventory.push props.inventory if 'inventory' of props
   if n then n()
 cavechoose = (n) ->
-    if key is 0
+    if user.key is 0
       if Math.random() * 100 + 1 <= 20
         game
           .action display 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
