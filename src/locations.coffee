@@ -377,7 +377,7 @@ window.currents =
         .action delay 1500
         .action townchoose
   hunt: ->
-    switch question
+    switch question.toUpperCase()
       when 'YES' then huntchoose()
       when 'NO'
         game
