@@ -76,7 +76,7 @@ window.currents =
             .action townchoose
       when 'NO' then townchoose()
   sell: ->
-    switch
+    switch question.toUpperCase()
       when 'YES'
         user.money += user.inventory.length * 2.5
         user.inventory.length = 0
