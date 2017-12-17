@@ -550,21 +550,23 @@ fishing = (n) ->
 swimming = (n) ->
   random = Math.floor Math.random() * swimmingOutcomes.length + 1
   if random >= swimmingOutcomes.length
-    displayToPlayer "#{user.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
     user.money /= 2
-    setTimeout (-> townchoose()), 3000
+    game
+      .action display "#{user.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
+      .action delay 1500
+      .action townchoose
   else
-    displayToPlayer "#{swimmingOutcomes[random][0]}. Dive in again?"
     user.money += swimmingOutcomes[random][1]
     check()
+    game
+      .action display "#{swimmingOutcomes[random][0]}. Dive in again?"
+      .action delay 1500
     if swimmingOutcomes[random][2]
-      setTimeout (->
-        user.inventory.push(swimmingOutcomes[random][2])
-        displayToPlayer "Added #{swimmingOutcomes[random][2]} to inventory"
-      ), 1500
-    setTimeout (->
-      current = currents.swimming
-    ), 3200
+      user.inventory.push(swimmingOutcomes[random][2])
+      game
+        .action display "Added #{swimmingOutcomes[random][2]} to inventory"
+        .action delay 1500
+    game.action cur 'swimming'
     if n then n()
 townchoose = (n) ->
   switch
