@@ -570,10 +570,19 @@ swimming = (n) ->
     if n then n()
 townchoose = (n) ->
   switch
-    when user.lvl >= 3 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
-    when user.lvl == 2 then displayToPlayer '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
-    else displayToPlayer '=TOWN= Work, fix, sell, safe, beach =TOWN='
-  current = currents.town
+    when user.lvl >= 3
+      game
+        .action display '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
+        .action delay 1500
+    when user.lvl == 2
+      game
+        .action display '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
+        .action delay 1500
+    else
+      game
+        .action display '=TOWN= Work, fix, sell, safe, beach =TOWN='
+        .action delay 1500
+  game.action cur 'town'
   if n then n()
 choosework = (n) ->
   random = Math.random() * 10 + 1
