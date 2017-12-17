@@ -378,15 +378,31 @@ window.currents =
         .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
         .action delay 1500
         .action townchoose
+  hunt: ->
+    switch question
+      when 'YES' then huntchoose()
+      when 'NO'
+        game
+          .action display 'Heading back...'
+          .action delay 1500
+          .action forestchoose
+      else
+        game
+          .action display 'Not an option'
+          .action delay 1500
+          .action forestchoose
 forestchoose = (n) ->
-  displayToPlayer 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
-  current = currents.forest
+  game
+    .action display 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
+    .action delay 1500
+    .action cur 'forest'
   if n then n()
 floop = ->
-  current = currents.floop
+  game.action cur 'floop'
 arenachoose = (n) ->
-  displayToPlayer 'You arrive at the \'Dome of Death\'. Fight?'
-  current = currents.arena
+  game
+    .action display 'You arrive at the \'Dome of Death\'. Fight?'
+    .action cur 'arena'
   if n then n()
 hunts = [
   {
@@ -458,51 +474,49 @@ huntchoose = (n) ->
   random = Math.random() * hunts[-1..][0].num
   for hunt in hunts
     if random <= hunt.num
-      cur = hunt
+      curr = hunt
       break
-  question = prompt cur.msg
-    .toUpperCase()
-  if 'props' of cur
-    props = cur.props
+  game
+    .action display curr.msg
+    .action delay 1500
+    .action cur 'hunt'
+  if 'props' of curr
+    props = curr.props
     user.money += props.money if 'money' of props
     check()
     user.armor += props.armor if 'armor' of props
     user.inventory.push props.inventory if 'inventory' of props
-  switch question
-    when 'YES' then huntchoose()
-    when 'NO'
-      displayToPlayer 'Heading back...'
-      setTimeout (-> forestchoose()), 1600
-    else
-      displayToPlayer 'Not an option'
-      setTimeout (-> forestchoose()), 1600
   if n then n()
 cavechoose = (n) ->
     if key is 0
       if Math.random() * 100 + 1 <= 20
-        displayToPlayer 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
+        game
+          .action display 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
+          .action delay 1500
         if user.armor >= 16 and user.weapon >= 12
-          setTimeout (->
-            displayToPlayer 'You kill the spider-skeleton. Let\'s enter.'
-            cavechoose()
-          ), 1500
+          game
+            .action display 'You kill the spider-skeleton. Let\'s enter.'
+            .action delay 1500
+            .action cavechoose
         else
-          setTimeout (->
-            displayToPlayer 'You were too weak to fight the spider-skeleton-dungeon-keeper. Get better equipment'
-            townchoose()
-          ), 1500
+          game
+            .action display 'You were too weak to fight the spider-skeleton-dungeon-keeper. Get better equipment'
+            .action delay 1500
+            .action townchoose
       else
-        displayToPlayer 'we have entered the cave.'
-        setTimeout (->
-          displayToPlayer 'it\'s dark, you cant see anything'
-          setTimeout (->
-            displayToPlayer 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
-            current = currents.cave
-          ), 1500
-        ), 1500
+        game
+          .action display 'We have entered the cave.'
+          .action delay 1500
+          .action display 'It\'s dark, you cant see anything'
+          .action delay 1500
+          .action display 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
+          .action delay 1500
+          .action cur 'cave'
     else
-      confirm 'there is nothing here for you'
-      townchoose()
+      game
+        .action display 'There is nothing here for you'
+        .action delay 1500
+        .action townchoose
     if n then n()
 beachchoose = (n) ->
   displayToPlayer 'We are at the beach. Fish, swim, or leave?'
