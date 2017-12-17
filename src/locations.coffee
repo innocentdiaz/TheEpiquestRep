@@ -528,18 +528,24 @@ fishing = (n) ->
     if user.rod <= 15
       random = Math.floor(Math.random() * fishes.length + 1)
       if random >= fishes.length
-        displayToPlayer 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
         user.rod += 3
         user.money -= 10
         check()
-        current = currents.fishing
+        game
+          .action display 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
+          .action delay 1500
+          .action cur 'fishing'
       else
-        displayToPlayer "#{user.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
         user.inventory.push(fishes[random])
-        current = currents.fishing
+        game
+          .action display "#{user.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
+          .action delay 1500
+          .action cur 'fishing'
     else
-      displayToPlayer "Your rod has #{user.rod} damage! Go fix it at the town!"
-      setTimeout (-> beachchoose()), 1500
+      game
+        .action display "Your rod has #{user.rod} damage! Go fix it at the town!"
+        .action delay 1500
+        .action beachchoose
     if n then n()
 swimming = (n) ->
   random = Math.floor Math.random() * swimmingOutcomes.length + 1
