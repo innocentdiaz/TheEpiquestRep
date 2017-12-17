@@ -588,30 +588,36 @@ choosework = (n) ->
   random = Math.random() * 10 + 1
   switch
     when random <= 2
-      displayToPlayer "You go to the library and help out with storing while you've gained experience from reading. Also you get paid"
       user.money += 25
       user.xp += 1
-      console.log "You have #{user.xp}xp! Money: #{user.money}"
       check()
-      setTimeout (-> townchoose()), 2500
+      game
+        .action display "You go to the library and help out with storing while you've gained experience from reading. Also you get paid"
+        .action delay 1500
+        .action townchoose
     when random >= 8
-      displayToPlayer 'While looking for a job you get robbed. You lose 10 money!'
       user.money -= 10
       check()
-      console.log "Money: #{user.money}"
-      setTimeout (-> townchoose()), 2500
+      game
+        .action display 'While looking for a job you get robbed. You lose 10 money!'
+        .action delay 1500
+        .action townchoose
     when random <= 4
-      displayToPlayer 'You work at the pub and get paid 15 money!'
       user.money += 15
-      console.log "Money:  #{user.money}"
-      setTimeout (-> townchoose()), 2500
+      game
+        .action display 'You work at the pub and get paid 15 money!'
+        .action delay 1500
+        .action townchoose
     when random <= 7
-      displayToPlayer 'You go to the local car wash and gain some experience!'
       user.xp += 1
-      console.log "You have #{user.xp}xp!"
       check()
-      setTimeout (-> townchoose()), 2500
+      game
+        .action display 'You go to the local car wash and gain some experience!'
+        .action delay 1500
+        .action townchoose
     else
-      displayToPlayer 'No one wants to hire you! Tough luck.'
-      setTimeout (-> townchoose()), 2500
+      game
+        .action display 'No one wants to hire you! Tough luck.'
+        .action delay 1500
+        .action townchoose
   if n then n()
