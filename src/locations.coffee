@@ -282,6 +282,7 @@ window.currents =
             if user.armor >= 4 and user.weapon >= 4
               user.money += 15
               user.xp += 2
+              check()
               game
                 .action display 'You SMACKED the imp! +15 money +2xp'
                 .action delay 1500
