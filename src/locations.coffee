@@ -224,7 +224,7 @@ window.currents =
                 game
                   .action display 'The cave trembles and echoes are heard...'
                   .action delay 1500
-                key = 0
+                user.key = 0
               user.xp += 15
               user.money += 50
               key = 0
