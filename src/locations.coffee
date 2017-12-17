@@ -220,7 +220,7 @@ window.currents =
               game
                 .action display 'You SLAYED THE MUTANT! +15xp, +50money'
                 .action delay 1500
-              if key is 1
+              if user.key is 1
                 game
                   .action display 'The cave trembles and echoes are heard...'
                   .action delay 1500
@@ -229,7 +229,7 @@ window.currents =
               user.money += 50
               key = 0
               check()
-              game.action forestchoose
+              game.action arenachoose
             else
               user.money -= 10
               check()
@@ -248,7 +248,7 @@ window.currents =
               game
                 .action display 'You PWNED SKELETRON and from his aqcuired +20money and +5xp'
                 .action delay 1500
-                .action forestchoose
+                .action arenachoose
             else
               user.xp -= 1
               user.money -= 5
@@ -267,7 +267,7 @@ window.currents =
               game
                 .action display 'You killed the INFECTED GLOB! Gained +10money and +4xp'
                 .action delay 1500
-                .action forestchoose
+                .action arenachoose
             else
               user.money -= 5
               check()
@@ -285,7 +285,7 @@ window.currents =
               game
                 .action display 'You SMACKED the imp! +15 money +2xp'
                 .action delay 1500
-                .action forestchoose
+                .action arenachoose
             else
               user.money -= 3
               check()
@@ -304,7 +304,7 @@ window.currents =
               game
                 .action display 'You FLOOPED those goblins UP +15money +2xp'
                 .action delay 1500
-                .action forestchoose
+                .action arenachoose
             else
               user.money -= 3
               check()
@@ -317,7 +317,7 @@ window.currents =
             game
               .action display 'You fought a boot and won.. +5money'
               .action delay 1500
-              .action forestchoose
+              .action arenachoose
       when 'NO'
         game
           .action display 'You head back...'
