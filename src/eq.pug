@@ -54,13 +54,13 @@ html#body(lang='en')
         span#weapon
     #controls
       h2#display Display
-      form
-        input#inputBox(type='text' placeholder='type here...')
-        button#submit ABC
-    //- button(class='button btn btn-block btn-primary' id='startGameBtn') Start Game
-    //- button(class='btn btn-block btn-default' onclick='playtheme("mario")') Music
-    //- button(class='btn btn-block btn-default' onclick='daymode()') Enable day theme
-    //- button(class='btn btn-block btn-default' onclick='nightmode()') Enable night theme
+      
+      input#inputBox(type='text' placeholder='type here...')
+      button#submit ABC
+      button(class='button-theme btn' id='startGameBtn') Start Game
+      button(class='button-theme btn' onclick='playtheme("mario")') Music
+      button(class='button-theme btn' onclick='daymode()') Enable day theme
+      button(class='button-theme btn' onclick='nightmode()') Enable night theme
     a.github-corner(href='https://github.com/JohnCdf/TheEpiquestRep/' target='_blank')
       svg(
         width='80'
