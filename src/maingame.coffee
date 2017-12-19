@@ -1,3 +1,21 @@
+game =
+  queue: []
+  current: 0
+  nextOn: off
+  next: ->
+    game.nextOn = on
+    if game.current >= game.queue.length
+      game.nextOn = off
+      game.queue = []
+      game.current = 0
+    else game.queue[game.current++](game.next)
+  action: (act) ->
+    @queue.push act
+    if !@nextOn then @next()
+    @
+
+delay = (c) ->
+  (n) => setTimeout n, c
 # window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
 $ -> # when the button is clicked, start game. See line 5
   $ '#submit'
