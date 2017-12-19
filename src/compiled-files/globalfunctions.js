@@ -1,0 +1,1 @@
+var submit=function(event){13==event.keyCode&&(question=$("#inputBox").val(),$("#inputBox").val(""),current(),console.log("question = "+question))};

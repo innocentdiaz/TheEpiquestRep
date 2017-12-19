@@ -28,7 +28,7 @@ button:hover {
   }
 }
 #controls, #commies {
-	// display: none;
+	display: none;//the display will be shown when the game starts
 	text-align: center;
 }
 .button-theme{
@@ -36,7 +36,13 @@ button:hover {
 	display: block;
 	color: white;
 	background-color:saddlebrown;
-	border: 5px solid black;
+	border: 3px solid black;
+}
+::selection {
+  background: black; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: black; /* Gecko Browsers */
 }
 #display {
 	display: none;
