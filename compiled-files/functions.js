@@ -55,7 +55,7 @@ daymode = function() {
 submit = function(event) {
   var keycode;
   keycode = event.keyCode;
-  if (keyCode === 13) {
+  if (keycode === 13) {
     question = $("#inputBox").val();
     $("#inputBox").val("");
     return current();

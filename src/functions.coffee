@@ -40,8 +40,8 @@ daymode = ->
     .css 'border-color', 'black'
 
 submit = (event) -> #moved from globalfunctions.js
-	keycode = event.keyCode
-	if keyCode == 13
-		question = $("#inputBox").val()
-		$("#inputBox").val("")
-		current()
+  keycode = event.keyCode
+  if keycode == 13
+    question = $("#inputBox").val()
+    $("#inputBox").val("")
+    current()
