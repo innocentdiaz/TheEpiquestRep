@@ -72,7 +72,8 @@ createUser = ->
 # console.log(start)
 question = ''
 window.current = ->
-mario = new Audio '../static/dire.mp3'
+mario = new Audio '../static/locust.mp3'
+moneygainFX = new Audio '../static/money-gain.mp3'
 mario.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 # array of outcome of swimming. has description, money and/or items
@@ -106,6 +107,6 @@ check = ->
     confirm "You have leveled up to level #{user.lvl}!"
     user.xp -= 10
     switch user.lvl
-      when 2 then confirm('You can now go to the forest')
-      when 3 then confirm('You can now venture into the cave... At your own risk...')
+      when 2 then alert('You can now go to the forest')
+      when 3 then alert('You can now venture into the cave... At your own risk...')
   if user.money < 0 then user.money = 0

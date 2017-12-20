@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 body {
-	font-family: 'Kalam', cursive;
+	font-family: 'Poiret One', cursive;
 	color: #795419;
 	font-size: 140%;
 	padding: 0;
@@ -11,9 +11,6 @@ body {
 	min-height: 100vh;
 	background-position: center;
 	text-align: center;
-}
-button:hover {
-	box-shadow:2px,2px black;
 }
 .themeClass {
 	width:25%;
@@ -27,107 +24,50 @@ button:hover {
     background-color: red;
   }
 }
-#controls, #commies {
-	display: none;//the display will be shown when the game starts
-	text-align: center;
-}
-.button-theme{
-	margin: auto;
-	display: block;
-	color: white;
-	background-color:saddlebrown;
-	border: 3px solid black;
-}
 ::selection {
-  background: black; /* WebKit/Blink Browsers */
+  background: white; /* WebKit/Blink Browsers */
 }
 ::-moz-selection {
-  background: black; /* Gecko Browsers */
+  background: white; /* Gecko Browsers */
+}
+.bar{
+	color: rgb(208, 34, 34);
+	font-weight:bolder;
 }
 #display {
-	display: none;
 	padding:10px,4em;
 	margin:auto;
 }
 #mainh {
-	// font-family: 'Teko', sans-serif, Arial;
-	font-family: 'Kalam', cursive;
-	color: #795419;
+	color: white;
+	border:4px outset #795419;
+	border-radius:10px;
+	background-color:black;
 	margin: auto;
 	text-align: center;
 	display: block;
 	margin-top: 10px;
-	// border-width: 7px 0 7px 0;
-	// border-color: red;
-	// border-style: solid;
 	width: 45%;
+	&:hover{
+		background-color: white;
+		color:black;
+		border-color: white;
+		-webkit-transition: background-color 500ms linear;
+		-ms-transition: background-color 500ms linear;
+		transition: background-color 500ms linear;
+	}
 }
-#maph {
-	margin: auto;
-	text-align: center;
-	display: block;
-}
-#Important {
-	font-size:58%;
-	display: block;
-	background-color: grey;
-	margin-top: 5em;
-	width: 50%;
-	border-radius: 5px;
-	border: 1px solid black;
-	margin: auto;
-	color: white;
-	padding: 1em;
-	text-align: center;
-}
-#button {
-	margin: auto;
-	display: block;
-	text-align: center;
-	border-radius: 0;
-	background-color: green;
-	color: white;
-	width:50%;
-  &:hover {
-    margin: auto;
-    display: block;
-    text-align: center;
-    border-radius: 1;
-    background-color: red;
-    color: white;
-    width:50%;
-  }
-}
-img {
-	margin: auto;
-	min-width: 10em;
-	max-width: 30em;
-	display: block;
-}
-#links {
-	background-color: rgb(33, 33, 33);
-	color: white;
-	margin: 0;
-	padding: 0 1em 0 1em;
-	text-align: center;
-	width: 100%;
-	max-height:25vh;
-}
-#links a{
-	font-size:2em;
-	padding:40px;
-	width:80px;
-	height:80px;
+#controls{
+	background-color:black;
+	color:white;
+	opacity: .9;
+	width: 60%;
 	margin:auto;
-	color: white;
-	border-radius: 50%;
-}
-#links a:hover {
-	opacity: .7;
-}
-#links h1 {
-	margin: auto;
-	font-weight: bold;
+	border: 5px outset #573c13;;
+	padding:1em;
+	input{
+		color:black;
+	}
 }
 .github-corner:hover .octo-arm {
 	animation: octocat-wave 560ms ease-in-out;
@@ -168,16 +108,6 @@ img {
 	height: 45px;
 	&.off {
 		background: url(../static/sound-off.png);
-		background-size: contain;
-	}
-}
-.mode {
-	background: url(../static/sun-cloud.png);
-	background-size: contain;
-	width: 45px;
-	height: 45px;
-	&.night {
-		background: url(../static/moon.png);
 		background-size: contain;
 	}
 }

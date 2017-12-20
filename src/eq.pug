@@ -2,9 +2,8 @@ doctype html
 -
   const styles = [//stylesheets
     'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',//bootstrap
-    'https://fonts.googleapis.com/css?family=Teko',//font
-    'https://fonts.googleapis.com/css?family=Kalam',//font
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',//awesome incons
+    "https://fonts.googleapis.com/css?family=Poiret+One",
     'eq.css'//main css
   ]
   const scripts = [//scripts
@@ -35,7 +34,6 @@ html#body(lang='en')
     h1#mainh EPIQUEST
     .bar
       .sound.off
-      .mode
       #stats
         .name.icon
         span#name
@@ -55,10 +53,8 @@ html#body(lang='en')
         span#weapon
     #controls
       h2#display Display
-      
+      br
       input#inputBox(type='text' placeholder='type here...' onkeypress='submit(event)')
-      button#submit Enter
-      button(class='button-theme btn' id='startGameBtn') Start Game
     a.github-corner(href='https://github.com/JohnCdf/TheEpiquestRep/' target='_blank')
       svg(
         width='80'

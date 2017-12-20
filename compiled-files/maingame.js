@@ -1,4 +1,4 @@
-var check, createUser, delay, fishes, game, mario, question, start, swimmingOutcomes, u, win;
+var check, createUser, delay, fishes, game, mario, moneygainFX, question, start, swimmingOutcomes, u, win;
 
 game = {
   queue: [],
@@ -96,7 +96,9 @@ question = '';
 
 window.current = function() {};
 
-mario = new Audio('../static/dire.mp3');
+mario = new Audio('../static/locust.mp3');
+
+moneygainFX = new Audio('../static/money-gain.mp3');
 
 mario.looped = true;
 
@@ -125,10 +127,10 @@ check = function() {
     user.xp -= 10;
     switch (user.lvl) {
       case 2:
-        confirm('You can now go to the forest');
+        alert('You can now go to the forest');
         break;
       case 3:
-        confirm('You can now venture into the cave... At your own risk...');
+        alert('You can now venture into the cave... At your own risk...');
     }
   }
   if (user.money < 0) {
