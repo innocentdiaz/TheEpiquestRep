@@ -17,14 +17,7 @@ game =
 delay = (c) ->
   (n) => setTimeout n, c
 # window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
-$ -> # when the button is clicked, start game. See line 5
-  $ '#submit'
-    .click ->
-      question = window.question = $('#inputBox').val()
-      $('#inputBox').val('')
-      window.current(question)
-    .parent()
-    .submit -> false
+$ ->
   $ '.sound'
     .click ->
       el = $ this
@@ -50,6 +43,9 @@ u =
   key: 1
 window.user = null
 start = ->
+  if typeof(Storage) is "undefined"
+    displayToPlayer "This browser does not support local storage"
+    return
   $ '#controls,#commies,#display'
     .show()
   $ '.button'
