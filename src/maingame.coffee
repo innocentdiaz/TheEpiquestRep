@@ -43,7 +43,7 @@ u =
   key: 1
 window.user = null
 start = ->
-  if typeof(Storage) is "undefined"
+  if typeof(Storage) is "undefined"#if browser does not support local storage
     displayToPlayer "This browser does not support local storage"
     return
   $ '#controls,#commies,#display'
