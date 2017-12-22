@@ -21,6 +21,22 @@ cur = (c) ->
         )(text[1] || text[0])
     else $('#input').show()
     n()
+yesno = ['Yes', 'No']
+buttons =
+  town: ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Sell things->sell', 'Go to beach->beach', 'Go to forest->forest', 'Go to cave->cave']
+  fix: yesno
+  sell: yesno
+  safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
+  beach: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
+  fishing: yesno
+  swimming: yesno
+  win: yesno
+  forest: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
+  floop: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
+  arena: yesno
+  cave: yesno
+  devourer: ['Attack', 'Defend']
+  hunt: yesno
 window.currents =
   name: ->
     window.user.name = window.question
@@ -367,7 +383,7 @@ window.currents =
           .action townchoose
   devourer: ->
     if user.armor >= 19 and user.weapon >= 10
-      if question is 'ATTACK' and user.weapon >= 12
+      if question.toUpperCase() is 'ATTACK' and user.weapon >= 12
         game
           .action display 'You destroy the devourer with one massive plasma blast. YOU WIN'
           .action delay 3000
@@ -633,5 +649,3 @@ choosework = (n) ->
         .action delay 3000
         .action townchoose
   if n then n()
-buttons =
-  town: ['Safe->safe', 'Sell->sell']
