@@ -21,10 +21,10 @@ playtheme = (selected) ->
     when 'mario'
       mario.loop = true
       mario.play()
-submit = (event) ->
-  keycode = event.keyCode
-    
-  if keycode == 13
-    question = $("#inputBox").val()
-    $("#inputBox").val("")
-    current()
+# submit = (event) ->
+  # keycode = event.keyCode
+
+  # if keycode == 13
+    # question = $('#inputBox').val()
+    # $('#inputBox').val('')
+    # current()

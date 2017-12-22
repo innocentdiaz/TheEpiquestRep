@@ -18,6 +18,13 @@ delay = (c) ->
   (n) => setTimeout n, c
 # window.__defineSetter__ 'current', (v) -> console.log(v) or console.trace()
 $ ->
+  $ '#submit'
+    .click ->
+      question = window.question = $('#inputBox').val()
+      $('#inputBox').val('')
+      window.current(question)
+    .parent()
+    .submit -> false
   $ '.sound'
     .click ->
       el = $ this
