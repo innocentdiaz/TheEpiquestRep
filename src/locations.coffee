@@ -13,7 +13,9 @@ cur = (c) ->
       if c of buttons
         $ '#input'
           .hide()
-        for text in buttons[c]
+        butts = buttons[c]
+        if typeof butts is 'function' then butts = butts()
+        for text in butts
           text = text.split('->')
           $('.buttons').append $("<button>#{text[0]}</button>").click (
             (t) -> ->
@@ -27,7 +29,9 @@ cur = (c) ->
         .hide()
       $ '.buttons'
         .text ''
-      for text in buttons[c]
+      butts = buttons[c]
+      if typeof butts is 'function' then butts = butts()
+      for text in butts
         text = text.split('->')
         $('.buttons').append $("<button>#{text[0]}</button>").click (
           (f) -> ->
@@ -36,7 +40,11 @@ cur = (c) ->
     n()
 yesno = ['Yes', 'No']
 buttons =
-  town: ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach', 'Go to forest->forest', 'Go to cave->cave']
+  town: ->
+    res = ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+    if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
+    if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+    return res
   fix: yesno
   sell: yesno
   safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
@@ -57,44 +65,36 @@ window.currents =
       .action display "Let us begin, #{user.name}!"
       .action delay 3000
       .action townchoose
-  town: ->
-    switch question.toUpperCase()
-      when 'WORK' then choosework()
-      when 'FIX'
-        game
-          .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
-          .action delay 3000
-          .action cur 'fix'
-      when user.inventory.length >= 1 and 'SELL'
+  town:
+    safe: ->
+      game
+        .action display 'Store your money or recover it?'
+        .action delay 3000
+        .action cur 'safe'
+    cave: ->
+      game
+        .action display 'We are on our way to the cave.......'
+        .action delay 3000
+        .action cavechoose
+    forest: ->
+    sell: ->
+      if user.inventory.length >= 1
         game
           .action display "Your items are: #{user.inventory.join(', ')}. Sell?"
           .action cur 'sell'
-      when user.inventory.length < 1 and 'SELL'
+      else
         game
           .action display 'You have no items in your inventory..'
           .action delay 3000
           .action townchoose
-      when 'STATS' then showme()
-      when 'BEACH' then beachchoose()
-      when  user.lvl >= 2 and 'FOREST'
-        game
-          .action display 'We are on our way to the enchanted forest.......'
-          .action delay 3000
-          .action forestchoose
-      when user.lvl >= 3 and 'CAVE'
-        game
-          .action display 'We are on our way to the cave.......'
-          .action delay 3000
-          .action cavechoose
-      when 'SAFE'
-        game
-          .action display 'Store your money or recover it?'
-          .action delay 3000
-          .action cur 'safe'
-      else
-        game
-          .action display 'Thats not an option'
-          .action delay 3000
+    stats: -> showme()
+    beach: -> beachchoose()
+    fix: ->
+      game
+        .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
+        .action delay 3000
+        .action cur 'fix'
+    work: -> choosework()
   fix:
     yes: ->
       if user.money >= user.rod
