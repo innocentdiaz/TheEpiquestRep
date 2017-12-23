@@ -6,24 +6,37 @@ display = (msg) ->
     n()
 cur = (c) ->
   (n) ->
-    current = currents[c]
-    $ '.buttons'
-      .html ''
-    if c of buttons
+    if typeof currents[c] is 'function'
+      current = currents[c]
+      $ '.buttons'
+        .html ''
+      if c of buttons
+        $ '#input'
+          .hide()
+        for text in buttons[c]
+          text = text.split('->')
+          $('.buttons').append $("<button>#{text[0]}</button>").click (
+            (t) -> ->
+              question = t
+              current t
+          )(text[1] || text[0])
+      else $('#input').show()
+    else
+      current = ->
       $ '#input'
         .hide()
+      $ '.buttons'
+        .text ''
       for text in buttons[c]
         text = text.split('->')
         $('.buttons').append $("<button>#{text[0]}</button>").click (
-          (t) -> ->
-            question = t
-            current t
-        )(text[1] || text[0])
-    else $('#input').show()
+          (f) -> ->
+            f()
+        )(currents[c][(text[1] || text[0]).toLowerCase()])
     n()
 yesno = ['Yes', 'No']
 buttons =
-  town: ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Sell things->sell', 'Go to beach->beach', 'Go to forest->forest', 'Go to cave->cave']
+  town: ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach', 'Go to forest->forest', 'Go to cave->cave']
   fix: yesno
   sell: yesno
   safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
@@ -82,22 +95,21 @@ window.currents =
         game
           .action display 'Thats not an option'
           .action delay 3000
-  fix: ->
-    switch question.toUpperCase()
-      when 'YES'
-        if user.money >= user.rod
-          user.money -= user.rod
-          user.rod = 0
-          game
-            .action display "You have #{user.money} money and #{user.rod} dmg!"
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'Not enough money'
-            .action delay 3000
-            .action townchoose
-      when 'NO' then townchoose()
+  fix:
+    yes: ->
+      if user.money >= user.rod
+        user.money -= user.rod
+        user.rod = 0
+        game
+          .action display "You have #{user.money} money and #{user.rod} dmg!"
+          .action delay 3000
+          .action townchoose
+      else
+        game
+          .action display 'Not enough money'
+          .action delay 3000
+          .action townchoose
+    no: -> townchoose()
   sell: ->
     switch question.toUpperCase()
       when 'YES'
