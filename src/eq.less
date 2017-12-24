@@ -2,12 +2,15 @@
 	box-sizing: border-box;
 }
 .buttons button {
-	color: black;
+	color:black;
 }
 body {
 	font-family: 'Poiret One', cursive;
 	color: #795419;
 	font-size: 140%;
+	button{
+		font-size: 150%;
+	}
 	padding: 0;
 	background: url(../static/back.jpg);
 	background-size: cover;
@@ -82,12 +85,34 @@ body {
 		width:40%;
 	}
 	button{
-		width:20%;
+		display: block;
+		margin: auto;
+		color: red;
+		background-color: transparent;
+		border: 0 solid transparent;
 	&:hover{
-		border-radius: 5px;
+		color: white;
 	}
+	&::after{
+		content: "----------";
+		-webkit-clip-path: polygon(50% 29%, 100% 50%, 50% 70%, 27% 48%);
+		clip-path: polygon(50% 29%, 100% 50%, 50% 70%, 27% 48%);
+		background-color: red;
+		color: red;
+		font-weight: bold;
+	}
+	&::before{
+		content: "----------";
+		-webkit-clip-path: polygon(50% 29%, 72% 47%, 50% 70%, 0 48%);
+		clip-path: polygon(50% 29%, 72% 47%, 50% 70%, 0 48%);
+		background-color: red;
+		color: red;
+		font-weight: bold;
+	}
+	
 	}
 }
+
 .github-corner:hover .octo-arm {
 	animation: octocat-wave 560ms ease-in-out;
 }

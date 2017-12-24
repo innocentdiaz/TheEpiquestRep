@@ -1,4 +1,4 @@
-var arenachoose, beachchoose, cavechoose, choosework, cur, current, display, fishing, floop, forestchoose, huntchoose, hunts, question, swimming, townchoose;
+var arenachoose, beachchoose, buttons, cavechoose, choosework, cur, current, display, fishing, floop, forestchoose, huntchoose, hunts, question, swimming, townchoose, yesno;
 
 question = '';
 
@@ -13,9 +13,78 @@ display = function(msg) {
 
 cur = function(c) {
   return function(n) {
-    current = currents[c];
+    var butts, i, j, len, len1, text;
+    if (typeof currents[c] === 'function') {
+      current = currents[c];
+      $('.buttons').html('');
+      if (c in buttons) {
+        $('#input').hide();
+        butts = buttons[c];
+        if (typeof butts === 'function') {
+          butts = butts();
+        }
+        for (i = 0, len = butts.length; i < len; i++) {
+          text = butts[i];
+          text = text.split('->');
+          $('.buttons').append($("<button>" + text[0] + "</button>").click((function(t) {
+            return function() {
+              question = t;
+              return current(t);
+            };
+          })(text[1] || text[0])));
+        }
+      } else {
+        $('#input').show();
+      }
+    } else {
+      current = function() {};
+      $('#input').hide();
+      $('.buttons').text('');
+      butts = buttons[c];
+      if (typeof butts === 'function') {
+        butts = butts();
+      }
+      for (j = 0, len1 = butts.length; j < len1; j++) {
+        text = butts[j];
+        text = text.split('->');
+        $('.buttons').append($("<button>" + text[0] + "</button>").click((function(f) {
+          return function() {
+            return f();
+          };
+        })(currents[c][(text[1] || text[0]).toLowerCase()])));
+      }
+    }
     return n();
   };
+};
+
+yesno = ['Yes', 'No'];
+
+buttons = {
+  town: function() {
+    var res;
+    res = ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach'];
+    if (user.lvl >= 2) {
+      res = res.concat(['Go to forest->forest']);
+    }
+    if (user.lvl >= 3) {
+      res = res.concat(['Go to cave->cave']);
+    }
+    return res;
+  },
+  fix: yesno,
+  sell: yesno,
+  safe: ['Store money to safe->store', 'Recover all moneys from safe->recover'],
+  beach: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave'],
+  fishing: yesno,
+  swimming: yesno,
+  win: yesno,
+  forest: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave'],
+  floop: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave'],
+  arena: yesno,
+  cave: yesno,
+  devourer: ['Attack', 'Defend'],
+  hunt: yesno
 };
 
 window.currents = {
@@ -23,89 +92,91 @@ window.currents = {
     window.user.name = window.question;
     return game.action(display("Let us begin, " + user.name + "!")).action(delay(3000)).action(townchoose);
   },
-  town: function() {
-    switch (question.toUpperCase()) {
-      case 'WORK':
-        return choosework();
-      case 'FIX':
-        return game.action(display("Fixing your rod will cost you " + user.rod + " money. Are you sure?")).action(delay(3000)).action(cur('fix'));
-      case user.inventory.length >= 1 && 'SELL':
+  town: {
+    safe: function() {
+      return game.action(display('Store your money or recover it?')).action(delay(3000)).action(cur('safe'));
+    },
+    cave: function() {
+      return game.action(display('We are on our way to the cave.......')).action(delay(3000)).action(cavechoose);
+    },
+    forest: function() {},
+    sell: function() {
+      if (user.inventory.length >= 1) {
         return game.action(display("Your items are: " + (user.inventory.join(', ')) + ". Sell?")).action(cur('sell'));
-      case user.inventory.length < 1 && 'SELL':
+      } else {
         return game.action(display('You have no items in your inventory..')).action(delay(3000)).action(townchoose);
-      case 'STATS':
-        return showme();
-      case 'BEACH':
-        return beachchoose();
-      case user.lvl >= 2 && 'FOREST':
-        return game.action(display('We are on our way to the enchanted forest.......')).action(delay(3000)).action(forestchoose);
-      case user.lvl >= 3 && 'CAVE':
-        return game.action(display('We are on our way to the cave.......')).action(delay(3000)).action(cavechoose);
-      case 'SAFE':
-        return game.action(display('Store your money or recover it?')).action(delay(3000)).action(cur('safe'));
-      default:
-        return game.action(display('Thats not an option')).action(delay(3000));
+      }
+    },
+    stats: function() {
+      return showme();
+    },
+    beach: function() {
+      return beachchoose();
+    },
+    fix: function() {
+      return game.action(display("Fixing your rod will cost you " + user.rod + " money. Are you sure?")).action(delay(3000)).action(cur('fix'));
+    },
+    work: function() {
+      return choosework();
     }
   },
-  fix: function() {
-    switch (question.toUpperCase()) {
-      case 'YES':
-        if (user.money >= user.rod) {
-          user.money -= user.rod;
-          user.rod = 0;
-          return game.action(display("You have " + user.money + " money and " + user.rod + " dmg!")).action(delay(3000)).action(townchoose);
-        } else {
-          return game.action(display('Not enough money')).action(delay(3000)).action(townchoose);
-        }
-        break;
-      case 'NO':
-        return townchoose();
+  fix: {
+    yes: function() {
+      if (user.money >= user.rod) {
+        user.money -= user.rod;
+        user.rod = 0;
+        return game.action(display("You have " + user.money + " money and " + user.rod + " dmg!")).action(delay(3000)).action(townchoose);
+      } else {
+        return game.action(display('Not enough money')).action(delay(3000)).action(townchoose);
+      }
+    },
+    no: function() {
+      return townchoose();
     }
   },
-  sell: function() {
-    switch (question.toUpperCase()) {
-      case 'YES':
-        user.money += user.inventory.length * 2.5;
-        user.inventory.length = 0;
-        return game.action(display("You have sold all your items. Your money is " + user.money + ".")).action(delay(3000)).action(townchoose);
-      case 'NO':
-        return game.action(townchoose);
+  sell: {
+    yes: function() {
+      user.money += user.inventory.length * 2.5;
+      user.inventory.length = 0;
+      return game.action(display("You have sold all your items. Your money is " + user.money + ".")).action(delay(3000)).action(townchoose);
+    },
+    no: function() {
+      return game.action(townchoose);
     }
   },
-  safe: function() {
-    switch (question.toUpperCase()) {
-      case 'STORE':
-        if (user.money >= 1) {
-          user.safe += user.money;
-          user.money = 0;
-          return game.action(display('You stored all your money in the safe')).action(delay(3000)).action(townchoose);
-        } else {
-          return game.action(display('You have no money!')).action(delay(3000)).action(townchoose);
-        }
-        break;
-      case 'RECOVER':
-        if (user.safe >= 1) {
-          user.money += user.safe;
-          user.safe = 0;
-          return game.action(display('You recovered all your money from the safe')).action(delay(3000)).action(townchoose);
-        } else {
-          return game.action(display('There is nothing in the safe!')).action(delay(3000)).action(townchoose);
-        }
+  safe: {
+    store: function() {
+      if (user.money >= 1) {
+        user.safe += user.money;
+        user.money = 0;
+        return game.action(display('You stored all your money in the safe')).action(delay(3000)).action(townchoose);
+      } else {
+        return game.action(display('You have no money!')).action(delay(3000)).action(townchoose);
+      }
+    },
+    recover: function() {
+      if (user.safe >= 1) {
+        user.money += user.safe;
+        user.safe = 0;
+        return game.action(display('You recovered all your money from the safe')).action(delay(3000)).action(townchoose);
+      } else {
+        return game.action(display('There is nothing in the safe!')).action(delay(3000)).action(townchoose);
+      }
     }
   },
-  beach: function() {
-    switch (question.toUpperCase()) {
-      case 'FISH':
-        if (user.rod <= 15) {
-          return game.action(display('You go to fish!')).action(delay(3000)).action(fishing);
-        } else {
-          return game.action(display(user.rod + "dmg")).action(delay(3000)).action(beachchoose);
-        }
-        break;
-      case 'SWIM':
-        return game.action(display('You go swimming')).action(delay(3000)).action(swimming);
-      case 'LEAVE':
-        return game.action(display('Going to town')).action(delay(3000)).action(townchoose);
+  beach: {
+    fish: function() {
+      if (user.rod <= 15) {
+        return game.action(display('You go to fish!')).action(delay(3000)).action(fishing);
+      } else {
+        return game.action(display(user.rod + "dmg")).action(delay(3000)).action(beachchoose);
+      }
+    },
+    swim: function() {
+      return game.action(display('You go swimming')).action(delay(3000)).action(swimming);
+    },
+    leave: function() {
+      return game.action(display('Going to town')).action(delay(3000)).action(townchoose);
     }
   },
   fishing: function() {
@@ -282,7 +353,7 @@ window.currents = {
   },
   devourer: function() {
     if (user.armor >= 19 && user.weapon >= 10) {
-      if (question === 'ATTACK' && user.weapon >= 12) {
+      if (question.toUpperCase() === 'ATTACK' && user.weapon >= 12) {
         return game.action(display('You destroy the devourer with one massive plasma blast. YOU WIN')).action(delay(3000)).action(display("Thank you for playing " + user.name + "!")).action(function(n) {
           win();
           return n();
