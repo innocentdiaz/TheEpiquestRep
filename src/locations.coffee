@@ -6,21 +6,58 @@ display = (msg) ->
     n()
 cur = (c) ->
   (n) ->
-    current = currents[c]
-    $ '.buttons'
-      .html ''
-    if c of buttons
+    if typeof currents[c] is 'function'
+      current = currents[c]
+      $ '.buttons'
+        .html ''
+      if c of buttons
+        $ '#input'
+          .hide()
+        butts = buttons[c]
+        if typeof butts is 'function' then butts = butts()
+        for text in butts
+          text = text.split('->')
+          $('.buttons').append $("<button>#{text[0]}</button>").click (
+            (t) -> ->
+              question = t
+              current t
+          )(text[1] || text[0])
+      else $('#input').show()
+    else
+      current = ->
       $ '#input'
         .hide()
-      for text in buttons[c]
+      $ '.buttons'
+        .text ''
+      butts = buttons[c]
+      if typeof butts is 'function' then butts = butts()
+      for text in butts
         text = text.split('->')
         $('.buttons').append $("<button>#{text[0]}</button>").click (
-          (t) -> ->
-            question = t
-            current t
-        )(text[1] || text[0])
-    else $('#input').show()
+          (f) -> ->
+            f()
+        )(currents[c][(text[1] || text[0]).toLowerCase()])
     n()
+yesno = ['Yes', 'No']
+buttons =
+  town: ->
+    res = ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+    if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
+    if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+    return res
+  fix: yesno
+  sell: yesno
+  safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
+  beach: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
+  fishing: yesno
+  swimming: yesno
+  win: yesno
+  forest: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
+  floop: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
+  arena: yesno
+  cave: yesno
+  devourer: ['Attack', 'Defend']
+  hunt: yesno
 window.currents =
   name: ->
     window.user.name = window.question
@@ -28,122 +65,110 @@ window.currents =
       .action display "Let us begin, #{user.name}!"
       .action delay 3000
       .action townchoose
-  town: ->
-    switch question.toUpperCase()
-      when 'WORK' then choosework()
-      when 'FIX'
-        game
-          .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
-          .action delay 3000
-          .action cur 'fix'
-      when user.inventory.length >= 1 and 'SELL'
+  town:
+    safe: ->
+      game
+        .action display 'Store your money or recover it?'
+        .action delay 3000
+        .action cur 'safe'
+    cave: ->
+      game
+        .action display 'We are on our way to the cave.......'
+        .action delay 3000
+        .action cavechoose
+    forest: ->
+    sell: ->
+      if user.inventory.length >= 1
         game
           .action display "Your items are: #{user.inventory.join(', ')}. Sell?"
           .action cur 'sell'
-      when user.inventory.length < 1 and 'SELL'
+      else
         game
           .action display 'You have no items in your inventory..'
           .action delay 3000
           .action townchoose
-      when 'STATS' then showme()
-      when 'BEACH' then beachchoose()
-      when  user.lvl >= 2 and 'FOREST'
+    stats: -> showme()
+    beach: -> beachchoose()
+    fix: ->
+      game
+        .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
+        .action delay 3000
+        .action cur 'fix'
+    work: -> choosework()
+  fix:
+    yes: ->
+      if user.money >= user.rod
+        user.money -= user.rod
+        user.rod = 0
         game
-          .action display 'We are on our way to the enchanted forest.......'
+          .action display "You have #{user.money} money and #{user.rod} dmg!"
           .action delay 3000
-          .action forestchoose
-      when user.lvl >= 3 and 'CAVE'
-        game
-          .action display 'We are on our way to the cave.......'
-          .action delay 3000
-          .action cavechoose
-      when 'SAFE'
-        game
-          .action display 'Store your money or recover it?'
-          .action delay 3000
-          .action cur 'safe'
+          .action townchoose
       else
         game
-          .action display 'Thats not an option'
-          .action delay 3000
-  fix: ->
-    switch question.toUpperCase()
-      when 'YES'
-        if user.money >= user.rod
-          user.money -= user.rod
-          user.rod = 0
-          game
-            .action display "You have #{user.money} money and #{user.rod} dmg!"
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'Not enough money'
-            .action delay 3000
-            .action townchoose
-      when 'NO' then townchoose()
-  sell: ->
-    switch question.toUpperCase()
-      when 'YES'
-        user.money += user.inventory.length * 2.5
-        user.inventory.length = 0
-        game
-          .action display "You have sold all your items. Your money is #{user.money}."
+          .action display 'Not enough money'
           .action delay 3000
           .action townchoose
-      when 'NO'
-        game.action townchoose
-  safe: ->
-    switch question.toUpperCase()
-      when 'STORE'
-        if user.money >= 1
-          user.safe += user.money
-          user.money = 0
-          game
-            .action display 'You stored all your money in the safe'
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'You have no money!'
-            .action delay 3000
-            .action townchoose
-      when 'RECOVER'
-        if user.safe >= 1
-          user.money += user.safe
-          user.safe = 0
-          game
-            .action display 'You recovered all your money from the safe'
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'There is nothing in the safe!'
-            .action delay 3000
-            .action townchoose
-  beach: ->
-    switch question.toUpperCase()
-      when 'FISH'
-        if user.rod <= 15
-          game
-            .action display 'You go to fish!'
-            .action delay 3000
-            .action fishing
-        else
-          game
-            .action display "#{user.rod}dmg"
-            .action delay 3000
-            .action beachchoose
-      when 'SWIM'
+    no: -> townchoose()
+  sell:
+    yes: ->
+      user.money += user.inventory.length * 2.5
+      user.inventory.length = 0
+      game
+        .action display "You have sold all your items. Your money is #{user.money}."
+        .action delay 3000
+        .action townchoose
+    no: ->
+      game.action townchoose
+  safe:
+    store: ->
+      if user.money >= 1
+        user.safe += user.money
+        user.money = 0
         game
-          .action display 'You go swimming'
-          .action delay 3000
-          .action swimming
-      when 'LEAVE'
-        game
-          .action display 'Going to town'
+          .action display 'You stored all your money in the safe'
           .action delay 3000
           .action townchoose
+      else
+        game
+          .action display 'You have no money!'
+          .action delay 3000
+          .action townchoose
+    recover: ->
+      if user.safe >= 1
+        user.money += user.safe
+        user.safe = 0
+        game
+          .action display 'You recovered all your money from the safe'
+          .action delay 3000
+          .action townchoose
+      else
+        game
+          .action display 'There is nothing in the safe!'
+          .action delay 3000
+          .action townchoose
+  beach:
+    fish: ->
+      if user.rod <= 15
+        game
+          .action display 'You go to fish!'
+          .action delay 3000
+          .action fishing
+      else
+        game
+          .action display "#{user.rod}dmg"
+          .action delay 3000
+          .action beachchoose
+    swim: ->
+      game
+        .action display 'You go swimming'
+        .action delay 3000
+        .action swimming
+    leave: ->
+      game
+        .action display 'Going to town'
+        .action delay 3000
+        .action townchoose
   fishing: ->
     switch question.toUpperCase()
       when 'YES' then fishing()
@@ -367,7 +392,7 @@ window.currents =
           .action townchoose
   devourer: ->
     if user.armor >= 19 and user.weapon >= 10
-      if question is 'ATTACK' and user.weapon >= 12
+      if question.toUpperCase() is 'ATTACK' and user.weapon >= 12
         game
           .action display 'You destroy the devourer with one massive plasma blast. YOU WIN'
           .action delay 3000
@@ -633,5 +658,3 @@ choosework = (n) ->
         .action delay 3000
         .action townchoose
   if n then n()
-buttons =
-  town: ['Safe->safe', 'Sell->sell']
