@@ -110,68 +110,65 @@ window.currents =
           .action delay 3000
           .action townchoose
     no: -> townchoose()
-  sell: ->
-    switch question.toUpperCase()
-      when 'YES'
-        user.money += user.inventory.length * 2.5
-        user.inventory.length = 0
+  sell:
+    yes: ->
+      user.money += user.inventory.length * 2.5
+      user.inventory.length = 0
+      game
+        .action display "You have sold all your items. Your money is #{user.money}."
+        .action delay 3000
+        .action townchoose
+    no: ->
+      game.action townchoose
+  safe:
+    store: ->
+      if user.money >= 1
+        user.safe += user.money
+        user.money = 0
         game
-          .action display "You have sold all your items. Your money is #{user.money}."
+          .action display 'You stored all your money in the safe'
           .action delay 3000
           .action townchoose
-      when 'NO'
-        game.action townchoose
-  safe: ->
-    switch question.toUpperCase()
-      when 'STORE'
-        if user.money >= 1
-          user.safe += user.money
-          user.money = 0
-          game
-            .action display 'You stored all your money in the safe'
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'You have no money!'
-            .action delay 3000
-            .action townchoose
-      when 'RECOVER'
-        if user.safe >= 1
-          user.money += user.safe
-          user.safe = 0
-          game
-            .action display 'You recovered all your money from the safe'
-            .action delay 3000
-            .action townchoose
-        else
-          game
-            .action display 'There is nothing in the safe!'
-            .action delay 3000
-            .action townchoose
-  beach: ->
-    switch question.toUpperCase()
-      when 'FISH'
-        if user.rod <= 15
-          game
-            .action display 'You go to fish!'
-            .action delay 3000
-            .action fishing
-        else
-          game
-            .action display "#{user.rod}dmg"
-            .action delay 3000
-            .action beachchoose
-      when 'SWIM'
+      else
         game
-          .action display 'You go swimming'
-          .action delay 3000
-          .action swimming
-      when 'LEAVE'
-        game
-          .action display 'Going to town'
+          .action display 'You have no money!'
           .action delay 3000
           .action townchoose
+    recover: ->
+      if user.safe >= 1
+        user.money += user.safe
+        user.safe = 0
+        game
+          .action display 'You recovered all your money from the safe'
+          .action delay 3000
+          .action townchoose
+      else
+        game
+          .action display 'There is nothing in the safe!'
+          .action delay 3000
+          .action townchoose
+  beach:
+    fish: ->
+      if user.rod <= 15
+        game
+          .action display 'You go to fish!'
+          .action delay 3000
+          .action fishing
+      else
+        game
+          .action display "#{user.rod}dmg"
+          .action delay 3000
+          .action beachchoose
+    swim: ->
+      game
+        .action display 'You go swimming'
+        .action delay 3000
+        .action swimming
+    leave: ->
+      game
+        .action display 'Going to town'
+        .action delay 3000
+        .action townchoose
   fishing: ->
     switch question.toUpperCase()
       when 'YES' then fishing()
