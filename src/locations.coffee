@@ -7,6 +7,19 @@ display = (msg) ->
 cur = (c) ->
   (n) ->
     current = currents[c]
+    $ '.buttons'
+      .html ''
+    if c of buttons
+      $ '#input'
+        .hide()
+      for text in buttons[c]
+        text = text.split('->')
+        $('.buttons').append $("<button>#{text[0]}</button>").click (
+          (t) -> ->
+            question = t
+            current t
+        )(text[1] || text[0])
+    else $('#input').show()
     n()
 window.currents =
   name: ->
@@ -620,3 +633,5 @@ choosework = (n) ->
         .action delay 3000
         .action townchoose
   if n then n()
+buttons =
+  town: ['Safe->safe', 'Sell->sell']

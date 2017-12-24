@@ -52,9 +52,12 @@ html#body(lang='en')
         .weapon.icon
         span#weapon
     #controls
-      h2#display Display
+      h2#display Please allow scripts and refresh
       br
-      input#inputBox(type='text' placeholder='type here...' onkeypress='submit(event)')
+      form#input
+        input#inputBox(type='text' placeholder='type here...')
+        button#submit Enter
+      .buttons
     a.github-corner(href='https://github.com/JohnCdf/TheEpiquestRep/' target='_blank')
       svg(
         width='80'
