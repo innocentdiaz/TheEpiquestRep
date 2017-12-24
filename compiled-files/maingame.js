@@ -1,4 +1,4 @@
-var check, createUser, delay, fishes, game, mario, moneygainFX, question, start, swimmingOutcomes, u, win;
+var check, createUser, delay, fishes, game, hoverFX, mario, moneygainFX, question, start, swimmingOutcomes, u, win;
 
 game = {
   queue: [],
@@ -99,6 +99,8 @@ createUser = function() {
 question = '';
 
 window.current = function() {};
+
+hoverFX = new Audio('../static/button-hover.wav');
 
 mario = new Audio('../static/locust.mp3');
 

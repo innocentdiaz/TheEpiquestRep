@@ -21,6 +21,8 @@ playtheme = (selected) ->
     when 'mario'
       mario.loop = true
       mario.play()
+
+
 # submit = (event) ->
   # keycode = event.keyCode
 
