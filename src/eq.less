@@ -34,10 +34,12 @@ body {
   background: brown; /* Gecko Browsers */
 }
 .bar{
-min-width:40%;
-margin:auto;
-	color: black;
-	background-color:white;
+	color: rgb(208, 34, 34);
+	text-shadow: 0 0 5px black, 0 0 10px black;
+    max-width:60%;
+    margin:auto;
+	color: white;
+	background-color:black;
 	border: 5px outset #795419;
 	font-weight:bolder;
 }
@@ -65,16 +67,25 @@ margin:auto;
 	}
 }
 #controls{
-	background-color:black;
 	color:white;
-	opacity: .9;
-	width: 40%;
+	background: rgba(0,0,0,0.8);
+	min-width: 40%;
+	max-width:60%;
 	margin:auto;
 	border: 5px outset #573c13;;
 	padding:1em;
-	input{
+	input, button{
 		color:black;
-width: 40%;
+		font-weight: bolder;
+	}
+	input{
+		width:40%;
+	}
+	button{
+		width:20%;
+	&:hover{
+		border-radius: 5px;
+	}
 	}
 }
 .github-corner:hover .octo-arm {
