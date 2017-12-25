@@ -115,3 +115,10 @@ check = ->
       when 2 then alert('You can now go to the forest')
       when 3 then alert('You can now venture into the cave... At your own risk...')
   if user.money < 0 then user.money = 0
+$(document).ready(->
+  $("#mainh").click(
+    ->
+      setTimeout(window.location="about.html",2000)
+      
+  )
+)

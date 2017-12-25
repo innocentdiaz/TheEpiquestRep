@@ -41,7 +41,7 @@ cur = (c) ->
 yesno = ['Yes', 'No']
 buttons =
   town: ->
-    res = ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+    res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
     if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
     if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
     return res

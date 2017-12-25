@@ -143,3 +143,9 @@ check = function() {
     return user.money = 0;
   }
 };
+
+$(document).ready(function() {
+  return $("#mainh").click(function() {
+    return setTimeout(window.location = "about.html", 2000);
+  });
+});
