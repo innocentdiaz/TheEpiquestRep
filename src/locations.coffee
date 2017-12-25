@@ -1,9 +1,15 @@
 question = ''
 current = ->
 display = (msg) ->
-  (n) ->
-    displayToPlayer msg
-    n()
+  if typeof msg is 'string'
+    (n) ->
+      displayToPlayer msg
+      n()
+  else
+    f = (n) ->
+      displayToPlayer msg.shift()
+      if msg.length then setTimeout f, game.delay, n
+      else n()
 cur = (c) ->
   (n) ->
     if typeof currents[c] is 'function'
@@ -76,7 +82,7 @@ window.currents =
         .action display 'We are on our way to the cave.......'
         .action delay 3000
         .action cavechoose
-    forest: ->
+    forest: -> forestchoose()
     sell: ->
       if user.inventory.length >= 1
         game
@@ -186,12 +192,11 @@ window.currents =
         .action arenachoose
     shop: ->
       game
-        .action display 'You are greeted by a cartoonish goblin named floop-flop'
-        .action delay 3000
-        .action display  'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'
-        .action delay 3000
-        .action display 'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
-        .action delay 3000
+        .action display [
+          'You are greeted by a cartoonish goblin named floop-flop'
+          'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'
+          'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
+        ]
         .action cur 'floop'
     hunt: ->
       game
@@ -369,10 +374,10 @@ window.currents =
             n()
       else
         game
-          .action display 'The devourer expands his long putrid body out of the a massive hole in the wall, charging at you'
-          .action delay 3000
-          .action display 'Attack or defend?'
-          .action delay 3000
+          .action display [
+            'The devourer expands his long putrid body out of the a massive hole in the wall, charging at you'
+            'Attack or defend?'
+          ]
           .action cur 'devourer'
     no: ->
       game
@@ -383,9 +388,10 @@ window.currents =
     if user.armor >= 19 and user.weapon >= 10
       if question.toUpperCase() is 'ATTACK' and user.weapon >= 12
         game
-          .action display 'You destroy the devourer with one massive plasma blast. YOU WIN'
-          .action delay 3000
-          .action display "Thank you for playing #{user.name}!"
+          .action display [
+            'You destroy the devourer with one massive plasma blast. YOU WIN'
+            "Thank you for playing #{user.name}!"
+          ]
           .action (n) ->
             win()
             n()
