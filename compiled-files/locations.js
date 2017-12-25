@@ -63,7 +63,7 @@ yesno = ['Yes', 'No'];
 buttons = {
   town: function() {
     var res;
-    res = ['Work->work', 'Show your stats->stats', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach'];
+    res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach'];
     if (user.lvl >= 2) {
       res = res.concat(['Go to forest->forest']);
     }

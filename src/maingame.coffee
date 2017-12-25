@@ -54,6 +54,7 @@ start = ->
   if typeof(Storage) is "undefined"#if browser does not support local storage
     displayToPlayer "This browser does not support local storage"
     return
+
   $ '#controls,#commies,#display'
     .show()
   $ '.button'
@@ -76,6 +77,7 @@ createUser = ->
 # console.log(start)
 question = ''
 window.current = ->
+hoverFX = new Audio '../static/button-hover.wav'
 mario = new Audio '../static/locust.mp3'
 moneygainFX = new Audio '../static/money-gain.mp3'
 mario.looped = true
@@ -91,7 +93,7 @@ swimmingOutcomes = [
   ['Dived in and came out with a large sack of coins!', 45],
   ['Dived in and came out with a book.', 0, 'Book']
 ]
-
+  
 
 win = ->
   $ '#mainh'
@@ -114,3 +116,10 @@ check = ->
       when 2 then alert('You can now go to the forest')
       when 3 then alert('You can now venture into the cave... At your own risk...')
   if user.money < 0 then user.money = 0
+$(document).ready(->
+  $("#mainh").click(
+    ->
+      setTimeout(window.location="about.html",2000)
+      
+  )
+)

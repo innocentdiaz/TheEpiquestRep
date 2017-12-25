@@ -1,4 +1,4 @@
-var check, createUser, delay, fishes, game, mario, moneygainFX, question, start, swimmingOutcomes, u, win;
+var check, createUser, delay, fishes, game, hoverFX, mario, moneygainFX, question, start, swimmingOutcomes, u, win;
 
 game = {
   queue: [],
@@ -100,6 +100,8 @@ question = '';
 
 window.current = function() {};
 
+hoverFX = new Audio('../static/button-hover.wav');
+
 mario = new Audio('../static/locust.mp3');
 
 moneygainFX = new Audio('../static/money-gain.mp3');
@@ -141,3 +143,9 @@ check = function() {
     return user.money = 0;
   }
 };
+
+$(document).ready(function() {
+  return $("#mainh").click(function() {
+    return setTimeout(window.location = "about.html", 2000);
+  });
+});
