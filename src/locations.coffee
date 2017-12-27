@@ -75,12 +75,10 @@ window.currents =
     safe: ->
       game
         .action display 'Store your money or recover it?'
-        .action delay 3000
         .action cur 'safe'
     cave: ->
       game
         .action display 'We are on our way to the cave.......'
-        .action delay 3000
         .action cavechoose
     forest: -> forestchoose()
     sell: ->
@@ -98,7 +96,6 @@ window.currents =
     fix: ->
       game
         .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
-        .action delay 3000
         .action cur 'fix'
     work: -> choosework()
   fix:
@@ -216,12 +213,10 @@ window.currents =
         check()
         game
           .action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
-          .action delay 3000
           .action cur 'floop'
       else
         game
           .action display 'Not enough money! Armor, weapon or leave?'
-          .action delay 3000
           .action cur 'floop'
     weapon: ->
       if user.money >= 15
@@ -230,11 +225,11 @@ window.currents =
         check()
         game
           .action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
-          .action delay 3000
           .action cur 'floop'
       else
-        displayToPlayer 'Not enough money! Armor, weapon or leave?'
-        current = currents.floop
+        game
+          .action display 'Not enough money! Armor, weapon or leave?'
+          .action cur 'floop'
     leave: ->
       game
         .action display 'Floop: floop ya\' lateR PARTNR\''
@@ -418,7 +413,6 @@ window.currents =
 forestchoose = (n) ->
   game
     .action display 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
-    .action delay 3000
     .action cur 'forest'
   if n then n()
 floop = ->
@@ -502,7 +496,6 @@ huntchoose = (n) ->
       break
   game
     .action display curr.msg
-    .action delay 3000
     .action cur 'hunt'
   if 'props' of curr
     props = curr.props
@@ -529,12 +522,11 @@ cavechoose = (n) ->
             .action townchoose
       else
         game
-          .action display 'We have entered the cave.'
-          .action delay 3000
-          .action display 'It\'s dark, you cant see anything'
-          .action delay 3000
-          .action display 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
-          .action delay 3000
+          .action display [
+            'We have entered the cave.'
+            'It\'s dark, you cant see anything'
+            'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
+          ]
           .action cur 'cave'
     else
       game
@@ -545,7 +537,6 @@ cavechoose = (n) ->
 beachchoose = (n) ->
   game
     .action display 'We are at the beach. Fish, swim, or leave?'
-    .action delay 3000
     .action cur 'beach'
   if n then n()
 fishing = (n) ->
@@ -557,13 +548,11 @@ fishing = (n) ->
         check()
         game
           .action display 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
-          .action delay 3000
           .action cur 'fishing'
       else
         user.inventory.push(fishes[random])
         game
           .action display "#{user.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
-          .action delay 3000
           .action cur 'fishing'
     else
       game
@@ -584,12 +573,11 @@ swimming = (n) ->
     check()
     game
       .action display "#{swimmingOutcomes[random][0]}. Dive in again?"
-      .action delay 3000
     if swimmingOutcomes[random][2]
       user.inventory.push(swimmingOutcomes[random][2])
       game
-        .action display "Added #{swimmingOutcomes[random][2]} to inventory"
         .action delay 3000
+        .action display "Added #{swimmingOutcomes[random][2]} to inventory"
     game.action cur 'swimming'
     if n then n()
 townchoose = (n) ->
@@ -597,15 +585,12 @@ townchoose = (n) ->
     when user.lvl >= 3
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
-        .action delay 3000
     when user.lvl == 2
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
-        .action delay 3000
     else
       game
         .action display '=TOWN= Work, fix, sell, safe, beach =TOWN='
-        .action delay 3000
   game.action cur 'town'
   if n then n()
 choosework = (n) ->
