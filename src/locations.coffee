@@ -16,10 +16,10 @@ cur = (c) ->
       current = currents[c]
       $ '.buttons'
         .html ''
-      if c of buttons
+      butts = currents[c]._buttons || buttons[c]
+      if butts
         $ '#input'
           .hide()
-        butts = buttons[c]
         if typeof butts is 'function' then butts = butts()
         for text in butts
           text = text.split('->')
@@ -35,7 +35,7 @@ cur = (c) ->
         .hide()
       $ '.buttons'
         .text ''
-      butts = buttons[c]
+      butts = currents[c]._buttons || buttons[c]
       if typeof butts is 'function' then butts = butts()
       for text in butts
         text = text.split('->')
@@ -46,11 +46,11 @@ cur = (c) ->
     n()
 yesno = ['Yes', 'No']
 buttons =
-  town: ->
-    res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
-    if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
-    if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
-    return res
+  # town: ->
+    # res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+    # if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
+    # if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+    # return res
   fix: yesno
   sell: yesno
   safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
@@ -72,6 +72,11 @@ window.currents =
       .action delay 3000
       .action townchoose
   town:
+    _buttons: ->
+      res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+      if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
+      if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+      return res
     safe: ->
       game
         .action display 'Store your money or recover it?'
