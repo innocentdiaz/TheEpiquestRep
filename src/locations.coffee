@@ -16,7 +16,7 @@ cur = (c) ->
       current = currents[c]
       $ '.buttons'
         .html ''
-      butts = currents[c]._buttons || buttons[c]
+      butts = currents[c]._buttons
       if butts
         $ '#input'
           .hide()
@@ -35,7 +35,7 @@ cur = (c) ->
         .hide()
       $ '.buttons'
         .text ''
-      butts = currents[c]._buttons || buttons[c]
+      butts = currents[c]._buttons
       if typeof butts is 'function' then butts = butts()
       for text in butts
         text = text.split('->')
@@ -45,8 +45,6 @@ cur = (c) ->
         )(currents[c][(text[1] || text[0]).toLowerCase()])
     n()
 yesno = ['Yes', 'No']
-buttons =
-  devourer: ['Attack', 'Defend']
 window.currents =
   name: ->
     window.user.name = window.question
@@ -378,30 +376,46 @@ window.currents =
         .action display 'You run out of the cave and back to the town'
         .action delay 3000
         .action townchoose
-  devourer: ->
-    if user.armor >= 19 and user.weapon >= 10
-      if question.toUpperCase() is 'ATTACK' and user.weapon >= 12
-        game
-          .action display [
-            'You destroy the devourer with one massive plasma blast. YOU WIN'
-            "Thank you for playing #{user.name}!"
-          ]
-          .action (n) ->
-            win()
-            n()
+  devourer:
+    _buttons: ['Attack', 'Defend']
+    attack: ->
+      if user.armor >= 19 and user.weapon >= 10
+        if user.weapon >= 12
+          game
+            .action display [
+              'You destroy the devourer with one massive plasma blast. YOU WIN'
+              "Thank you for playing #{user.name}!"
+            ]
+            .action (n) ->
+              win()
+              n()
+        else
+          game
+            .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
+          $ '#mainh'
+            .html "#{user.name} the hero"
+          reset()
       else
+        user.money -= 30
+        check()
+        game
+          .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
+          .action delay 3000
+          .action townchoose
+    defend: ->
+      if user.armor >= 19 and user.weapon >= 10
         game
           .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
         $ '#mainh'
           .html "#{user.name} the hero"
         reset()
-    else
-      user.money -= 30
-      check()
-      game
-        .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
-        .action delay 3000
-        .action townchoose
+      else
+        user.money -= 30
+        check()
+        game
+          .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
+          .action delay 3000
+          .action townchoose
   hunt:
     _buttons: yesno
     yes: -> huntchoose()
