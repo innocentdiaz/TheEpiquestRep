@@ -46,24 +46,7 @@ cur = (c) ->
     n()
 yesno = ['Yes', 'No']
 buttons =
-  # town: ->
-    # res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
-    # if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
-    # if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
-    # return res
-  fix: yesno
-  sell: yesno
-  safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
-  beach: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
-  fishing: yesno
-  swimming: yesno
-  win: yesno
-  forest: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
-  floop: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
-  arena: yesno
-  cave: yesno
   devourer: ['Attack', 'Defend']
-  hunt: yesno
 window.currents =
   name: ->
     window.user.name = window.question
@@ -104,6 +87,7 @@ window.currents =
         .action cur 'fix'
     work: -> choosework()
   fix:
+    _buttons: yesno
     yes: ->
       if user.money >= user.rod
         user.money -= user.rod
@@ -119,6 +103,7 @@ window.currents =
           .action townchoose
     no: -> townchoose()
   sell:
+    _buttons: yesno
     yes: ->
       user.money += user.inventory.length * 2.5
       user.inventory.length = 0
@@ -129,6 +114,7 @@ window.currents =
     no: ->
       game.action townchoose
   safe:
+    _buttons: ['Store money to safe->store', 'Recover all moneys from safe->recover']
     store: ->
       if user.money >= 1
         user.safe += user.money
@@ -156,6 +142,7 @@ window.currents =
           .action delay 3000
           .action townchoose
   beach:
+    _buttons: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
     fish: ->
       if user.rod <= 15
         game
@@ -178,15 +165,19 @@ window.currents =
         .action delay 3000
         .action townchoose
   fishing:
+    _buttons: yesno
     yes: -> fishing()
     no: -> beachchoose()
   swimming:
+    _buttons: yesno
     yes: -> swimming()
     no: -> beachchoose()
   win:
+    _buttons: yesno
     yes: -> townchoose()
     no: -> game.action display "Thank you for playing, #{user.name}!"
   forest:
+    _buttons: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
     arena: ->
       game
         .action display 'You head to the arena....'
@@ -211,6 +202,7 @@ window.currents =
         .action delay 3000
         .action townchoose
   floop:
+    _buttons: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
     armor: ->
       if user.money >= 20
         user.armor += 1
@@ -241,6 +233,7 @@ window.currents =
         .action delay 3000
         .action forestchoose
   arena:
+    _buttons: yesno
     yes: ->
       random = Math.random() * 100 + 1
       switch
@@ -360,6 +353,7 @@ window.currents =
         .action delay 3000
         .action forestchoose
   cave:
+    _buttons: yesno
     yes: ->
       game
         .action display 'You go throught the doors, as they close behind you, you find yourself in a massive chamber with a large world-devourer infront of you!'
@@ -409,6 +403,7 @@ window.currents =
         .action delay 3000
         .action townchoose
   hunt:
+    _buttons: yesno
     yes: -> huntchoose()
     no: ->
       game
