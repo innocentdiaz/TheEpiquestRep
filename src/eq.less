@@ -8,9 +8,10 @@ body {
 	font-family: 'Poiret One', cursive;
 	color: #795419;
 	font-size: 140%;
-	button{
+	button{//make buttons bugger!
 		font-size: 150%;
 		font-weight: bold;
+		padding: 1em;
 	}
 	padding: 0;
 	background: url(../static/back.jpg);
@@ -51,7 +52,7 @@ body {
 	padding:10px,4em;
 	margin:auto;
 }
-#mainh {
+#mainh {//top heading "epiquest"
 	color: white;
 	border:4px outset #795419;
 	border-radius:10px;
@@ -83,7 +84,7 @@ body {
 		font-weight: bolder;
 	}
 	input{
-		width:40%;
+		min-width:40%;
 	}
 	button{
 		display: block;
@@ -94,8 +95,8 @@ body {
 	&:hover{
 		color: white;
 	}
-	&::after{
-		content: "----------";
+	&::after{//before and after need to be fixed, john
+		content: "this is after";
 		-webkit-clip-path: polygon(50% 29%, 100% 50%, 50% 70%, 27% 48%);
 		clip-path: polygon(50% 29%, 100% 50%, 50% 70%, 27% 48%);
 		background-color: red;
@@ -103,19 +104,19 @@ body {
 		font-weight: bold;
 	}
 	&::before{
-		content: "----------";
+		content: "this is before";
 		-webkit-clip-path: polygon(50% 29%, 72% 47%, 50% 70%, 0 48%);
 		clip-path: polygon(50% 29%, 72% 47%, 50% 70%, 0 48%);
 		background-color: red;
 		color: red;
 		font-weight: bold;
 	}
-	
+
 	}
 }
 
 .github-corner:hover .octo-arm {
-	animation: octocat-wave 560ms ease-in-out;
+	animation: octocat-wave 500ms ease-in-out;
 }
 @keyframes octocat-wave {
 	0%, 100% {
@@ -129,9 +130,6 @@ body {
 	}
 }
 @media (max-width: 500px) {
-	.github-corner:hover .octo-arm {
-		animation:none
-	}
 	.github-corner .octo-arm {
 		animation:octocat-wave 560ms ease-in-out
 	}
@@ -156,7 +154,7 @@ body {
 		background-size: contain;
 	}
 }
-.icon {
+.icon {//this is a global class for all icons in bar
 	width: 45px;
 	height: 45px;
 	display: inline-block;
