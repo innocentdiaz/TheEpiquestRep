@@ -13,6 +13,7 @@ game =
     @queue.push act
     if !@nextOn then @next()
     @
+  delay: 3000
 
 delay = (c) ->
   (n) => setTimeout n, c

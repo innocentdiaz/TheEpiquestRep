@@ -21,8 +21,20 @@ playtheme = (selected) ->
     when 'mario'
       mario.loop = true
       mario.play()
-
-
+reset = ->
+  delete localStorage.player
+  u =
+    name: ''
+    lvl: 1
+    xp: 0
+    inventory: []
+    money: 0
+    safe: 0
+    rod: 0
+    armor: 0
+    weapon: 0
+    key: 1
+  start()
 # submit = (event) ->
   # keycode = event.keyCode
 

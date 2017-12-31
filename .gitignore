@@ -1,3 +1,7 @@
 node_modules
 dist
+<<<<<<< HEAD
+=======
+.DS_Store
+>>>>>>> 72ba0695b09d8ba93dbbfc7e9ecda343af00196b
 compiled-files

@@ -1,19 +1,25 @@
 question = ''
 current = ->
 display = (msg) ->
-  (n) ->
-    displayToPlayer msg
-    n()
+  if typeof msg is 'string'
+    (n) ->
+      displayToPlayer msg
+      n()
+  else
+    f = (n) ->
+      displayToPlayer msg.shift()
+      if msg.length then setTimeout f, game.delay, n
+      else n()
 cur = (c) ->
   (n) ->
     if typeof currents[c] is 'function'
       current = currents[c]
       $ '.buttons'
         .html ''
-      if c of buttons
+      butts = currents[c]._buttons
+      if butts
         $ '#input'
           .hide()
-        butts = buttons[c]
         if typeof butts is 'function' then butts = butts()
         for text in butts
           text = text.split('->')
@@ -29,7 +35,7 @@ cur = (c) ->
         .hide()
       $ '.buttons'
         .text ''
-      butts = buttons[c]
+      butts = currents[c]._buttons
       if typeof butts is 'function' then butts = butts()
       for text in butts
         text = text.split('->')
@@ -39,25 +45,6 @@ cur = (c) ->
         )(currents[c][(text[1] || text[0]).toLowerCase()])
     n()
 yesno = ['Yes', 'No']
-buttons =
-  town: ->
-    res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
-    if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
-    if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
-    return res
-  fix: yesno
-  sell: yesno
-  safe: ['Store money to safe->store', 'Recover all moneys from safe->recover']
-  beach: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
-  fishing: yesno
-  swimming: yesno
-  win: yesno
-  forest: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
-  floop: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
-  arena: yesno
-  cave: yesno
-  devourer: ['Attack', 'Defend']
-  hunt: yesno
 window.currents =
   name: ->
     window.user.name = window.question
@@ -66,17 +53,20 @@ window.currents =
       .action delay 3000
       .action townchoose
   town:
+    _buttons: ->
+      res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
+      if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
+      if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+      return res
     safe: ->
       game
         .action display 'Store your money or recover it?'
-        .action delay 3000
         .action cur 'safe'
     cave: ->
       game
         .action display 'We are on our way to the cave.......'
-        .action delay 3000
         .action cavechoose
-    forest: ->
+    forest: -> forestchoose()
     sell: ->
       if user.inventory.length >= 1
         game
@@ -92,10 +82,10 @@ window.currents =
     fix: ->
       game
         .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
-        .action delay 3000
         .action cur 'fix'
     work: -> choosework()
   fix:
+    _buttons: yesno
     yes: ->
       if user.money >= user.rod
         user.money -= user.rod
@@ -111,6 +101,7 @@ window.currents =
           .action townchoose
     no: -> townchoose()
   sell:
+    _buttons: yesno
     yes: ->
       user.money += user.inventory.length * 2.5
       user.inventory.length = 0
@@ -121,6 +112,7 @@ window.currents =
     no: ->
       game.action townchoose
   safe:
+    _buttons: ['Store money to safe->store', 'Recover all moneys from safe->recover']
     store: ->
       if user.money >= 1
         user.safe += user.money
@@ -148,6 +140,7 @@ window.currents =
           .action delay 3000
           .action townchoose
   beach:
+    _buttons: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
     fish: ->
       if user.rod <= 15
         game
@@ -169,267 +162,271 @@ window.currents =
         .action display 'Going to town'
         .action delay 3000
         .action townchoose
-  fishing: ->
-    switch question.toUpperCase()
-      when 'YES' then fishing()
-      when 'NO' then beachchoose()
-  swimming: ->
-    switch question.toUpperCase()
-      when 'YES' then swimming()
-      when 'NO' then beachchoose()
-  win: ->
-    if question.toUpperCase() is 'YES' then townchoose()
-    else game.action display "Thank you for playing, #{user.name}!"
-  forest: ->
-    switch question.toUpperCase()
-      when 'ARENA'
+  fishing:
+    _buttons: yesno
+    yes: -> fishing()
+    no: -> beachchoose()
+  swimming:
+    _buttons: yesno
+    yes: -> swimming()
+    no: -> beachchoose()
+  win:
+    _buttons: yesno
+    yes: -> townchoose()
+    no: -> game.action display "Thank you for playing, #{user.name}!"
+  forest:
+    _buttons: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
+    arena: ->
+      game
+        .action display 'You head to the arena....'
+        .action delay 3000
+        .action arenachoose
+    shop: ->
+      game
+        .action display [
+          'You are greeted by a cartoonish goblin named floop-flop'
+          'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'
+          'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
+        ]
+        .action cur 'floop'
+    hunt: ->
+      game
+        .action display 'You head to the hunting grounds...'
+        .action delay 3000
+        .action huntchoose
+    leave: ->
+      game
+        .action display 'You head to the town'
+        .action delay 3000
+        .action townchoose
+  floop:
+    _buttons: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
+    armor: ->
+      if user.money >= 20
+        user.armor += 1
+        user.money -= 20
+        check()
         game
-          .action display 'You head to the arena....'
-          .action delay 3000
-          .action arenachoose
-      when 'SHOP'
-        game
-          .action display 'You are greeted by a cartoonish goblin named floop-flop'
-          .action delay 3000
-          .action display  'floop-flop: BUY SOMESTUFF yeS? OOWeeE ITS TOPNPOTCH FOREST WEAPONS AND ARMOR YEs'
-          .action delay 3000
-          .action display 'Upgrade Armor for 20 money, Upgrade Weapon for 15, or leave.'
-          .action delay 3000
+          .action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
           .action cur 'floop'
-      when 'HUNT'
+      else
         game
-          .action display 'You head to the hunting grounds...'
-          .action delay 3000
-          .action huntchoose
-      when 'LEAVE'
+          .action display 'Not enough money! Armor, weapon or leave?'
+          .action cur 'floop'
+    weapon: ->
+      if user.money >= 15
+        user.weapon += 1
+        user.money -= 15
+        check()
         game
-          .action display 'You head to the town'
-          .action delay 3000
-          .action townchoose
-  floop: ->
-    switch question.toUpperCase()
-      when 'ARMOR'
-        if user.money >= 20
-          user.armor += 1
-          user.money -= 20
-          check()
-          game
-            .action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
-            .action delay 3000
-            .action cur 'floop'
-        else
-          game
-            .action display 'Not enough money! Armor, weapon or leave?'
-            .action delay 3000
-            .action cur 'floop'
-      when 'WEAPON'
-        if user.money >= 15
-          user.weapon += 1
-          user.money -= 15
-          check()
-          game
-            .action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
-            .action delay 3000
-            .action cur 'floop'
-        else
-          displayToPlayer 'Not enough money! Armor, weapon or leave?'
-          current = currents.floop
-      when 'LEAVE'
+          .action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
+          .action cur 'floop'
+      else
         game
-          .action display 'Floop: floop ya\' lateR PARTNR\''
-          .action delay 3000
-          .action forestchoose
-  arena: ->
-    switch question.toUpperCase()
-      when 'YES'
-        random = Math.random() * 100 + 1
-        switch
-          when random <= 5
+          .action display 'Not enough money! Armor, weapon or leave?'
+          .action cur 'floop'
+    leave: ->
+      game
+        .action display 'Floop: floop ya\' lateR PARTNR\''
+        .action delay 3000
+        .action forestchoose
+  arena:
+    _buttons: yesno
+    yes: ->
+      random = Math.random() * 100 + 1
+      switch
+        when random <= 5
+          game
+            .action display 'THE MUTANT has entered the match!'
+            .action delay 3000
+          if user.armor >= 13 and user.weapon >= 11
             game
-              .action display 'THE MUTANT has entered the match!'
+              .action display 'You SLAYED THE MUTANT! +15xp, +50money'
               .action delay 3000
-            if user.armor >= 13 and user.weapon >= 11
+            if user.key is 1
               game
-                .action display 'You SLAYED THE MUTANT! +15xp, +50money'
+                .action display 'The cave trembles and echoes are heard...'
                 .action delay 3000
-              if user.key is 1
-                game
-                  .action display 'The cave trembles and echoes are heard...'
-                  .action delay 3000
-                user.key = 0
-              user.xp += 15
-              user.money += 50
-              moneygainFX.play()
-              key = 0
-              check()
-              game.action arenachoose
-            else
-              user.money -= 10
-              check()
-              game
-                .action display 'You were PWNED by the mutant and sent to the hospital! Get better equipment!'
-                .action delay 3000
-                .action townchoose
-          when random <= 20
+              user.key = 0
+            user.xp += 15
+            user.money += 50
+            moneygainFX.play()
+            key = 0
+            check()
+            game.action arenachoose
+          else
+            user.money -= 10
+            check()
             game
-              .action display 'SKELETRON has entered the match!'
+              .action display 'You were PWNED by the mutant and sent to the hospital! Get better equipment!'
               .action delay 3000
-            if user.armor >= 10 and user.weapon >= 7
-              user.xp += 5
-              user.money += 20
-              moneygainFX.play()
-              check()
-              game
-                .action display 'You PWNED SKELETRON and from his aqcuired +20money and +5xp'
-                .action delay 3000
-                .action arenachoose
-            else
-              user.xp -= 1
-              user.money -= 5
-              check()
-              game
-                .action display 'SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!'
-                .action delay 3000
-                .action townchoose
-          when random <= 40
+              .action townchoose
+        when random <= 20
+          game
+            .action display 'SKELETRON has entered the match!'
+            .action delay 3000
+          if user.armor >= 10 and user.weapon >= 7
+            user.xp += 5
+            user.money += 20
+            moneygainFX.play()
+            check()
             game
-              .action display 'INFECTED GLOB has entered the match!'
-            if user.armor >= 6 and user.weapon >= 7
-              user.money += 10
-              user.xp += 4
-              check()
-              game
-                .action display 'You killed the INFECTED GLOB! Gained +10money and +4xp'
-                .action delay 3000
-                .action arenachoose
-            else
-              user.money -= 5
-              check()
-              game
-                .action display 'The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!'
-                .action delay 3000
-                .action townchoose
-          when random <= 60
-            game
-              .action display 'An imp joined the fight'
-              .action delay 3000
-            if user.armor >= 4 and user.weapon >= 4
-              user.money += 15
-              moneygainFX.play()
-              user.xp += 2
-              check()
-              game
-                .action display 'You SMACKED the imp! +15 money +2xp'
-                .action delay 3000
-                .action arenachoose
-            else
-              user.money -= 3
-              check()
-              game
-                .action display 'Daaaang that imp frigged you UP! Go back home!  -3money - Get better equipment!'
-                .action delay 3000
-                .action townchoose
-          when random <= 70
-            game
-              .action display 'Goblins joined the battle-!'
-              .action delay 3000
-            if user.armor >= 2 and user.weapon >= 2
-              user.money += 15
-              user.xp += 2
-              check()
-              game
-                .action display 'You FLOOPED those goblins UP +15money +2xp'
-                .action delay 3000
-                .action arenachoose
-            else
-              user.money -= 3
-              check()
-              game
-                .action display 'Snap! Those goblins diddled you! Go back home! Get better equipment!'
-                .action delay 3000
-                .action townchoose
-          when random <= 100
-            user.money += 5
-            game
-              .action display 'You fought a boot and won.. +5money'
+              .action display 'You PWNED SKELETRON and from his aqcuired +20money and +5xp'
               .action delay 3000
               .action arenachoose
-      when 'NO'
-        game
-          .action display 'You head back...'
-          .action delay 3000
-          .action forestchoose
-  cave: ->
-    switch question.toUpperCase()
-      when 'YES'
-        game
-          .action display 'You go throught the doors, as they close behind you, you find yourself in a massive chamber with a large world-devourer infront of you!'
-          .action delay 3000
-        if user.armor >= 30 and user.weapon >= 30
+          else
+            user.xp -= 1
+            user.money -= 5
+            check()
+            game
+              .action display 'SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!'
+              .action delay 3000
+              .action townchoose
+        when random <= 40
           game
-            .action display 'You slice the devourer in two. killing it instantly because of your massive strength. YOU WIN!'
+            .action display 'INFECTED GLOB has entered the match!'
+          if user.armor >= 6 and user.weapon >= 7
+            user.money += 10
+            user.xp += 4
+            check()
+            game
+              .action display 'You killed the INFECTED GLOB! Gained +10money and +4xp'
+              .action delay 3000
+              .action arenachoose
+          else
+            user.money -= 5
+            check()
+            game
+              .action display 'The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!'
+              .action delay 3000
+              .action townchoose
+        when random <= 60
+          game
+            .action display 'An imp joined the fight'
             .action delay 3000
+          if user.armor >= 4 and user.weapon >= 4
+            user.money += 15
+            moneygainFX.play()
+            user.xp += 2
+            check()
+            game
+              .action display 'You SMACKED the imp! +15 money +2xp'
+              .action delay 3000
+              .action arenachoose
+          else
+            user.money -= 3
+            check()
+            game
+              .action display 'Daaaang that imp frigged you UP! Go back home!  -3money - Get better equipment!'
+              .action delay 3000
+              .action townchoose
+        when random <= 70
+          game
+            .action display 'Goblins joined the battle-!'
+            .action delay 3000
+          if user.armor >= 2 and user.weapon >= 2
+            user.money += 15
+            user.xp += 2
+            check()
+            game
+              .action display 'You FLOOPED those goblins UP +15money +2xp'
+              .action delay 3000
+              .action arenachoose
+          else
+            user.money -= 3
+            check()
+            game
+              .action display 'Snap! Those goblins diddled you! Go back home! Get better equipment!'
+              .action delay 3000
+              .action townchoose
+        when random <= 100
+          user.money += 5
+          game
+            .action display 'You fought a boot and won.. +5money'
+            .action delay 3000
+            .action arenachoose
+    no: ->
+      game
+        .action display 'You head back...'
+        .action delay 3000
+        .action forestchoose
+  cave:
+    _buttons: yesno
+    yes: ->
+      game
+        .action display 'You go throught the doors, as they close behind you, you find yourself in a massive chamber with a large world-devourer infront of you!'
+        .action delay 3000
+      if user.armor >= 30 and user.weapon >= 30
+        game
+          .action display 'You slice the devourer in two. killing it instantly because of your massive strength. YOU WIN!'
+          .action delay 3000
+          .action (n) ->
+            key += 1
+            win()
+            n()
+      else
+        game
+          .action display [
+            'The devourer expands his long putrid body out of the a massive hole in the wall, charging at you'
+            'Attack or defend?'
+          ]
+          .action cur 'devourer'
+    no: ->
+      game
+        .action display 'You run out of the cave and back to the town'
+        .action delay 3000
+        .action townchoose
+  devourer:
+    _buttons: ['Attack', 'Defend']
+    attack: ->
+      if user.armor >= 19 and user.weapon >= 10
+        if user.weapon >= 12
+          game
+            .action display [
+              'You destroy the devourer with one massive plasma blast. YOU WIN'
+              "Thank you for playing #{user.name}!"
+            ]
             .action (n) ->
-              key += 1
               win()
               n()
         else
           game
-            .action display 'The devourer expands his long putrid body out of the a massive hole in the wall, charging at you'
-            .action delay 3000
-            .action display 'Attack or defend?'
-            .action delay 3000
-            .action cur 'devourer'
-      when 'NO'
+            .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
+          $ '#mainh'
+            .html "#{user.name} the hero"
+          reset()
+      else
+        user.money -= 30
+        check()
         game
-          .action display 'You run out of the cave and back to the town'
+          .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
           .action delay 3000
           .action townchoose
-      else
-        game
-          .action display 'Not an option. You are pushed out of the cave'
-          .action delay 3000
-          .action townchoose
-  devourer: ->
-    if user.armor >= 19 and user.weapon >= 10
-      if question.toUpperCase() is 'ATTACK' and user.weapon >= 12
-        game
-          .action display 'You destroy the devourer with one massive plasma blast. YOU WIN'
-          .action delay 3000
-          .action display "Thank you for playing #{user.name}!"
-          .action (n) ->
-            win()
-            n()
-      else
+    defend: ->
+      if user.armor >= 19 and user.weapon >= 10
         game
           .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
         $ '#mainh'
           .html "#{user.name} the hero"
         reset()
-    else
-      user.money -= 30
-      check()
-      game
-        .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
-        .action delay 3000
-        .action townchoose
-  hunt: ->
-    switch question.toUpperCase()
-      when 'YES' then huntchoose()
-      when 'NO'
-        game
-          .action display 'Heading back...'
-          .action delay 3000
-          .action forestchoose
       else
+        user.money -= 30
+        check()
         game
-          .action display 'Not an option'
+          .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
           .action delay 3000
-          .action forestchoose
+          .action townchoose
+  hunt:
+    _buttons: yesno
+    yes: -> huntchoose()
+    no: ->
+      game
+        .action display 'Heading back...'
+        .action delay 3000
+        .action forestchoose
 forestchoose = (n) ->
   game
     .action display 'There are three paths, one leads you to a shop, the other to an arena, and the last to hunting grounds. Which way to do you pick?'
-    .action delay 3000
     .action cur 'forest'
   if n then n()
 floop = ->
@@ -513,7 +510,6 @@ huntchoose = (n) ->
       break
   game
     .action display curr.msg
-    .action delay 3000
     .action cur 'hunt'
   if 'props' of curr
     props = curr.props
@@ -540,12 +536,11 @@ cavechoose = (n) ->
             .action townchoose
       else
         game
-          .action display 'We have entered the cave.'
-          .action delay 3000
-          .action display 'It\'s dark, you cant see anything'
-          .action delay 3000
-          .action display 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
-          .action delay 3000
+          .action display [
+            'We have entered the cave.'
+            'It\'s dark, you cant see anything'
+            'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'
+          ]
           .action cur 'cave'
     else
       game
@@ -556,7 +551,6 @@ cavechoose = (n) ->
 beachchoose = (n) ->
   game
     .action display 'We are at the beach. Fish, swim, or leave?'
-    .action delay 3000
     .action cur 'beach'
   if n then n()
 fishing = (n) ->
@@ -568,13 +562,11 @@ fishing = (n) ->
         check()
         game
           .action display 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
-          .action delay 3000
           .action cur 'fishing'
       else
         user.inventory.push(fishes[random])
         game
           .action display "#{user.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
-          .action delay 3000
           .action cur 'fishing'
     else
       game
@@ -595,12 +587,11 @@ swimming = (n) ->
     check()
     game
       .action display "#{swimmingOutcomes[random][0]}. Dive in again?"
-      .action delay 3000
     if swimmingOutcomes[random][2]
       user.inventory.push(swimmingOutcomes[random][2])
       game
-        .action display "Added #{swimmingOutcomes[random][2]} to inventory"
         .action delay 3000
+        .action display "Added #{swimmingOutcomes[random][2]} to inventory"
     game.action cur 'swimming'
     if n then n()
 townchoose = (n) ->
@@ -608,15 +599,12 @@ townchoose = (n) ->
     when user.lvl >= 3
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
-        .action delay 3000
     when user.lvl == 2
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
-        .action delay 3000
     else
       game
         .action display '=TOWN= Work, fix, sell, safe, beach =TOWN='
-        .action delay 3000
   game.action cur 'town'
   if n then n()
 choosework = (n) ->
