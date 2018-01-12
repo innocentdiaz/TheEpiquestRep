@@ -14,8 +14,7 @@ body {
 		padding: 1em;
 	}
 	padding: 0;
-	// background: url(../static/back.jpg);
-	background: url(../static/new-year-back.jpg);
+	background: url(../static/back.jpg);
 	background-size: cover;
 	min-height: 100vh;
 	background-position: center;
@@ -119,6 +118,9 @@ body {
 .github-corner:hover .octo-arm {
 	animation: octocat-wave 500ms ease-in-out;
 }
+.octo-arm{
+	transform-origin: 130px 106px;
+}
 @keyframes octocat-wave {
 	0%, 100% {
 		transform: rotate(0);
@@ -196,4 +198,8 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+svg{
+	fill: #151513; color: #c19d64; position: absolute; top: 0; border: 0; right: 0;
 }

@@ -1,2 +1,0 @@
-aaSnowConfig =
-  snowflakes: '200'
