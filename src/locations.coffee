@@ -47,16 +47,16 @@ cur = (c) ->
 yesno = ['Yes', 'No']
 window.currents =
   name: ->
-    window.user.name = window.question
+    window.userData.name = window.question
     game
-      .action display "Let us begin, #{user.name}!"
+      .action display "Let us begin, #{userData.name}!"
       .action delay 3000
       .action townchoose
   town:
     _buttons: ->
       res = ['Work->work', 'Safe->safe', 'Fix your rod->fix', 'Sell things->sell', 'Go to beach->beach']
-      if user.lvl >= 2 then res = res.concat ['Go to forest->forest']
-      if user.lvl >= 3 then res = res.concat ['Go to cave->cave']
+      if userData.lvl >= 2 then res = res.concat ['Go to forest->forest']
+      if userData.lvl >= 3 then res = res.concat ['Go to cave->cave']
       return res
     safe: ->
       game
@@ -68,9 +68,9 @@ window.currents =
         .action cavechoose
     forest: -> forestchoose()
     sell: ->
-      if user.inventory.length >= 1
+      if userData.inventory.length >= 1
         game
-          .action display "Your items are: #{user.inventory.join(', ')}. Sell?"
+          .action display "Your items are: #{userData.inventory.join(', ')}. Sell?"
           .action cur 'sell'
       else
         game
@@ -81,17 +81,17 @@ window.currents =
     beach: -> beachchoose()
     fix: ->
       game
-        .action display "Fixing your rod will cost you #{user.rod} money. Are you sure?"
+        .action display "Fixing your rod will cost you #{userData.rod} money. Are you sure?"
         .action cur 'fix'
     work: -> choosework()
   fix:
     _buttons: yesno
     yes: ->
-      if user.money >= user.rod
-        user.money -= user.rod
-        user.rod = 0
+      if userData.money >= userData.rod
+        userData.money -= userData.rod
+        userData.rod = 0
         game
-          .action display "You have #{user.money} money and #{user.rod} dmg!"
+          .action display "You have #{userData.money} money and #{userData.rod} dmg!"
           .action delay 3000
           .action townchoose
       else
@@ -103,10 +103,10 @@ window.currents =
   sell:
     _buttons: yesno
     yes: ->
-      user.money += user.inventory.length * 2.5
-      user.inventory.length = 0
+      userData.money += userData.inventory.length * 2.5
+      userData.inventory.length = 0
       game
-        .action display "You have sold all your items. Your money is #{user.money}."
+        .action display "You have sold all your items. Your money is #{userData.money}."
         .action delay 3000
         .action townchoose
     no: ->
@@ -114,9 +114,9 @@ window.currents =
   safe:
     _buttons: ['Store money to safe->store', 'Recover all moneys from safe->recover']
     store: ->
-      if user.money >= 1
-        user.safe += user.money
-        user.money = 0
+      if userData.money >= 1
+        userData.safe += userData.money
+        userData.money = 0
         game
           .action display 'You stored all your money in the safe'
           .action delay 3000
@@ -127,9 +127,9 @@ window.currents =
           .action delay 3000
           .action townchoose
     recover: ->
-      if user.safe >= 1
-        user.money += user.safe
-        user.safe = 0
+      if userData.safe >= 1
+        userData.money += userData.safe
+        userData.safe = 0
         game
           .action display 'You recovered all your money from the safe'
           .action delay 3000
@@ -142,14 +142,14 @@ window.currents =
   beach:
     _buttons: ['Fishing->fish', 'Go swimming->swim', 'Go back to town->leave']
     fish: ->
-      if user.rod <= 15
+      if userData.rod <= 15
         game
           .action display 'You go to fish!'
           .action delay 3000
           .action fishing
       else
         game
-          .action display "#{user.rod}dmg"
+          .action display "#{userData.rod}dmg"
           .action delay 3000
           .action beachchoose
     swim: ->
@@ -173,7 +173,7 @@ window.currents =
   win:
     _buttons: yesno
     yes: -> townchoose()
-    no: -> game.action display "Thank you for playing, #{user.name}!"
+    no: -> game.action display "Thank you for playing, #{userData.name}!"
   forest:
     _buttons: ['Go fight to arena->arena', 'Go to shop->shop', 'Go hunting->hunt', 'Leave back to town->leave']
     arena: ->
@@ -202,9 +202,9 @@ window.currents =
   floop:
     _buttons: ['Upgrade armor->armor', 'Upgrade weapon->weapon', 'Leave shop->leave']
     armor: ->
-      if user.money >= 20
-        user.armor += 1
-        user.money -= 20
+      if userData.money >= 20
+        userData.armor += 1
+        userData.money -= 20
         check()
         game
           .action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
@@ -214,9 +214,9 @@ window.currents =
           .action display 'Not enough money! Armor, weapon or leave?'
           .action cur 'floop'
     weapon: ->
-      if user.money >= 15
-        user.weapon += 1
-        user.money -= 15
+      if userData.money >= 15
+        userData.weapon += 1
+        userData.money -= 15
         check()
         game
           .action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
@@ -239,23 +239,23 @@ window.currents =
           game
             .action display 'THE MUTANT has entered the match!'
             .action delay 3000
-          if user.armor >= 13 and user.weapon >= 11
+          if userData.armor >= 13 and userData.weapon >= 11
             game
               .action display 'You SLAYED THE MUTANT! +15xp, +50money'
               .action delay 3000
-            if user.key is 1
+            if userData.key is 1
               game
                 .action display 'The cave trembles and echoes are heard...'
                 .action delay 3000
-              user.key = 0
-            user.xp += 15
-            user.money += 50
+              userData.key = 0
+            userData.xp += 15
+            userData.money += 50
             moneygainFX.play()
             key = 0
             check()
             game.action arenachoose
           else
-            user.money -= 10
+            userData.money -= 10
             check()
             game
               .action display 'You were PWNED by the mutant and sent to the hospital! Get better equipment!'
@@ -265,9 +265,9 @@ window.currents =
           game
             .action display 'SKELETRON has entered the match!'
             .action delay 3000
-          if user.armor >= 10 and user.weapon >= 7
-            user.xp += 5
-            user.money += 20
+          if userData.armor >= 10 and userData.weapon >= 7
+            userData.xp += 5
+            userData.money += 20
             moneygainFX.play()
             check()
             game
@@ -275,8 +275,8 @@ window.currents =
               .action delay 3000
               .action arenachoose
           else
-            user.xp -= 1
-            user.money -= 5
+            userData.xp -= 1
+            userData.money -= 5
             check()
             game
               .action display 'SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!'
@@ -285,16 +285,16 @@ window.currents =
         when random <= 40
           game
             .action display 'INFECTED GLOB has entered the match!'
-          if user.armor >= 6 and user.weapon >= 7
-            user.money += 10
-            user.xp += 4
+          if userData.armor >= 6 and userData.weapon >= 7
+            userData.money += 10
+            userData.xp += 4
             check()
             game
               .action display 'You killed the INFECTED GLOB! Gained +10money and +4xp'
               .action delay 3000
               .action arenachoose
           else
-            user.money -= 5
+            userData.money -= 5
             check()
             game
               .action display 'The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!'
@@ -304,59 +304,59 @@ window.currents =
           game
             .action display 'An imp joined the fight'
             .action delay 3000
-          if user.armor >= 4 and user.weapon >= 4
-            user.money += 15
+          if userData.armor >= 4 and userData.weapon >= 4
+            userData.money += 15
             moneygainFX.play()
-            user.xp += 2
+            userData.xp += 2
             check()
             game
               .action display 'You SMACKED the imp! +15 money +2xp'
               .action delay 3000
               .action arenachoose
           else
-            user.money -= 3
+            userData.money -= 3
             check()
             game
-              .action display 'Daaaang that imp frigged you UP! Go back home!  -3money - Get better equipment!'
+              .action display 'Daaaang that imp frigged you UP! Go back home!  -3 money. Get better equipment!'
               .action delay 3000
               .action townchoose
         when random <= 70
           game
             .action display 'Goblins joined the battle-!'
             .action delay 3000
-          if user.armor >= 2 and user.weapon >= 2
-            user.money += 15
-            user.xp += 2
+          if userData.armor >= 2 and userData.weapon >= 2
+            userData.money += 15
+            userData.xp += 2
             check()
             game
-              .action display 'You FLOOPED those goblins UP +15money +2xp'
+              .action display 'You rekt those goblins UP +15money +2xp'
               .action delay 3000
               .action arenachoose
           else
-            user.money -= 3
+            userData.money -= 3
             check()
             game
-              .action display 'Snap! Those goblins diddled you! Go back home! Get better equipment!'
+              .action display 'Snap! Those goblins diddled you! Go back home and get better equipment!'
               .action delay 3000
               .action townchoose
         when random <= 100
-          user.money += 5
+          userData.money += 5
           game
-            .action display 'You fought a boot and won.. +5money'
+            .action display 'You fought a boot and won.. +5 money'
             .action delay 3000
             .action arenachoose
     no: ->
       game
-        .action display 'You head back...'
+        .action display 'You head back.'
         .action delay 3000
         .action forestchoose
-  cave:
+  cave:#The cave should have more gameplay
     _buttons: yesno
     yes: ->
       game
         .action display 'You go throught the doors, as they close behind you, you find yourself in a massive chamber with a large world-devourer infront of you!'
         .action delay 3000
-      if user.armor >= 30 and user.weapon >= 30
+      if userData.armor >= 30 and userData.weapon >= 30
         game
           .action display 'You slice the devourer in two. killing it instantly because of your massive strength. YOU WIN!'
           .action delay 3000
@@ -379,12 +379,12 @@ window.currents =
   devourer:
     _buttons: ['Attack', 'Defend']
     attack: ->
-      if user.armor >= 19 and user.weapon >= 10
-        if user.weapon >= 12
+      if userData.armor >= 19 and userData.weapon >= 10
+        if userData.weapon >= 12
           game
             .action display [
               'You destroy the devourer with one massive plasma blast. YOU WIN'
-              "Thank you for playing #{user.name}!"
+              "Thank you for playing #{userData.name}!"
             ]
             .action (n) ->
               win()
@@ -393,24 +393,24 @@ window.currents =
           game
             .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
           $ '#mainh'
-            .html "#{user.name} the hero"
+            .html "#{userData.name} the hero"
           reset()
       else
-        user.money -= 30
+        userData.money -= 30
         check()
         game
           .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
           .action delay 3000
           .action townchoose
     defend: ->
-      if user.armor >= 19 and user.weapon >= 10
+      if userData.armor >= 19 and userData.weapon >= 10
         game
           .action display 'You defend against the mighty creature - but as you do, it begins circling around you. As a final resort you unleash all of your power, killing you and the creature, curing the world of the the devourer. You win the ULTIMATE HERO ENDING'
         $ '#mainh'
-          .html "#{user.name} the hero"
+          .html "#{userData.name} the hero"
         reset()
       else
-        user.money -= 30
+        userData.money -= 30
         check()
         game
           .action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
@@ -513,18 +513,18 @@ huntchoose = (n) ->
     .action cur 'hunt'
   if 'props' of curr
     props = curr.props
-    user.money += props.money if 'money' of props
+    userData.money += props.money if 'money' of props
     check()
-    user.armor += props.armor if 'armor' of props
-    user.inventory.push props.inventory if 'inventory' of props
+    userData.armor += props.armor if 'armor' of props
+    userData.inventory.push props.inventory if 'inventory' of props
   if n then n()
 cavechoose = (n) ->
-    if user.key is 0
+    if userData.key is 0
       if Math.random() * 100 + 1 <= 20
         game
           .action display 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
           .action delay 3000
-        if user.armor >= 16 and user.weapon >= 12
+        if userData.armor >= 16 and userData.weapon >= 12
           game
             .action display 'You kill the spider-skeleton. Let\'s enter.'
             .action delay 3000
@@ -554,41 +554,41 @@ beachchoose = (n) ->
     .action cur 'beach'
   if n then n()
 fishing = (n) ->
-    if user.rod <= 15
+    if userData.rod <= 15
       random = Math.floor(Math.random() * fishes.length + 1)
       if random >= fishes.length
-        user.rod += 3
-        user.money -= 10
+        userData.rod += 3
+        userData.money -= 10
         check()
         game
           .action display 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
           .action cur 'fishing'
       else
-        user.inventory.push(fishes[random])
+        userData.inventory.push(fishes[random])
         game
-          .action display "#{user.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
+          .action display "#{userData.name} caught a #{fishes[random]}! It\'s going in your inventory. Try again?"
           .action cur 'fishing'
     else
       game
-        .action display "Your rod has #{user.rod} damage! Go fix it at the town!"
+        .action display "Your rod has #{userData.rod} damage! Go fix it at the town!"
         .action delay 3000
         .action beachchoose
     if n then n()
 swimming = (n) ->
   random = Math.floor Math.random() * swimmingOutcomes.length + 1
   if random >= swimmingOutcomes.length
-    user.money /= 2
+    userData.money /= 2
     game
-      .action display "#{user.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
+      .action display "#{userData.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
       .action delay 3000
       .action townchoose
   else
-    user.money += swimmingOutcomes[random][1]
+    userData.money += swimmingOutcomes[random][1]
     check()
     game
       .action display "#{swimmingOutcomes[random][0]}. Dive in again?"
     if swimmingOutcomes[random][2]
-      user.inventory.push(swimmingOutcomes[random][2])
+      userData.inventory.push(swimmingOutcomes[random][2])
       game
         .action delay 3000
         .action display "Added #{swimmingOutcomes[random][2]} to inventory"
@@ -596,10 +596,10 @@ swimming = (n) ->
     if n then n()
 townchoose = (n) ->
   switch
-    when user.lvl >= 3
+    when userData.lvl >= 3
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
-    when user.lvl == 2
+    when userData.lvl == 2
       game
         .action display '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
     else
@@ -611,30 +611,30 @@ choosework = (n) ->
   random = Math.random() * 10 + 1
   switch
     when random <= 2
-      user.money += 25
+      userData.money += 25
       moneygainFX.play()
-      user.xp += 1
+      userData.xp += 1
       check()
       game
         .action display "You go to the library and help out with storing while you've gained experience from reading. Also you get paid"
         .action delay 3000
         .action townchoose
     when random >= 8
-      user.money -= 10
+      userData.money -= 10
       check()
       game
         .action display 'While looking for a job you get robbed. You lose 10 money!'
         .action delay 3000
         .action townchoose
     when random <= 4
-      user.money += 15
+      userData.money += 15
       moneygainFX.play()
       game
         .action display 'You work at the pub and get paid 15 money!'
         .action delay 3000
         .action townchoose
     when random <= 7
-      user.xp += 1
+      userData.xp += 1
       check()
       game
         .action display 'You go to the local car wash and gain some experience!'

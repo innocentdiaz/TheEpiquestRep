@@ -30,15 +30,15 @@ $ ->
     .click ->
       el = $ this
       if el.hasClass 'off'
-        mario.play()
+        bgmain.play()
       else
-        mario.pause()
+        bgmain.pause()
       el.toggleClass 'off'
 
   start()
 
 
-u =
+userData =
   name: ''
   lvl: 1
   xp: 0
@@ -59,8 +59,8 @@ start = ->
     .show()
   $ '.button'
     .hide()
-  if 'player' of localStorage
-    u = JSON.parse(localStorage.player)
+  if 'EQuserData' of localStorage
+    userData = JSON.parse(localStorage.EQuserData)
     createUser()
     townchoose()
     updatestats()
@@ -69,7 +69,7 @@ start = ->
     displayToPlayer 'What is your name?'
     window.current = currents.name
 createUser = ->
-  window.user = new Proxy u, {
+  window.user = new Proxy userData, {
     set: (t, p, v) ->
       t[p] = v
       updatestats()
@@ -78,9 +78,9 @@ createUser = ->
 question = ''
 window.current = ->
 hoverFX = new Audio '../static/button-hover.wav'
-mario = new Audio '../static/locust.mp3'
+bgmain = new Audio '../static/locust.mp3'
 moneygainFX = new Audio '../static/money-gain.mp3'
-mario.looped = true
+bgmain.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 # array of outcome of swimming. has description, money and/or items
 swimmingOutcomes = [

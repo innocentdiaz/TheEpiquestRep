@@ -7,23 +7,27 @@ gulp.task('watch', () => {
   gulp.watch('src/*.coffee', ['js'])
   gulp.watch('src/*.pug', ['html'])
   gulp.watch('src/*.less', ['css'])
-})
-gulp.task('default', ['html', 'css', 'js'])
+});
+
+gulp.task('default', ['html', 'css', 'js']);
+
 gulp.task('html', () =>
   gulp
     .src('src/*.pug')
     .pipe(pug())
     .pipe(gulp.dest('dist'))
-)
+);
+
 gulp.task('css', () =>
   gulp
     .src('src/*.less')
     .pipe(less())
     .pipe(gulp.dest('dist'))
-)
+);
+
 gulp.task('js', () =>
   gulp
     .src('src/*.coffee')
     .pipe(coffee({ bare: true }))
     .pipe(gulp.dest('dist'))
-)
+);

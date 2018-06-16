@@ -1,8 +1,4 @@
 node_modules
 dist
-<<<<<<< HEAD
-=======
 .DS_Store
->>>>>>> 72ba0695b09d8ba93dbbfc7e9ecda343af00196b
-prepos-6.config.js
 webpack.config.js
