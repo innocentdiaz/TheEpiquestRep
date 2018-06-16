@@ -15,8 +15,7 @@ updatestats = ->
 	$('#xp').text userData.xp
 	$('#armor').text userData.armor
 	$('#weapon').text userData.weapon
-	localStorage.EQuserData = JSON.stringify(userData)
-
+	localStorage.setItem('EQuserData', JSON.stringify(userData))
 playtheme = (selected) ->
 	switch (selected)
 		when 'bgmain'

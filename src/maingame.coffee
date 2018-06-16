@@ -48,10 +48,11 @@ userData =
 	rod: 0
 	armor: 0
 	weapon: 0
-	key: 1
+	hasDefeatedMutant: false
+
 window.user = null
 start = ->
-	if typeof(Storage) is "undefined"#if browser does not support local storage
+	if typeof(Storage) is "undefined"# if browser does not support local storage
 		displayToPlayer "This browser does not support local storage"
 		return
 
@@ -61,20 +62,12 @@ start = ->
 		.hide()
 	if 'EQuserData' of localStorage
 		userData = JSON.parse(localStorage.EQuserData)
-		createUser()
-		townchoose()
 		updatestats()
+		townchoose()
 	else
-		createUser()
-		displayToPlayer 'What is your name?'
+		displayToPlayer 'Welcome, adventurer. What is your name?'
 		window.current = currents.name
-createUser = ->
-	window.user = new Proxy userData, {
-		set: (t, p, v) ->
-			t[p] = v
-			updatestats()
-	}
-# console.log(start)
+
 question = ''
 window.current = ->
 hoverFX = new Audio '../static/button-hover.wav'
@@ -82,18 +75,18 @@ bgmain = new Audio '../static/locust.mp3'
 moneygainFX = new Audio '../static/money-gain.mp3'
 bgmain.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
-# array of outcome of swimming. has description, money and/or items
+
+# Array of outcome of swimming. Has description, Money and/or items
 swimmingOutcomes = [
-	['Dived and came out with sand..', 0],
-	['Dived in and found a sack of coins!', 30],
-	['Dived in and found a gold ring! It\'s going in your inventory', 0, 'Gold ring'],
-	['Dived in and found a boot, It\'s useless', 0],
-	['Dived in and found a small sack of coins!', 10],
-	['Dived in and came out with nothing', 0],
-	['Dived in and came out with a large sack of coins!', 45],
-	['Dived in and came out with a book.', 0, 'Book']
+	{description: 'Dived and came out with sand..', money: 0},
+	{description: 'Dived in and found a sack of coins!', money: 30},
+	{description: 'Dived in and found a gold ring! It\'s going in your inventory', money: 0, items: ['Gold ring']},
+	{description: 'Dived in and found a boot, It\'s useless', money: 0},
+	{description: 'Dived in and found a small sack of coins!', money: 10},
+	{description: 'Dived in and came out with nothing', money: 0},
+	{description: 'Dived in and came out with a large sack of coins!', money: 45},
+	{description: 'Dived in and came out with a book.', money: 0, items: ['Book']}
 ]
-	
 
 win = ->
 	$ '#mainh'
@@ -119,7 +112,6 @@ check = ->
 $(document).ready(->
 	$("#mainh").click(
 		->
-			setTimeout(window.location="about.html",2000)
-			
+			window.location = '/about.html'
 	)
 )

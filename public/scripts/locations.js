@@ -74,7 +74,8 @@ yesno = ['Yes', 'No'];
 
 window.currents = {
   name: function() {
-    window.userData.name = window.question;
+    userData.name = window.question;
+    updatestats();
     return game.action(display(`Let us begin, ${userData.name}!`)).action(delay(3000)).action(townchoose);
   },
   town: {
@@ -252,21 +253,20 @@ window.currents = {
   arena: {
     _buttons: yesno,
     yes: function() {
-      var key, random;
+      var hasDefeatedMutant, random;
       random = Math.random() * 100 + 1;
       switch (false) {
         case !(random <= 5):
           game.action(display('THE MUTANT has entered the match!')).action(delay(3000));
           if (userData.armor >= 13 && userData.weapon >= 11) {
             game.action(display('You SLAYED THE MUTANT! +15xp, +50money')).action(delay(3000));
-            if (userData.key === 1) {
-              game.action(display('The cave trembles and echoes are heard...')).action(delay(3000));
-              userData.key = 0;
+            if (userData.hasDefeatedMutant) {
+              game.action(display('The cave trembles and echoes are heard.')).action(delay(3000));
             }
             userData.xp += 15;
             userData.money += 50;
             moneygainFX.play();
-            key = 0;
+            hasDefeatedMutant = true;
             check();
             return game.action(arenachoose);
           } else {
@@ -345,7 +345,6 @@ window.currents = {
       game.action(display('You go throught the doors, as they close behind you, you find yourself in a massive chamber with a large world-devourer infront of you!')).action(delay(3000));
       if (userData.armor >= 30 && userData.weapon >= 30) {
         return game.action(display('You slice the devourer in two. killing it instantly because of your massive strength. YOU WIN!')).action(delay(3000)).action(function(n) {
-          key += 1;
           win();
           return n();
         });
@@ -525,7 +524,7 @@ huntchoose = function(n) {
 };
 
 cavechoose = function(n) {
-  if (userData.key === 0) {
+  if (userData.hasDefeatedMutant) {
     if (Math.random() * 100 + 1 <= 20) {
       game.action(display('You are attacked by a spider-skeleton-dungeon-keeper at the entrance!')).action(delay(3000));
       if (userData.armor >= 16 && userData.weapon >= 12) {
@@ -537,7 +536,7 @@ cavechoose = function(n) {
       game.action(display(['We have entered the cave.', 'It\'s dark, you cant see anything', 'Flames ignite besides you down a long corridor that lead towards two large doors. Enter?'])).action(cur('cave'));
     }
   } else {
-    game.action(display('There is nothing here for you')).action(delay(3000)).action(townchoose);
+    game.action(display('There is nothing here for you yet...')).action(delay(3000)).action(townchoose);
   }
   if (n) {
     return n();
@@ -575,16 +574,16 @@ fishing = function(n) {
 swimming = function(n) {
   var random;
   random = Math.floor(Math.random() * swimmingOutcomes.length + 1);
-  if (random >= swimmingOutcomes.length) {
+  if (random >= swimmingOutcomes.length) { // if you are unlucky
     userData.money /= 2;
-    return game.action(display(`${userData.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital`)).action(delay(3000)).action(townchoose);
+    return game.action(display(`${userData.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital`)).action(delay(3000)).action(townchoose); // else if you catch something
   } else {
-    userData.money += swimmingOutcomes[random][1];
+    userData.money += swimmingOutcomes[random].money;
     check();
-    game.action(display(`${swimmingOutcomes[random][0]}. Dive in again?`));
-    if (swimmingOutcomes[random][2]) {
-      userData.inventory.push(swimmingOutcomes[random][2]);
-      game.action(delay(3000)).action(display(`Added ${swimmingOutcomes[random][2]} to inventory`));
+    game.action(display(`${swimmingOutcomes[random].description}. Dive in again?`));
+    if (swimmingOutcomes[random].items) { // if it has items
+      userData.inventory.push(...swimmingOutcomes[random].items);
+      game.action(delay(3000)).action(display(`Added ${swimmingOutcomes[random].items.join(', ')} to inventory`));
     }
     game.action(cur('swimming'));
     if (n) {

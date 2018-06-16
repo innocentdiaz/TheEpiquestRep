@@ -22,7 +22,7 @@ updatestats = function() {
   $('#xp').text(userData.xp);
   $('#armor').text(userData.armor);
   $('#weapon').text(userData.weapon);
-  return localStorage.EQuserData = JSON.stringify(userData);
+  return localStorage.setItem('EQuserData', JSON.stringify(userData));
 };
 
 playtheme = function(selected) {

@@ -47,7 +47,8 @@ cur = (c) ->
 yesno = ['Yes', 'No']
 window.currents =
 	name: ->
-		window.userData.name = window.question
+		userData.name = window.question
+		updatestats()
 		game
 			.action display "Let us begin, #{userData.name}!"
 			.action delay 3000
@@ -243,15 +244,14 @@ window.currents =
 						game
 							.action display 'You SLAYED THE MUTANT! +15xp, +50money'
 							.action delay 3000
-						if userData.key is 1
+						if userData.hasDefeatedMutant
 							game
-								.action display 'The cave trembles and echoes are heard...'
+								.action display 'The cave trembles and echoes are heard.'
 								.action delay 3000
-							userData.key = 0
 						userData.xp += 15
 						userData.money += 50
 						moneygainFX.play()
-						key = 0
+						hasDefeatedMutant = true
 						check()
 						game.action arenachoose
 					else
@@ -361,7 +361,6 @@ window.currents =
 					.action display 'You slice the devourer in two. killing it instantly because of your massive strength. YOU WIN!'
 					.action delay 3000
 					.action (n) ->
-						key += 1
 						win()
 						n()
 			else
@@ -519,7 +518,7 @@ huntchoose = (n) ->
 		userData.inventory.push props.inventory if 'inventory' of props
 	if n then n()
 cavechoose = (n) ->
-		if userData.key is 0
+		if userData.hasDefeatedMutant
 			if Math.random() * 100 + 1 <= 20
 				game
 					.action display 'You are attacked by a spider-skeleton-dungeon-keeper at the entrance!'
@@ -544,7 +543,7 @@ cavechoose = (n) ->
 					.action cur 'cave'
 		else
 			game
-				.action display 'There is nothing here for you'
+				.action display 'There is nothing here for you yet...'
 				.action delay 3000
 				.action townchoose
 		if n then n()
@@ -576,22 +575,24 @@ fishing = (n) ->
 		if n then n()
 swimming = (n) ->
 	random = Math.floor Math.random() * swimmingOutcomes.length + 1
-	if random >= swimmingOutcomes.length
+	if random >= swimmingOutcomes.length # if you are unlucky
 		userData.money /= 2
 		game
 			.action display "#{userData.name} was stung by a deadly jelly fish! You lost half of your money at the town hospital"
 			.action delay 3000
 			.action townchoose
-	else
-		userData.money += swimmingOutcomes[random][1]
+	else # else if you catch something
+		
+		userData.money += swimmingOutcomes[random].money
 		check()
 		game
-			.action display "#{swimmingOutcomes[random][0]}. Dive in again?"
-		if swimmingOutcomes[random][2]
-			userData.inventory.push(swimmingOutcomes[random][2])
+			.action display "#{swimmingOutcomes[random].description}. Dive in again?"
+		if swimmingOutcomes[random].items # if it has items
+			
+			userData.inventory.push(swimmingOutcomes[random].items...)
 			game
 				.action delay 3000
-				.action display "Added #{swimmingOutcomes[random][2]} to inventory"
+				.action display "Added #{swimmingOutcomes[random].items.join(', ')} to inventory"
 		game.action cur 'swimming'
 		if n then n()
 townchoose = (n) ->
