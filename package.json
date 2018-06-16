@@ -1,9 +1,9 @@
 {
-  "user.name": "epiquest",
+  "name": "epiquest",
   "version": "1.0.0",
   "description": "=====EPIQUEST=====",
-  "main": "beachlocation.js",
   "scripts": {
+    "start": "open ./public/index.html && gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
