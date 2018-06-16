@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "=====EPIQUEST=====",
   "scripts": {
-    "start": "concurrently \"gulp watch \" \"open ./public/index.html\"",
+    "start": "concurrently \"gulp watch \" \"open ./build/index.html\"",
     "build": "gulp default",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

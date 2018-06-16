@@ -5,7 +5,7 @@
 	color:black;
 }
 body {
-	font-family: 'Poiret One', cursive;
+	font-family: Arial, Helvetica, sans-serif;
 	color: #795419;
 	font-size: 140%;
 	padding: 0;
@@ -47,18 +47,13 @@ body {
 	padding:10px,4em;
 	margin:auto;
 }
-#main-header {//top heading "epiquest"
-	border:4px outset #795419;
+#main-header__container {
+	border:3px outset #795419;
 	border-radius:10px;
 	background-color:black;
-	margin: auto;
+	margin: 10px auto;
 	text-align: center;
-	display: inline-block;
-	margin-top: 10px;
-	padding:.5em 1em;
-	a {
-		color: white;
-	}
+
 	&:hover{
 		background-color: white;
 		color:black;
@@ -66,9 +61,6 @@ body {
 		-webkit-transition: background-color 500ms linear;
 		-ms-transition: background-color 500ms linear;
 		transition: background-color 500ms linear;
-		a {
-			color: black;
-		}
 	}
 }
 #controls{
