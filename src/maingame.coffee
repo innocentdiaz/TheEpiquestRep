@@ -35,7 +35,7 @@ $ ->
 				bgmain.pause()
 			el.toggleClass 'off'
 
-	start()
+	
 
 
 userData =
@@ -50,7 +50,7 @@ userData =
 	weapon: 0
 	hasDefeatedMutant: false
 
-window.user = null
+window.typingIntervals = [] # This will store the typing intervals for the message typing animations, so that they can be cleared on command
 start = ->
 	if typeof(Storage) is "undefined"# if browser does not support local storage
 		displayToPlayer "This browser does not support local storage"
@@ -70,9 +70,9 @@ start = ->
 
 question = ''
 window.current = ->
-hoverFX = new Audio '../static/button-hover.wav'
-bgmain = new Audio '../static/locust.mp3'
-moneygainFX = new Audio '../static/money-gain.mp3'
+hoverFX = new Audio '../../static/button-hover.wav'
+bgmain = new Audio '../../static/locust.mp3'
+moneygainFX = new Audio '../../static/money-gain.mp3'
 bgmain.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 
@@ -109,9 +109,7 @@ check = ->
 			when 2 then alert('You can now go to the forest')
 			when 3 then alert('You can now venture into the cave... At your own risk...')
 	if user.money < 0 then user.money = 0
-$(document).ready(->
-	$("#mainh").click(
-		->
-			window.location = '/about.html'
-	)
-)
+
+$ document
+	.ready =>
+		start()

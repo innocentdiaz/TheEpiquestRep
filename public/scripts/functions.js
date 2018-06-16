@@ -1,14 +1,33 @@
 var playtheme, push, question, reset, updatestats;
 
 window.displayToPlayer = function(message) {
-  return $('#display').html(message);
+  var index, interval;
+  if (window.typingInterval) {
+    clearInterval(window.typingInterval);
+  }
+  $('#display').html("");
+  $(".buttons").each(function(i, element) {
+    return $(element).addClass('disabled');
+  });
+  interval = 50;
+  index = 0;
+  window.typingInterval = setInterval(function() {
+    $("#display").append(message.charAt(index));
+    index++;
+    if (index === message.length) {
+      clearInterval(window.typingInterval);
+      return $(".buttons").removeClass('disabled');
+    }
+  }, interval);
+  return interval += 30;
 };
 
 question = '';
 
-// userData.inventory = []
-push = function(item) {
-  return userData.inventory.push(item);
+push = function(items) {
+  return items.forEach(item(function() {
+    return userData.inventory.push(item);
+  }));
 };
 
 updatestats = function() {

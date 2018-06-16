@@ -40,7 +40,7 @@ $(function() {
   }).parent().submit(function() {
     return false;
   });
-  $('.sound').click(function() {
+  return $('.sound').click(function() {
     var el;
     el = $(this);
     if (el.hasClass('off')) {
@@ -50,7 +50,6 @@ $(function() {
     }
     return el.toggleClass('off');
   });
-  return start();
 });
 
 userData = {
@@ -66,7 +65,7 @@ userData = {
   hasDefeatedMutant: false
 };
 
-window.user = null;
+window.typingIntervals = []; // This will store the typing intervals for the message typing animations, so that they can be cleared on command
 
 start = function() {
   if (typeof Storage === "undefined") { // if browser does not support local storage
@@ -89,11 +88,11 @@ question = '';
 
 window.current = function() {};
 
-hoverFX = new Audio('../static/button-hover.wav');
+hoverFX = new Audio('../../static/button-hover.wav');
 
-bgmain = new Audio('../static/locust.mp3');
+bgmain = new Audio('../../static/locust.mp3');
 
-moneygainFX = new Audio('../static/money-gain.mp3');
+moneygainFX = new Audio('../../static/money-gain.mp3');
 
 bgmain.looped = true;
 
@@ -169,8 +168,6 @@ check = function() {
   }
 };
 
-$(document).ready(function() {
-  return $("#mainh").click(function() {
-    return window.location = '/about.html';
-  });
+$(document).ready(() => {
+  return start();
 });

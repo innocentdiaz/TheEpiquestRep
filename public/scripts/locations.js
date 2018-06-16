@@ -595,13 +595,13 @@ swimming = function(n) {
 townchoose = function(n) {
   switch (false) {
     case !(userData.lvl >= 3):
-      game.action(display('=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='));
+      game.action(display('We are in the town'));
       break;
     case userData.lvl !== 2:
-      game.action(display('=TOWN= Work, fix, sell, safe, beach, forest =TOWN='));
+      game.action(display('We are in the town'));
       break;
     default:
-      game.action(display('=TOWN= Work, fix, sell, safe, beach =TOWN='));
+      game.action(display('We are in the town'));
   }
   game.action(cur('town'));
   if (n) {

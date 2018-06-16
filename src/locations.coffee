@@ -599,13 +599,13 @@ townchoose = (n) ->
 	switch
 		when userData.lvl >= 3
 			game
-				.action display '=TOWN= Work, fix, sell, safe, beach, forest, cave =TOWN='
+				.action display 'We are in the town'
 		when userData.lvl == 2
 			game
-				.action display '=TOWN= Work, fix, sell, safe, beach, forest =TOWN='
+				.action display 'We are in the town'
 		else
 			game
-				.action display '=TOWN= Work, fix, sell, safe, beach =TOWN='
+				.action display 'We are in the town'
 	game.action cur 'town'
 	if n then n()
 choosework = (n) ->

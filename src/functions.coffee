@@ -1,8 +1,27 @@
-window.displayToPlayer = (message) -> $('#display').html message
-question = ''
-# userData.inventory = []
+window.displayToPlayer = (message) ->
+	if window.typingInterval then clearInterval(window.typingInterval)
+	$ '#display'
+		.html ""
+	$ ".buttons"
+		.each (i, element) ->
+			$ element
+				.addClass('disabled')
+	interval = 50
+	index = 0
+	window.typingInterval = setInterval ->	
+		$("#display").append(message.charAt(index))
+		index++
+		if index is message.length
+			clearInterval(window.typingInterval)
+			$ ".buttons"
+				.removeClass('disabled')
+	, interval
+	interval += 30
 
-push = (item) -> userData.inventory.push item
+question = ''
+
+push = (items) ->
+	items.forEach(item -> userData.inventory.push item)
 
 updatestats = ->
 	# $ '#stats'

@@ -110,6 +110,10 @@ body {
 	}
 }
 
+.buttons.disabled {
+	pointer-events: none;
+	opacity: .5;
+}
 .github-corner:hover .octo-arm {
 	animation: octocat-wave 500ms ease-in-out;
 }
@@ -188,11 +192,6 @@ body {
 		background: url(../../static/pointy-sword.png);
 		background-size: contain;
 	}
-}
-#snowflakesCanvas {
-	position: absolute;
-	top: 0;
-	left: 0;
 }
 
 svg{

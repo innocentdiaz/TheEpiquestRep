@@ -27,8 +27,6 @@ html#body(lang='en')
 		link(rel='shortcut icon' type='image/png' href='../static/EQF.png')
 		each style in styles
 			link(rel='stylesheet' href=style)
-		each script in scripts
-			script(src=script)
 		title EPIQUEST
 	body
 		h1#mainh EPIQUEST
@@ -71,3 +69,5 @@ html#body(lang='en')
 				path(d=pathes[0])
 				path.octo-arm(d=pathes[1] fill='currentColor' style='transform-origin: 130px 106px;')
 				path.octo-body(d=pathes[2] fill='currentColor')
+		each script in scripts
+			script(src=script)
