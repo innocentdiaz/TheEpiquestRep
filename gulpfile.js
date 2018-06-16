@@ -23,12 +23,12 @@ gulp.task('css', () =>
   gulp
     .src('src/*.less')
     .pipe(less())
-    .pipe(gulp.dest('public'))
+    .pipe(gulp.dest('public/styles'))
 );
 
 gulp.task('js', () =>
   gulp
     .src('src/*.coffee')
     .pipe(coffee({ bare: true }))
-    .pipe(gulp.dest('public'))
+    .pipe(gulp.dest('public/scripts'))
 );
