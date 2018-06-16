@@ -30,7 +30,7 @@ gulp.task('css', () =>
 
 gulp.task('js', () =>
   gulp
-    .src('src/*.coffee')
+    .src('src/scripts/*.coffee')
     .pipe(coffee({ bare: true }))
     .pipe(gulp.dest('build/scripts'))
 );
