@@ -47,16 +47,18 @@ body {
 	padding:10px,4em;
 	margin:auto;
 }
-#mainh {//top heading "epiquest"
-	color: white;
+#main-header {//top heading "epiquest"
 	border:4px outset #795419;
 	border-radius:10px;
 	background-color:black;
 	margin: auto;
 	text-align: center;
-	display: block;
+	display: inline-block;
 	margin-top: 10px;
-	width: 45%;
+	padding:.5em 1em;
+	a {
+		color: white;
+	}
 	&:hover{
 		background-color: white;
 		color:black;
@@ -64,6 +66,9 @@ body {
 		-webkit-transition: background-color 500ms linear;
 		-ms-transition: background-color 500ms linear;
 		transition: background-color 500ms linear;
+		a {
+			color: black;
+		}
 	}
 }
 #controls{

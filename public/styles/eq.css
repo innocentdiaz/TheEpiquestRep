@@ -47,24 +47,29 @@ body {
   padding: 10px,4em;
   margin: auto;
 }
-#mainh {
-  color: white;
+#main-header {
   border: 4px outset #795419;
   border-radius: 10px;
   background-color: black;
   margin: auto;
   text-align: center;
-  display: block;
+  display: inline-block;
   margin-top: 10px;
-  width: 45%;
+  padding: .5em 1em;
 }
-#mainh:hover {
+#main-header a {
+  color: white;
+}
+#main-header:hover {
   background-color: white;
   color: black;
   border-color: white;
   -webkit-transition: background-color 500ms linear;
   -ms-transition: background-color 500ms linear;
   transition: background-color 500ms linear;
+}
+#main-header:hover a {
+  color: black;
 }
 #controls {
   color: white;
