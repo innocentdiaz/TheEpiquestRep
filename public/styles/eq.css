@@ -9,7 +9,7 @@ body {
   color: #795419;
   font-size: 140%;
   padding: 0;
-  background: url(../static/back.jpg);
+  background: url(../../static/back.jpg);
   background-size: cover;
   min-height: 100vh;
   background-position: center;
@@ -145,13 +145,13 @@ body {
   display: inline-block;
 }
 .sound {
-  background: url(../static/sound-on.png);
+  background: url(../../static/sound-on.png);
   background-size: contain;
   width: 45px;
   height: 45px;
 }
 .sound.off {
-  background: url(../static/sound-off.png);
+  background: url(../../static/sound-off.png);
   background-size: contain;
 }
 .icon {
@@ -160,35 +160,35 @@ body {
   display: inline-block;
 }
 .icon.name {
-  background: url(../static/plain-dagger.png);
+  background: url(../../static/plain-dagger.png);
   background-size: contain;
 }
 .icon.money {
-  background: url(../static/cash.png);
+  background: url(../../static/cash.png);
   background-size: contain;
 }
 .icon.safe {
-  background: url(../static/piggy-bank.png);
+  background: url(../../static/piggy-bank.png);
   background-size: contain;
 }
 .icon.rod {
-  background: url(../static/fishing-pole.png);
+  background: url(../../static/fishing-pole.png);
   background-size: contain;
 }
 .icon.level {
-  background: url(../static/medal.png);
+  background: url(../../static/medal.png);
   background-size: contain;
 }
 .icon.xp {
-  background: url(../static/upgrade.png);
+  background: url(../../static/upgrade.png);
   background-size: contain;
 }
 .icon.armor {
-  background: url(../static/lamellar.png);
+  background: url(../../static/lamellar.png);
   background-size: contain;
 }
 .icon.weapon {
-  background: url(../static/pointy-sword.png);
+  background: url(../../static/pointy-sword.png);
   background-size: contain;
 }
 #snowflakesCanvas {

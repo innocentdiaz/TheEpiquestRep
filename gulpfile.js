@@ -5,6 +5,7 @@ const less = require('gulp-less');
 const coffee = require('gulp-coffeescript');
 
 gulp.task('watch', () => {
+  gulp.run(['default'])
   gulp.watch('src/*.coffee', ['js'])
   gulp.watch('src/*.pug', ['html'])
   gulp.watch('src/*.less', ['css'])
