@@ -37,6 +37,6 @@ gulp.task('js', () =>
 
 gulp.task('media', () => {
   gulp
-    .src('src/media/*')
+    .src('src/media/**')
     .pipe(gulp.dest('build/media'))
 })

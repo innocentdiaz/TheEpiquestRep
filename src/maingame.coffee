@@ -50,7 +50,7 @@ userData =
 	weapon: 0
 	hasDefeatedMutant: false
 
-window.typingIntervals = [] # This will store the typing intervals for the message typing animations, so that they can be cleared on command
+window.typingInterval = false# This will store the typing intervals for the message typing animations, so that they can be cleared on command
 start = ->
 	if typeof(Storage) is "undefined"# if browser does not support local storage
 		displayToPlayer "This browser does not support local storage"
@@ -90,25 +90,25 @@ swimmingOutcomes = [
 
 win = ->
 	$ '#mainh'
-		.html user.name
-	user.armor = 123
-	user.weapon = 98
-	user.lvl = 50
-	user.xp = 0
-	user.money += 500
-	user.rod = -100
+		.html userData.name
+	userData.armor = 123
+	userData.weapon = 98
+	userData.lvl = 50
+	userData.xp = 0
+	userData.money += 500
+	userData.rod = -100
 	showme()
 	displayToPlayer 'You are the strongest hero go back to town?'
 	current = currents.win
 check = ->
-	if user.xp >= 10
-		user.lvl += 1
-		confirm "You have leveled up to level #{user.lvl}!"
-		user.xp -= 10
-		switch user.lvl
+	if userData.xp >= 10
+		userData.lvl += 1
+		confirm "You have leveled up to level #{userData.lvl}!"
+		userData.xp -= 10
+		switch userData.lvl
 			when 2 then alert('You can now go to the forest')
 			when 3 then alert('You can now venture into the cave... At your own risk...')
-	if user.money < 0 then user.money = 0
+	if userData.money < 0 then userData.money = 0
 
 $ document
 	.ready =>
