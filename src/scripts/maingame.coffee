@@ -50,9 +50,9 @@ userData =
 	weapon: 0
 	hasDefeatedMutant: false
 
-window.typingInterval = false# This will store the typing intervals for the message typing animations, so that they can be cleared on command
+window.typingInterval = false # This will store the typing intervals for the message typing animations, so that they can be cleared on command
 start = ->
-	if typeof(Storage) is "undefined"# if browser does not support local storage
+	if typeof(Storage) is "undefined" # if browser does not support local storage
 		displayToPlayer "This browser does not support local storage"
 		return
 
@@ -70,22 +70,22 @@ start = ->
 
 question = ''
 window.current = ->
-hoverFX = new Audio '../static/button-hover.wav'
-bgmain = new Audio '../static/locust.mp3'
-moneygainFX = new Audio '../static/money-gain.mp3'
+hoverFX = new Audio '../media/button-hover.wav'
+bgmain = new Audio '../media/locust.mp3'
+moneygainFX = new Audio '../media/money-gain.mp3'
 bgmain.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 
 # Array of outcome of swimming. Has description, Money and/or items
 swimmingOutcomes = [
-	{description: 'Dived and came out with sand..', money: 0},
-	{description: 'Dived in and found a sack of coins!', money: 30},
-	{description: 'Dived in and found a gold ring! It\'s going in your inventory', money: 0, items: ['Gold ring']},
-	{description: 'Dived in and found a boot, It\'s useless', money: 0},
-	{description: 'Dived in and found a small sack of coins!', money: 10},
-	{description: 'Dived in and came out with nothing', money: 0},
-	{description: 'Dived in and came out with a large sack of coins!', money: 45},
-	{description: 'Dived in and came out with a book.', money: 0, items: ['Book']}
+	{msg: 'Dived and came out with sand..', props:{money: 0}},
+	{msg: 'Dived in and found a sack of coins!', props:{money: 30}},
+	{msg: 'Dived in and found a gold ring! It\'s going in your inventory', props:{money: 0, items: ['Gold ring']}},
+	{msg: 'Dived in and found a boot, It\'s useless', props:{money: 0}},
+	{msg: 'Dived in and found a small sack of coins!', props:{money: 10}},
+	{msg: 'Dived in and came out with nothing', props:{money: 0}},
+	{msg: 'Dived in and came out with a large sack of coins!', props:{money: 45}},
+	{msg: 'Dived in and came out with a book.', props:{money: 0, items: ['Book']}}
 ]
 
 win = ->
@@ -100,15 +100,6 @@ win = ->
 	showme()
 	displayToPlayer 'You are the strongest hero go back to town?'
 	current = currents.win
-check = ->
-	if userData.xp >= 10
-		userData.lvl += 1
-		confirm "You have leveled up to level #{userData.lvl}!"
-		userData.xp -= 10
-		switch userData.lvl
-			when 2 then alert('You can now go to the forest')
-			when 3 then alert('You can now venture into the cave... At your own risk...')
-	if userData.money < 0 then userData.money = 0
 
 $ document
 	.ready =>

@@ -22,8 +22,8 @@ push = (items) ->
 	items.forEach(item -> userData.inventory.push item)
 
 updatestats = ->
-	# $ '#stats'
-		# .html "Name: #{userData.name} Money: #{userData.money} Safe: #{userData.safe} Rod: #{userData.rod} Level: #{userData.lvl} XP: #{userData.xp} Armor: #{userData.armor} Weapon: #{userData.weapon}"
+	check()
+
 	$('#name').text userData.name
 	$('#money').text userData.money
 	$('#safe').text userData.safe
@@ -33,6 +33,17 @@ updatestats = ->
 	$('#armor').text userData.armor
 	$('#weapon').text userData.weapon
 	localStorage.setItem('EQuserData', JSON.stringify(userData))
+
+check = ->
+	if userData.xp >= 10
+		userData.lvl += 1
+		confirm "You have leveled up to level #{userData.lvl}!"
+		userData.xp -= 10
+		switch userData.lvl
+			when 2 then alert('You can now go to the forest')
+			when 3 then alert('You can now venture into the cave... At your own risk...')
+	if userData.money < 0 then userData.money = 0
+
 playtheme = (selected) ->
 	switch (selected)
 		when 'bgmain'

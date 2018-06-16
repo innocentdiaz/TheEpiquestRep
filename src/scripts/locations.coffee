@@ -206,7 +206,7 @@ window.currents =
 			if userData.money >= 20
 				userData.armor += 1
 				userData.money -= 20
-				check()
+				updatestats()
 				game
 					.action display 'Your armor goes up by 1 point! You lose 20. Armor, weapon or leave?'
 					.action cur 'floop'
@@ -218,7 +218,7 @@ window.currents =
 			if userData.money >= 15
 				userData.weapon += 1
 				userData.money -= 15
-				check()
+				updatestats()
 				game
 					.action display 'Your weapon goes up by 1 point! You lose 15 money. Armor, weapon or leave?'
 					.action cur 'floop'
@@ -252,11 +252,11 @@ window.currents =
 						userData.money += 50
 						moneygainFX.play()
 						hasDefeatedMutant = true
-						check()
+						updatestats()
 						game.action arenachoose
 					else
 						userData.money -= 10
-						check()
+						updatestats()
 						game
 							.action display 'You were PWNED by the mutant and sent to the hospital! Get better equipment!'
 							.action delay 3000
@@ -269,7 +269,7 @@ window.currents =
 						userData.xp += 5
 						userData.money += 20
 						moneygainFX.play()
-						check()
+						updatestats()
 						game
 							.action display 'You PWNED SKELETRON and from his aqcuired +20money and +5xp'
 							.action delay 3000
@@ -277,7 +277,7 @@ window.currents =
 					else
 						userData.xp -= 1
 						userData.money -= 5
-						check()
+						updatestats()
 						game
 							.action display 'SKELETRON SENT YOU RUNNING BACK HOME!Get better equipment!'
 							.action delay 3000
@@ -288,14 +288,14 @@ window.currents =
 					if userData.armor >= 6 and userData.weapon >= 7
 						userData.money += 10
 						userData.xp += 4
-						check()
+						updatestats()
 						game
 							.action display 'You killed the INFECTED GLOB! Gained +10money and +4xp'
 							.action delay 3000
 							.action arenachoose
 					else
 						userData.money -= 5
-						check()
+						updatestats()
 						game
 							.action display 'The Glob jaZZED you UP BACK to the hospital! -5money - Get better equipment!'
 							.action delay 3000
@@ -308,14 +308,14 @@ window.currents =
 						userData.money += 15
 						moneygainFX.play()
 						userData.xp += 2
-						check()
+						updatestats()
 						game
 							.action display 'You SMACKED the imp! +15 money +2xp'
 							.action delay 3000
 							.action arenachoose
 					else
 						userData.money -= 3
-						check()
+						updatestats()
 						game
 							.action display 'Daaaang that imp frigged you UP! Go back home!  -3 money. Get better equipment!'
 							.action delay 3000
@@ -327,14 +327,14 @@ window.currents =
 					if userData.armor >= 2 and userData.weapon >= 2
 						userData.money += 15
 						userData.xp += 2
-						check()
+						updatestats()
 						game
 							.action display 'You rekt those goblins UP +15money +2xp'
 							.action delay 3000
 							.action arenachoose
 					else
 						userData.money -= 3
-						check()
+						updatestats()
 						game
 							.action display 'Snap! Those goblins diddled you! Go back home and get better equipment!'
 							.action delay 3000
@@ -396,7 +396,7 @@ window.currents =
 					reset()
 			else
 				userData.money -= 30
-				check()
+				updatestats()
 				game
 					.action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
 					.action delay 3000
@@ -410,7 +410,7 @@ window.currents =
 				reset()
 			else
 				userData.money -= 30
-				check()
+				updatestats()
 				game
 					.action display 'You were too weak to defend yourself. The devourer eats you up in one large gulp. Game Over. Try getting better gear'
 					.action delay 3000
@@ -513,7 +513,7 @@ huntchoose = (n) ->
 	if 'props' of curr
 		props = curr.props
 		userData.money += props.money if 'money' of props
-		check()
+		updatestats()
 		userData.armor += props.armor if 'armor' of props
 		userData.inventory.push props.inventory if 'inventory' of props
 	if n then n()
@@ -558,7 +558,7 @@ fishing = (n) ->
 			if random >= fishes.length
 				userData.rod += 3
 				userData.money -= 10
-				check()
+				updatestats()
 				game
 					.action display 'You were attacked by a sea glob fish! You lost 10 money and now have +3 rod damage. Try again?'
 					.action cur 'fishing'
@@ -583,16 +583,16 @@ swimming = (n) ->
 			.action townchoose
 	else # else if you catch something
 		
-		userData.money += swimmingOutcomes[random].money
-		check()
+		userData.money += swimmingOutcomes[random].props.money
+		updatestats()
 		game
-			.action display "#{swimmingOutcomes[random].description}. Dive in again?"
+			.action display "#{swimmingOutcomes[random].msg}. Dive in again?"
 		if swimmingOutcomes[random].items # if it has items
 			
-			userData.inventory.push(swimmingOutcomes[random].items...)
+			userData.inventory.push(swimmingOutcomes[random].props.items...)
 			game
 				.action delay 3000
-				.action display "Added #{swimmingOutcomes[random].items.join(', ')} to inventory"
+				.action display "Added #{swimmingOutcomes[random].props.items.join(', ')} to inventory"
 		game.action cur 'swimming'
 		if n then n()
 townchoose = (n) ->
@@ -615,14 +615,14 @@ choosework = (n) ->
 			userData.money += 25
 			moneygainFX.play()
 			userData.xp += 1
-			check()
+			updatestats()
 			game
 				.action display "You go to the library and help out with storing while you've gained experience from reading. Also you get paid"
 				.action delay 3000
 				.action townchoose
 		when random >= 8
 			userData.money -= 10
-			check()
+			updatestats()
 			game
 				.action display 'While looking for a job you get robbed. You lose 10 money!'
 				.action delay 3000
@@ -636,7 +636,7 @@ choosework = (n) ->
 				.action townchoose
 		when random <= 7
 			userData.xp += 1
-			check()
+			updatestats()
 			game
 				.action display 'You go to the local car wash and gain some experience!'
 				.action delay 3000

@@ -28,36 +28,6 @@ html#body(lang='en')
 			link(rel='stylesheet' href=style)
 		title EPIQUEST
 	body.container-fluid
-		#main-header__container
-			h1 EPIQUEST
-		br
-		.bar
-			.sound.off(title='Sound')
-			#stats
-				.name.icon(title='User Name')
-				span#name
-				.money.icon(title='Money')
-				span#money
-				.safe.icon(title='Safe')
-				span#safe
-				.rod.icon(title='Inventory')
-				span#rod
-				.level.icon(title='Level')
-				span#level
-				.xp.icon(title='XP')
-				span#xp
-				.armor.icon(title='Armor')
-				span#armor
-				.weapon.icon(title='Weapon')
-				span#weapon
-		br
-		#controls
-			h2#display . . .
-			br
-			form#input
-				input#inputBox(type='text' placeholder='type here...')
-				button#submit Submit
-			.buttons
 		a.github-corner(href='https://github.com/JohnCdf/TheEpiquestRep/' target='_blank')
 			svg(
 				width='80'
@@ -69,5 +39,43 @@ html#body(lang='en')
 				path(d=pathes[0])
 				path.octo-arm(d=pathes[1] fill='currentColor' style='transform-origin: 130px 106px;')
 				path.octo-body(d=pathes[2] fill='currentColor')
+				
+		#main-header__container
+			h1 EPIQUEST
+		.bar.container
+			//.sound.off(title='Sound').col
+			#stats.row
+				.iconwrapper.col
+					img.icon(title='User Name' src='media/plain-dagger.png')
+					span#name
+				.iconwrapper.col
+					img.icon(title='Money' src='media/cash.png')
+					span#money
+				.iconwrapper.col
+					img.icon(title='Safe' src='media/piggy-bank.png')
+					span#safe
+				.iconwrapper.col
+					img.icon(title='Rod Damage' src='media/fishing-pole.png')
+					span#rod
+				.iconwrapper.col
+					img.icon(title='Level' src='media/medal.png')
+					span#level
+				.iconwrapper.col
+					img.icon(title='XP' src='media/upgrade.png')
+					span#xp
+				.iconwrapper.col
+					img.icon(title='Armor' src='media/lamellar.png')
+					span#armor
+				.iconwrapper.col
+					img.icon(title='Weapon' src='media/pointy-sword.png')
+					span#weapon
+		#controls
+			h2#display . . .
+			br
+			form#input
+				input#inputBox(type='text' placeholder='type here...')
+				button#submit Submit
+			.buttons
+		
 		each script in scripts
 			script(src=script)

@@ -36,8 +36,7 @@ body {
 .bar{
 	color: rgb(208, 34, 34);
 	text-shadow: 0 0 5px black, 0 0 10px black;
-		max-width:60%;
-		margin:auto;
+	margin:auto;
 	color: white;
 	background-color:black;
 	border: 5px outset #795419;
@@ -128,21 +127,6 @@ body {
 		transform: rotate(10deg)
 	}
 }
-@media (max-width: 500px) {
-	.github-corner .octo-arm {
-		animation:octocat-wave 560ms ease-in-out
-	}
-}
-#stats > span {
-	display: inline-block;
-	height: 45px;
-	font-size: 25px;
-	vertical-align: bottom;
-	margin: 0 10px;
-}
-.bar > * {
-	display: inline-block;
-}
 .sound {
 	background: url(../media/sound-on.png);
 	background-size: contain;
@@ -153,41 +137,13 @@ body {
 		background-size: contain;
 	}
 }
-.icon {//this is a global class for all icons in bar
-	width: 45px;
-	height: 45px;
+.iconwrapper {
 	display: inline-block;
-	&.name {
-		background: url(../media/plain-dagger.png);
-		background-size: contain;
+	.icon {
+		height: 10vh;
 	}
-	&.money {
-		background: url(../media/cash.png);
-		background-size: contain;
-	}
-	&.safe {
-		background: url(../media/piggy-bank.png);
-		background-size: contain;
-	}
-	&.rod {
-		background: url(../media/fishing-pole.png);
-		background-size: contain;
-	}
-	&.level {
-		background: url(../media/medal.png);
-		background-size: contain;
-	}
-	&.xp {
-		background: url(../media/upgrade.png);
-		background-size: contain;
-	}
-	&.armor {
-		background: url(../media/lamellar.png);
-		background-size: contain;
-	}
-	&.weapon {
-		background: url(../media/pointy-sword.png);
-		background-size: contain;
+	span {
+		font-size: large;
 	}
 }
 
