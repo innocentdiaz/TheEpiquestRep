@@ -9,27 +9,34 @@ gulp.task('watch', () => {
   gulp.watch('src/*.coffee', ['js'])
   gulp.watch('src/*.pug', ['html'])
   gulp.watch('src/*.less', ['css'])
+  gulp.watch('src/media/*', ['media'])
 });
 
-gulp.task('default', ['html', 'css', 'js']);
+gulp.task('default', ['html', 'css', 'js', 'media']);
 
 gulp.task('html', () =>
   gulp
     .src('src/*.pug')
     .pipe(pug())
-    .pipe(gulp.dest('public'))
+    .pipe(gulp.dest('build'))
 );
 
 gulp.task('css', () =>
   gulp
     .src('src/*.less')
     .pipe(less())
-    .pipe(gulp.dest('public/styles'))
+    .pipe(gulp.dest('build/styles'))
 );
 
 gulp.task('js', () =>
   gulp
     .src('src/*.coffee')
     .pipe(coffee({ bare: true }))
-    .pipe(gulp.dest('public/scripts'))
+    .pipe(gulp.dest('build/scripts'))
 );
+
+gulp.task('media', () => {
+  gulp
+    .src('src/media/*')
+    .pipe(gulp.dest('build/media'))
+})

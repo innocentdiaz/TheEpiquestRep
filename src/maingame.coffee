@@ -70,9 +70,9 @@ start = ->
 
 question = ''
 window.current = ->
-hoverFX = new Audio '../../static/button-hover.wav'
-bgmain = new Audio '../../static/locust.mp3'
-moneygainFX = new Audio '../../static/money-gain.mp3'
+hoverFX = new Audio '../static/button-hover.wav'
+bgmain = new Audio '../static/locust.mp3'
+moneygainFX = new Audio '../static/money-gain.mp3'
 bgmain.looped = true
 fishes = ['Guppy', 'SnakeFish', 'DragonFish', 'Boot', 'Tuna', 'GoldFish', 'Guaba', 'Man-eating snail', 'Goblin shark']
 
