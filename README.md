@@ -10,3 +10,4 @@ TODO
 -add avatars
 -add to the storyline
 -add a better user interface
+-fix some stats not showing up when they are updated
